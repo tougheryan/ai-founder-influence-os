@@ -1,18 +1,18 @@
 {
   "name": "ai-founder-influence-os",
-  "version": "0.1.0",
-  "description": "AI Founder Influence OS · 内容生产与获客智能体插件，集成 content-runtime、流水线导演、公众号/抖音/小红书内容生产与配图能力。",
+  "version": "0.1.0+codex.20260623144544",
+  "description": "AI Founder Influence OS \u00b7 \u5185\u5bb9\u751f\u4ea7\u4e0e\u83b7\u5ba2\u667a\u80fd\u4f53\u63d2\u4ef6\uff0c\u96c6\u6210 content-runtime\u3001\u6d41\u6c34\u7ebf\u5bfc\u6f14\u3001\u516c\u4f17\u53f7/\u6296\u97f3/\u5c0f\u7ea2\u4e66\u5185\u5bb9\u751f\u4ea7\u4e0e\u914d\u56fe\u80fd\u529b\u3002",
   "author": {
     "name": "yanteng"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "AI Founder Influence OS",
-    "shortDescription": "一键驱动内容生产流水线：素材理解、立项、角度、拆解、公众号/抖音/小红书成稿、配图、审核、复盘。",
-    "longDescription": "AI Founder Influence OS 是一套面向 AI 创业者的内容生产与获客智能体。插件包含 content-runtime 状态管理、content-flow 流水线导演、以及 content-intake/validate/angle/breakdown/wechat-writer/douyin-script/xhs-card/visual/prelaunch/compliance/audit/review/archive/twin 等子 skill。",
+    "shortDescription": "\u4e00\u952e\u9a71\u52a8\u5185\u5bb9\u751f\u4ea7\u6d41\u6c34\u7ebf\uff1a\u7d20\u6750\u7406\u89e3\u3001\u7acb\u9879\u3001\u89d2\u5ea6\u3001\u62c6\u89e3\u3001\u516c\u4f17\u53f7/\u6296\u97f3/\u5c0f\u7ea2\u4e66\u6210\u7a3f\u3001\u914d\u56fe\u3001\u5ba1\u6838\u3001\u590d\u76d8\u3002",
+    "longDescription": "AI Founder Influence OS \u662f\u4e00\u5957\u9762\u5411 AI \u521b\u4e1a\u8005\u7684\u5185\u5bb9\u751f\u4ea7\u4e0e\u83b7\u5ba2\u667a\u80fd\u4f53\u3002\u63d2\u4ef6\u5305\u542b content-runtime \u72b6\u6001\u7ba1\u7406\u3001content-flow \u6d41\u6c34\u7ebf\u5bfc\u6f14\u3001\u4ee5\u53ca content-intake/validate/angle/breakdown/wechat-writer/douyin-script/xhs-card/visual/prelaunch/compliance/audit/review/archive/twin \u7b49\u5b50 skill\u3002",
     "developerName": "yanteng",
     "category": "Productivity",
     "capabilities": [],
-    "defaultPrompt": "帮我启动 AI Founder Influence OS，从素材开始生成一条内容。"
+    "defaultPrompt": "\u5e2e\u6211\u542f\u52a8 AI Founder Influence OS\uff0c\u4ece\u7d20\u6750\u5f00\u59cb\u751f\u6210\u4e00\u6761\u5185\u5bb9\u3002"
   }
 }

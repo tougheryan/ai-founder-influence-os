@@ -204,6 +204,46 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 
 `flow` 会先把 intake 写入 `pipeline/intake/`，然后定位当前未完成的步骤，并生成 `sessions/flow-task.md` 任务卡。
 
+
+## 步骤填写模板
+
+每个 pipeline 步骤都有对应的 markdown 模板，位于 `templates/` 目录：
+
+```bash
+templates/
+├── intake.md
+├── validate.md
+├── angle.md
+├── breakdown.md
+├── write.md
+├── douyin.md
+├── xhs.md
+├── visual.md
+├── prelaunch.md
+├── compliance.md
+├── audit.md
+├── review.md
+├── archive.md
+└── twin.md
+```
+
+`content-flow` / `next` / `guide` 生成的任务卡会自动引用对应模板路径。你可以复制模板、填充内容，再用 `write` 命令写回 runtime。
+
+## 详细引导命令
+
+如果不知道当前步骤该做什么，使用 `guide`：
+
+```bash
+make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime guide PROJECT=~/ai-content-system [SLUG=demo]
+```
+
+`guide` 会输出当前步骤的：
+- 这一步是做什么
+- 输入/输出标准
+- 需要调用的 Skill
+- 具体写回命令
+- 常见坑
+
 ## 支持步骤
 
 `intake`、`validate`、`angle`、`breakdown`、`write`、`douyin`、`xhs`、`platform-adapt`、`visual`、`prelaunch`、`compliance`、`audit`、`publish`、`review`、`archive`、`twin`

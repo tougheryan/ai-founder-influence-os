@@ -13,6 +13,9 @@ status:
 next:
 	$(DIRECTOR) next $(if $(SLUG),--slug $(SLUG))
 
+guide:
+	$(DIRECTOR) guide $(if $(SLUG),--slug $(SLUG))
+
 flow:
 	@if [ -z "$(INTAKE)" ]; then \
 		echo "用法: make flow PROJECT=... INTAKE=/path/to/intake.md [SLUG=demo]"; \
@@ -53,6 +56,7 @@ help:
 	@echo "  make init PROJECT=~/ai-content-system"
 	@echo "  make status PROJECT=~/ai-content-system"
 	@echo "  make next PROJECT=~/ai-content-system [SLUG=demo]"
+	@echo "  make guide PROJECT=~/ai-content-system [SLUG=demo]"
 	@echo "  make flow PROJECT=... INTAKE=/path/to/intake.md [SLUG=demo]"
 	@echo "  make content-flow PROJECT=... INTAKE=/path/to/intake.md [SLUG=demo]"
 	@echo "  make write PROJECT=... STEP=intake SLUG=demo FILE=output.md [SOURCE=...]"
