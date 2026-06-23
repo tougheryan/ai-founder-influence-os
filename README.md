@@ -8,6 +8,15 @@ AI 创业者内容生产与获客智能体插件。
 codex plugin add ai-founder-influence-os@personal
 ```
 
+## 从 GitHub 安装
+
+```bash
+git clone https://github.com/tougheryan/ai-founder-influence-os.git
+codex plugin add ./ai-founder-influence-os
+```
+
+
+
 安装前建议移走 `~/.agents/skills/` 下的旧版同名 skill。
 
 ## 快速开始
