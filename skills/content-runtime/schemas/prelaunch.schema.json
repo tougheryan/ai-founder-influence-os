@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/prelaunch.schema.json",
+  "title": "Pipeline Output: prelaunch",
+  "allOf": [
+    {
+      "$ref": "common.json"
+    }
+  ],
+  "description": "prelaunch 步骤输出文件。body 必须包含以下章节标题：['1. 事实层检查', '2. 风格层检查', '3. 平台规则层检查', '4. 商业闭环检查']",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^##\\s*1\\.\\s+事实层检查"
+        },
+        {
+          "pattern": "(?m)^##\\s*2\\.\\s+风格层检查"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+平台规则层检查"
+        },
+        {
+          "pattern": "(?m)^##\\s*4\\.\\s+商业闭环检查"
+        }
+      ]
+    }
+  }
+}

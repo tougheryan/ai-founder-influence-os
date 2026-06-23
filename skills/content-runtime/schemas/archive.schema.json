@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/archive.schema.json",
+  "title": "Pipeline Output: archive",
+  "allOf": [
+    {
+      "$ref": "common.json"
+    }
+  ],
+  "description": "archive 步骤输出文件。body 必须包含以下章节标题：无固定要求"
+}

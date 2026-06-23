@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/compliance.schema.json",
+  "title": "Pipeline Output: compliance",
+  "allOf": [
+    {
+      "$ref": "common.json"
+    }
+  ],
+  "description": "compliance 步骤输出文件。body 必须包含以下章节标题：['1. 违禁词扫描', '2. 广告法敏感词', '3. 平台规则风险', '4. 版权风险']",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^##\\s*1\\.\\s+违禁词扫描"
+        },
+        {
+          "pattern": "(?m)^##\\s*2\\.\\s+广告法敏感词"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+平台规则风险"
+        },
+        {
+          "pattern": "(?m)^##\\s*4\\.\\s+版权风险"
+        }
+      ]
+    }
+  }
+}

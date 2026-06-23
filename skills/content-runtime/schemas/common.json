@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/common.json",
+  "title": "AI Content Pipeline File",
+  "type": "object",
+  "properties": {
+    "frontmatter": {
+      "type": "object",
+      "properties": {
+        "step": {
+          "type": "string",
+          "enum": [
+            "intake",
+            "validate",
+            "angle",
+            "breakdown",
+            "write",
+            "douyin",
+            "xhs",
+            "platform-adapt",
+            "visual",
+            "prelaunch",
+            "compliance",
+            "audit",
+            "publish",
+            "review",
+            "archive",
+            "twin"
+          ],
+          "description": "pipeline 步骤名"
+        },
+        "slug": {
+          "type": "string",
+          "description": "当前内容 slug"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "日期 YYYY-MM-DD"
+        },
+        "source": {
+          "type": "string",
+          "description": "来源说明，如 breakdown:path"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间 ISO8601"
+        }
+      },
+      "required": [
+        "step",
+        "slug",
+        "date",
+        "created_at"
+      ]
+    },
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文，由 skill 生成"
+    }
+  },
+  "required": [
+    "frontmatter",
+    "body"
+  ]
+}

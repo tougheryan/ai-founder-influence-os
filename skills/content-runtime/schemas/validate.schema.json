@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/validate.schema.json",
+  "title": "Pipeline Output: validate",
+  "allOf": [
+    {
+      "$ref": "common.json"
+    }
+  ],
+  "description": "validate 步骤输出文件。body 必须包含以下章节标题：['1. 立项决策', '3. 商业成立性判断', '4. 平台首发策略']",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^##\\s*1\\.\\s+立项决策"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+商业成立性判断"
+        },
+        {
+          "pattern": "(?m)^##\\s*4\\.\\s+平台首发策略"
+        }
+      ]
+    }
+  }
+}

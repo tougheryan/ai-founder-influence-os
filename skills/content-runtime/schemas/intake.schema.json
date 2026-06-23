@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/intake.schema.json",
+  "title": "Pipeline Output: intake",
+  "allOf": [
+    {
+      "$ref": "common.json"
+    }
+  ],
+  "description": "intake 步骤输出文件。body 必须包含以下章节标题：['0. 素材场景', '1. 人物', '3. 观点', '6. 商业意图']",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^##\\s*0\\.\\s+素材场景"
+        },
+        {
+          "pattern": "(?m)^##\\s*1\\.\\s+人物"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+观点"
+        },
+        {
+          "pattern": "(?m)^##\\s*6\\.\\s+商业意图"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/twin.schema.json",
+  "title": "Pipeline Output: twin",
+  "allOf": [
+    {
+      "$ref": "common.json"
+    }
+  ],
+  "description": "twin 步骤输出文件。body 必须包含以下章节标题：['2. 内容 DNA 提取', '3. 结构模式识别', '4. 表达特征提取']",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^##\\s*2\\.\\s+内容\\s+DNA\\s+提取"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+结构模式识别"
+        },
+        {
+          "pattern": "(?m)^##\\s*4\\.\\s+表达特征提取"
+        }
+      ]
+    }
+  }
+}

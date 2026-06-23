@@ -1,0 +1,78 @@
+{
+  "steps": [
+    "intake",
+    "validate",
+    "angle",
+    "breakdown",
+    "write",
+    "douyin",
+    "xhs",
+    "platform-adapt",
+    "visual",
+    "prelaunch",
+    "compliance",
+    "audit",
+    "publish",
+    "review",
+    "archive",
+    "twin"
+  ],
+  "required_sections": {
+    "intake": [
+      "0. 素材场景",
+      "1. 人物",
+      "3. 观点",
+      "6. 商业意图"
+    ],
+    "validate": [
+      "1. 立项决策",
+      "3. 商业成立性判断",
+      "4. 平台首发策略"
+    ],
+    "angle": [
+      "推荐角度",
+      "角度对比表",
+      "建议"
+    ],
+    "breakdown": [
+      "关键词矩阵",
+      "标题方案",
+      "开场钩子库"
+    ],
+    "write": [],
+    "douyin": [],
+    "xhs": [],
+    "platform-adapt": [],
+    "visual": [],
+    "prelaunch": [
+      "1. 事实层检查",
+      "2. 风格层检查",
+      "3. 平台规则层检查",
+      "4. 商业闭环检查"
+    ],
+    "compliance": [
+      "1. 违禁词扫描",
+      "2. 广告法敏感词",
+      "3. 平台规则风险",
+      "4. 版权风险"
+    ],
+    "audit": [
+      "1. 来源追溯",
+      "2. 事实校验",
+      "5. 修改建议"
+    ],
+    "publish": [],
+    "review": [
+      "1. 表现记录",
+      "3. 评论洞察",
+      "7. 下一条建议"
+    ],
+    "archive": [],
+    "twin": [
+      "2. 内容 DNA 提取",
+      "3. 结构模式识别",
+      "4. 表达特征提取"
+    ]
+  },
+  "note": "每个 schema 文件引用 common.json，描述 frontmatter 与 body 基本要求。"
+}
