@@ -25,7 +25,7 @@ description: |
 
 ## 输入输出约定
 
-- 读取上游：`python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py --project ~/ai-content-system read --step breakdown --latest`
+- 读取上游：`python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py --project ~/ai-content-system read --step breakdown --latest`
 - 写入成稿：`write --step write --slug {slug} --content @wechat-article.md --source "breakdown:{breakdown文件路径}"`
 
 ## 与其他 skill 的关系

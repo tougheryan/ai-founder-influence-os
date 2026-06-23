@@ -30,7 +30,7 @@ codex plugin add ai-founder-influence-os@personal
 
 ```bash
 # 进入插件的 content-runtime
-cd $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime
+cd $HOME/plugins/ai-founder-influence-os/skills/content-runtime
 
 # 初始化项目
 make init PROJECT=~/ai-content-system
@@ -84,7 +84,7 @@ intake → validate → angle → breakdown
 每个步骤都有对应的 schema 文件：
 
 ```bash
-$HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/schemas/
+$HOME/plugins/ai-founder-influence-os/skills/content-runtime/schemas/
 ├── common.json
 ├── intake.schema.json
 ├── validate.schema.json
@@ -109,10 +109,10 @@ $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/schemas/
 通用会话状态管理器负责 Context Boot、状态恢复和模块路由：
 
 ```bash
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py \
   --project ~/ai-content-system boot [--force]
 
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py \
   --project ~/ai-content-system route "帮我写小红书图文"
 ```
 
@@ -123,7 +123,7 @@ python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scri
 插件内置测试套件：
 
 ```bash
-cd $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime
+cd $HOME/plugins/ai-founder-influence-os/skills/content-runtime
 make test
 ```
 

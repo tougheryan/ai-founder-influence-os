@@ -23,15 +23,15 @@ description: AI FOUNDER INFLUENCE OS 平台合规审核。扫描公众号/小红
 
 ```bash
 # 公众号长文
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step write --latest
 
 # 抖音口播稿
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step douyin --latest
 
 # 小红书图文
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step xhs --latest
 ```
 
@@ -49,7 +49,7 @@ python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scri
 **必须通过 content-runtime 写入**：
 
 ```bash
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step compliance --slug {slug} \
   --content @/path/to/compliance-body.md \

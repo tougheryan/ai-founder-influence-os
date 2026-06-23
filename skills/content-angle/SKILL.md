@@ -20,7 +20,7 @@ description: AI FOUNDER INFLUENCE OS第二步：角度生成。基于 content-in
 - `content-validate` 输出的立项报告路径，或 `content-intake` 输出的素材报告路径，或用户直接提供的素材
 - 如果用户未指定路径，优先通过 content-runtime 读取最新 validate 报告：
   ```bash
-  python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+  python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
     --project ~/ai-content-system \
     read --step validate --latest
   ```
@@ -42,7 +42,7 @@ description: AI FOUNDER INFLUENCE OS第二步：角度生成。基于 content-in
 **必须通过 content-runtime 写入**：
 
 ```bash
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step angle --slug {slug} \
   --content @/path/to/angle-body.md \

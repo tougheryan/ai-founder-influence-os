@@ -22,7 +22,7 @@ codex plugin add ./ai-founder-influence-os
 ## 快速开始
 
 ```bash
-cd $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime
+cd $HOME/plugins/ai-founder-influence-os/skills/content-runtime
 make init PROJECT=~/ai-content-system
 make content-flow PROJECT=~/ai-content-system INTAKE=my-material.md SLUG=demo
 ```
@@ -35,6 +35,6 @@ make content-flow PROJECT=~/ai-content-system INTAKE=my-material.md SLUG=demo
 ## 测试
 
 ```bash
-cd $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime
+cd $HOME/plugins/ai-founder-influence-os/skills/content-runtime
 make test
 ```

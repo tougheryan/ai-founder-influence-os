@@ -22,22 +22,22 @@ description: AI FOUNDER INFLUENCE OS 发布前统一检查。在 content-audit �
 
 ```bash
 # 公众号长文
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step write --latest
 
 # 抖音口播稿
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step douyin --latest
 
 # 小红书图文
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step xhs --latest
 ```
 
 如果未指定 breakdown 文件路径，可通过 content-runtime 读取最新拆解方案：
 
 ```bash
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step breakdown --latest
 ```
 
@@ -56,7 +56,7 @@ python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scri
 **必须通过 content-runtime 写入**：
 
 ```bash
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step prelaunch --slug {slug} \
   --content @/path/to/prelaunch-body.md \

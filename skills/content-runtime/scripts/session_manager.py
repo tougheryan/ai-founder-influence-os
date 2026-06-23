@@ -166,7 +166,7 @@ class SessionManager:
 建议下一步：{self._recommend_next(state)}
 
 可用命令查看详细状态：
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py --project {self.rt.project} state
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py --project {self.rt.project} state
 """
 
     def _compressed_status(self, state: SessionState) -> str:

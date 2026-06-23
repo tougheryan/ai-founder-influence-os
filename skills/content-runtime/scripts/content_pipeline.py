@@ -73,7 +73,7 @@ UPSTREAM: dict[str, list[str]] = {
     "twin": ["archive"],
 }
 
-RUNTIME_CLI = "python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py"
+RUNTIME_CLI = "python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py"
 
 
 class PipelineDirector:
@@ -216,7 +216,7 @@ class PipelineDirector:
 
 ## 你需要做的事
 1. 打开并阅读对应 Skill 的 `SKILL.md`：
-   `$HOME/.agents/plugins/ai-founder-influence-os/skills/{skill['skill']}/SKILL.md`
+   `$HOME/plugins/ai-founder-influence-os/skills/{skill['skill']}/SKILL.md`
 2. 根据上游摘要，调用该 Skill 生成 `{skill['output']}`。
 3. 将结果写回 runtime：
    ```bash
@@ -226,13 +226,13 @@ class PipelineDirector:
    ```
 4. 完成后可继续运行：
    ```bash
-   make -C $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime next PROJECT={self.rt.project}
+   make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime next PROJECT={self.rt.project}
    ```
 
 ## 快捷命令
 ```bash
-make -C $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime status PROJECT={self.rt.project}
-make -C $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime next PROJECT={self.rt.project}
+make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime status PROJECT={self.rt.project}
+make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime next PROJECT={self.rt.project}
 ```
 """
         task_path = self.rt.sessions / "next-task.md"
@@ -310,7 +310,7 @@ make -C $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime nex
 
 ## 你需要做的事
 1. 打开并阅读对应 Skill 的 `SKILL.md`：
-   `$HOME/.agents/plugins/ai-founder-influence-os/skills/{skill['skill']}/SKILL.md`
+   `$HOME/plugins/ai-founder-influence-os/skills/{skill['skill']}/SKILL.md`
 2. 根据上游摘要，调用该 Skill 生成 `{skill['output']}`。
 3. 将结果写回 runtime：
    ```bash
@@ -320,7 +320,7 @@ make -C $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime nex
    ```
 4. 完成后再次运行：
    ```bash
-   make -C $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime content-flow PROJECT={self.rt.project} INTAKE={intake_file or '你的intake文件.md'} SLUG={active_slug}
+   make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime content-flow PROJECT={self.rt.project} INTAKE={intake_file or '你的intake文件.md'} SLUG={active_slug}
    ```
 
 ## 流水线进度

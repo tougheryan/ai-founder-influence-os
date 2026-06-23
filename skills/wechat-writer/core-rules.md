@@ -18,7 +18,7 @@
 `wechat-writer` 默认不直接接收用户素材，而是读取 `content-breakdown` 生成的拆解方案。如果用户未提供 breakdown 文件路径，优先通过 content-runtime 读取最新拆解方案：
 
 ```bash
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   read --step breakdown --latest
 ```
@@ -30,7 +30,7 @@ python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scri
 公众号长文完成后，**必须通过 content-runtime 写入** `pipeline/final/`：
 
 ```bash
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step write --slug {slug} \
   --content @/path/to/wechat-article.md \

@@ -21,7 +21,7 @@ description: AI FOUNDER INFLUENCE OS第三步：内容拆解。基于 content-an
 - `content-angle` 角度报告路径（或用户直接指定的角度），优先读取 `content-validate` 立项报告中的「平台首发策略」和「素材补充清单」
 - 如果用户未指定路径，优先通过 content-runtime 读取最新 angle 报告：
   ```bash
-  python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+  python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
     --project ~/ai-content-system \
     read --step angle --latest
   ```
@@ -38,7 +38,7 @@ description: AI FOUNDER INFLUENCE OS第三步：内容拆解。基于 content-an
 **必须通过 content-runtime 写入**：
 
 ```bash
-python $HOME/.agents/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step breakdown --slug {slug} \
   --content @/path/to/breakdown-body.md \
