@@ -178,7 +178,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="AI Founder Influence OS demo server")
     parser.add_argument("--project", required=True, help="项目根目录")
     parser.add_argument("--port", type=int, default=8080, help="服务端口")
-    parser.add_argument("--host", default="127.0.0.1", help="绑定地址")
+    parser.add_argument("--host", default="0.0.0.0", help="绑定地址")
     args = parser.parse_args()
     project_path = args.project
     print(f"Demo server running at http://{args.host}:{args.port}")
