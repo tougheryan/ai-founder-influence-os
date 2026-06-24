@@ -27,6 +27,15 @@ make init PROJECT=~/ai-content-system
 make content-flow PROJECT=~/ai-content-system INTAKE=my-material.md SLUG=demo
 ```
 
+## 网页 Demo 仪表盘
+
+```bash
+cd $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts
+python3 demo_server.py --project ~/ai-content-system --port 8080
+```
+
+打开浏览器访问 http://127.0.0.1:8080，即可看到流水线进度、当前任务和下一步命令。
+
 ## 文档
 
 - 使用手册：`docs/manual.md`
