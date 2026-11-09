@@ -1,0 +1,32 @@
+{
+  "schema": "echo-founder.public-showcase-summary.v1",
+  "prepared_on": "2026-11-09",
+  "checks_performed_on": "2026-11-02",
+  "product_version": "0.2.0-beta.2",
+  "build_scope": "internal_snapshot",
+  "independent_trial": false,
+  "owner_adopted_article": true,
+  "owner_adopted_layout_revision": "r003",
+  "local_text_blocks_verified": 25,
+  "local_links_verified": 2,
+  "exact_wechat_editor_fidelity_verified": false,
+  "password_required": false,
+  "soak": {
+    "status": "pass",
+    "actual_duration_seconds": 1803.1,
+    "iterations": 60,
+    "probe_count": 481,
+    "probe_failures": 0,
+    "port_closed": true
+  },
+  "internal_dmg_sha256": "ee0af960eb701e0bb475354482b2f8adfc789b3cd2e6f4a2b364a0585fbbe265",
+  "public_desktop_download_available": false,
+  "formal_commercial_release": false,
+  "payment_observed": false,
+  "time_saved_measured": false,
+  "limits": [
+    "Same-host local checks; not independent installation acceptance.",
+    "No production model load covered by soak.",
+    "Current desktop source not synchronized to this public repository."
+  ]
+}

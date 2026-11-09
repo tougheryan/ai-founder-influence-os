@@ -1,49 +1,47 @@
-# AI Founder Influence OS · Codex Plugin
+# Echo Founder
 
-AI 创业者内容生产与获客智能体插件。
+把自己的经历、观点和素材，做成一篇愿意发出去的内容。
 
-## 安装
+Echo Founder 是一个持续开发中的桌面内容创作项目，面向需要自己写公众号、做小红书图文或准备视频号口播的人。它把素材、写作方案、改稿、排版与导出放在同一项任务中，让作者逐步确认要交付的版本。
 
-```bash
-codex plugin add ai-founder-influence-os@personal
-```
+**当前公开内容：项目介绍与求职案例。仓库现有代码仍为早期 Codex 插件，最新桌面源码尚未同步，桌面安装包尚未公开提供下载。**
 
-## 从 GitHub 安装
+[两页项目介绍](docs/showcase/Echo-Founder-project.pdf) · [实际问题与改进](docs/showcase/case-study.md) · [版本与试用条件](docs/showcase/status.md)
 
-```bash
-git clone https://github.com/tougheryan/ai-founder-influence-os.git
-codex plugin add ./ai-founder-influence-os
-```
+## 这个项目想解决什么
 
+生成一段文字之后，作者还要核对事实、修改观点、选择版式，再把正确的版本交到平台编辑器。Echo Founder 尝试把这些工作接起来：
 
+1. 提交自己的题目和素材，确认读者与写作要求。
+2. 审阅方案与正文，保留修改前后的版本。
+3. 确认排版，再复制或下载对应成品。
+4. 作者完成平台操作后，按实际情况登记结果。
 
-安装前建议移走 `~/.agents/skills/` 下的旧版同名 skill。
+公众号、小红书和视频号各有独立的内容结构。本次完整案例聚焦公众号，不代表三条平台流程都经过独立客户验收。
 
-## 快速开始
+## 一次实际改进
 
-```bash
-cd $HOME/plugins/ai-founder-influence-os/skills/content-runtime
-make init PROJECT=~/ai-content-system
-make content-flow PROJECT=~/ai-content-system INTAKE=my-material.md SLUG=demo
-```
+在项目负责人的首篇试用中，排版曾丢失 **16 个段末句号**，**2 处引用**也未正确转换为链接，而旧检查仍显示通过。
 
-## 网页 Demo 仪表盘
+后续修复增加了正文保真与版本核对，并验证已采用版本的本地预览、复制和下载。这个案例展示了从实际问题、验收条件到修复验证的过程。[阅读案例](docs/showcase/case-study.md)
 
-```bash
-cd $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts
-python3 demo_server.py --project ~/ai-content-system --port 8080
-```
+## 我的参与
 
-打开浏览器访问 http://127.0.0.1:8080，即可看到流水线进度、当前任务和下一步命令。
+项目负责人提出需求、提供真实素材与观点、评价稿件方向，并逐项确认产品修改和最终采用的内容。编码、改稿、界面操作及自动化验证有 Codex 协助。
 
-## 文档
+项目可用于讨论产品取舍、AI 协作与交付验证。目前没有独立客户采用、付费收入或实测节省时间的结论。
 
-- 使用手册：`docs/manual.md`
-- PDF 版：`docs/manual.pdf`
+## 下载与使用
 
-## 测试
+- **了解项目：**下载上方 PDF，不需要模型账号。
+- **体验桌面产品：**当前内部版本为 `0.2.0-beta.2`，目标环境是 macOS 13+、Apple Silicon。公开安装包准备完成后会通过 GitHub Releases 提供。
+- **生成内容：**本地版无需产品密码；使用者仍需连接自己的模型服务，相关服务费用由使用者承担。`md2wechat` 不随内部安装包提供，未配置时使用内置排版。
+- **查看早期实现：**现有仓库保留原插件代码和[旧版说明](docs/legacy-plugin-readme.md)。它不代表当前桌面产品，旧安装命令未在本次重新验证。
 
-```bash
-cd $HOME/plugins/ai-founder-influence-os/skills/content-runtime
-make test
-```
+当前内部安装包尚未完成 Developer ID 签名、公证及公开分发验收。请勿将 GitHub 的源码 ZIP 当作桌面安装包。[完整状态](docs/showcase/status.md)
+
+## 反馈
+
+可通过本仓库 Issues 提交问题：说明系统版本、操作步骤、预期与实际结果，并对截图脱敏。请不要提交 API 密钥、Cookie 或私人稿件。
+
+展示材料与早期代码不自动代表整个桌面产品已开放源代码授权；各第三方组件仍按其许可证执行，项目整体授权方案将在源码同步前明确。
