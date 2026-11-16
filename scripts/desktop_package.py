@@ -168,7 +168,8 @@ APPROVED_PLAYWRIGHT_RELEASES: dict[tuple[str, str, str], dict[str, dict[str, str
 # Updating either production dependency closure requires an explicit review of
 # this approved lock digest.  Formal packaging must not silently accept a
 # locally replaced lockfile merely because ``npm ci`` can install it.
-APPROVED_UI_PACKAGE_LOCK_SHA256 = "755795f87247234e6b9b7672fbf58c6016c5b4b3c2e2995dc65bb85962041bcb"
+# Reviewed public-source closure: Next 16.4.6, fast-uri 3.1.9, Zod 4.6.7.
+APPROVED_UI_PACKAGE_LOCK_SHA256 = "5095fae1a7f10549cf4443593f6e8583a3a8b3ef86117931a2c413aa130da8eb"
 APPROVED_XHS_CARD_PACKAGE_LOCK_SHA256 = "ccb37c106235754dab30f825511bc411c3cfe658734ba107166cb2975a14e1b7"
 
 # These are customer-facing routes. A successful `/api/status` response alone
@@ -208,6 +209,7 @@ UI_SOURCE_IGNORED_FILES = {
 }
 
 RUNTIME_SCRIPT_FILES = ("aifios.py", "release_gate.py")
+RUNTIME_ROOT_FILES = ("VERSION", "LICENSE", "OPEN_SOURCE.md")
 CUSTOMER_DOCUMENTS = (
     "echo-founder-installation.md",
     "echo-founder-api-platform-setup.md",
@@ -2329,7 +2331,8 @@ def copy_aifios_runtime(target_root: Path) -> None:
     if target_root.exists():
         shutil.rmtree(target_root)
     target_root.mkdir(parents=True)
-    shutil.copy2(REPO_ROOT / "VERSION", target_root / "VERSION")
+    for name in RUNTIME_ROOT_FILES:
+        shutil.copy2(REPO_ROOT / name, target_root / name)
     copy_customer_skills(target_root)
     scripts_target = target_root / "scripts"
     scripts_target.mkdir(parents=True, exist_ok=True)
@@ -2344,6 +2347,7 @@ def copy_aifios_runtime(target_root: Path) -> None:
 def verify_customer_bundle_hygiene(target_root: Path) -> dict[str, Any]:
     """Reject build-only files, project data, and build-host paths in the customer runtime."""
     required = [
+        *(target_root / name for name in RUNTIME_ROOT_FILES),
         target_root / "skills" / "manifest.json",
         *(target_root / "scripts" / name for name in RUNTIME_SCRIPT_FILES),
         *(target_root / "docs" / name for name in CUSTOMER_DOCUMENTS),
@@ -3658,25 +3662,48 @@ def discover_xhs_card_npm_packages(app_path: Path, xhs_root: Path) -> list[dict[
 
 TIKOMNI_CONNECTOR_NOTICE_TEXT = """Echo Founder — TikOmni connector notice
 
-The App ships a small client-side API connector/catalog subset used to call a
-separately operated TikOmni service. The TikOmni service, service source code,
-customer account, access token, API content and platform sessions are not
-included in this App.
+The App ships a client-side caller/resolver/catalog subset, not the TikOmni
+service, accounts, credentials, returned data, or platform sessions.
 
-The connector subset is accepted only as the explicitly supplied approved
-snapshot echo-founder-tikomni-connector-2026-08-24. Its nine per-file SHA-256
-values and combined snapshot SHA-256 are recorded and reverified in the shipped
-machine inventory; no home-directory fallback source is accepted.
+The official upstream @tikomni/skills 1.0.7 declares MIT at:
+https://github.com/mark-ly-wang/TikOmni-Skills/tree/253c98e267e1444aca33ccfea51661cc5a28076c
+Its complete copyright and permission notice is preserved below.
 
-No open-source license was identified for the vendored connector subset during
-this internal-beta build. Echo Founder therefore records its declared license
-as NOASSERTION and does not present these files as open source. Distribution of
-this connector is an explicit manual-review boundary governed by the applicable
-TikOmni service terms and the distributor's authorization. Public or broader
-redistribution requires a fresh provider/license review.
+The local approved snapshot echo-founder-tikomni-connector-2026-08-24 has nine
+hash-bound files. Six match that upstream release. Three differ:
+- scripts/core/tikomni_common.py
+- references/api-catalog/aliases.json
+- references/api-catalog/operations.json
 
-This notice is an auditable distribution boundary, not legal advice or a grant
-of rights.
+The complete local snapshot remains NOASSERTION pending provenance review of
+those differences. This does not remove the upstream MIT rights. Public or
+broader redistribution still requires that review and compliance with the
+separate provider service terms. No account or paid service is licensed by
+including a connector. This notice does not certify release eligibility.
+
+--- Upstream license, reproduced verbatim ---
+
+MIT License
+
+Copyright (c) 2026 TikOmni
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 """
 
 
@@ -4232,7 +4259,7 @@ def write_shipped_dependency_inventory(
             "credentials_shipped": False,
             "approved_snapshot_sha256": tikomni_snapshot["snapshot_sha256"],
             "approved_file_sha256": tikomni_snapshot["file_sha256"],
-            "review_status": "manual-review-required-no-declared-open-source-license",
+            "review_status": "manual-review-required-local-snapshot-provenance",
         }
     )
 
@@ -4245,7 +4272,7 @@ def write_shipped_dependency_inventory(
         {
             "id": "tikomni-connector-license-and-service-terms",
             "status": "manual-review-required",
-            "reason": "No connector OSS license asserted; internal-beta distribution and external service terms require authorization review.",
+            "reason": "Upstream MIT notice is bundled; three changed local snapshot files and external service terms still require provenance and authorization review.",
         },
     ]
     for package in npm_packages:

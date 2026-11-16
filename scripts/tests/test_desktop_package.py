@@ -1814,6 +1814,11 @@ def test_shipped_dependency_inventory_copies_notices_and_fails_closed_on_tamperi
     assert tikomni["version"] == module.TIKOMNI_APPROVED_SNAPSHOT_ID
     assert tikomni["approved_snapshot_sha256"] == module.TIKOMNI_APPROVED_SNAPSHOT_SHA256
     assert tikomni["service_shipped"] is False
+    connector_notice = (app / "Contents" / "Resources" / "aifios" / module.TIKOMNI_CONNECTOR_NOTICE).read_text(encoding="utf-8")
+    assert "MIT License" in connector_notice
+    assert "Copyright (c) 2026 TikOmni" in connector_notice
+    assert "scripts/core/tikomni_common.py" in connector_notice
+    assert "pending provenance review" in connector_notice
     assert "tikomni-connector-license-and-service-terms" in result["review_boundaries"]
     assert "aifios/skills/xhs-card/README.en.md" in inventory["key_notices"]
 
@@ -2054,11 +2059,15 @@ def test_local_self_config_bundle_never_copies_a_hosted_client_bootstrap(tmp_pat
         (tmp_path / "docs" / name).write_text(f"# {name}\n", encoding="utf-8")
     (tmp_path / "README.md").write_text("internal build readme\n", encoding="utf-8")
     (tmp_path / "VERSION").write_text(module.DEFAULT_PRODUCT_VERSION + "\n", encoding="utf-8")
+    (tmp_path / "LICENSE").write_text("MIT License\n", encoding="utf-8")
+    (tmp_path / "OPEN_SOURCE.md").write_text("Third-party licenses remain separate.\n", encoding="utf-8")
 
     target = tmp_path / "bundle"
     module.copy_aifios_runtime(target)
 
     assert (target / "VERSION").read_text(encoding="utf-8").strip() == module.DEFAULT_PRODUCT_VERSION
+    assert (target / "LICENSE").read_bytes() == (tmp_path / "LICENSE").read_bytes()
+    assert (target / "OPEN_SOURCE.md").read_bytes() == (tmp_path / "OPEN_SOURCE.md").read_bytes()
     assert not (target / "hosted-client.json").exists()
     assert not (target / "README.md").exists()
     assert (target / "scripts" / "aifios.py").is_file()
@@ -2075,6 +2084,7 @@ def test_customer_bundle_hygiene_rejects_internal_docs_project_data_and_builder_
     monkeypatch.setattr(module, "REPO_ROOT", source)
     target = tmp_path / "bundle"
     for relative in [
+        *(Path(name) for name in module.RUNTIME_ROOT_FILES),
         *(Path("scripts") / name for name in module.RUNTIME_SCRIPT_FILES),
         *(Path("docs") / name for name in module.CUSTOMER_DOCUMENTS),
     ]:

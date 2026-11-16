@@ -1,6 +1,6 @@
 # Echo Founder Third-Party Notices
 
-The public source edition licenses original Echo Founder code under MIT. Third-party subdirectories retain their own licenses; see [OPEN_SOURCE.md](../OPEN_SOURCE.md). Restricted DBS content and the unlicensed TikOmni connector are not included in this public tree. The historical fallback module name now points to an independently written MIT renderer. The register below describes packaging obligations, not a statement that an installer has been publicly released.
+The public source edition licenses original Echo Founder code under MIT. Third-party subdirectories retain their own licenses; see [OPEN_SOURCE.md](../OPEN_SOURCE.md). Restricted DBS content and the separately supplied TikOmni connector snapshot are not included in this public tree. The historical fallback module name now points to an independently written MIT renderer. The register below describes packaging obligations, not a statement that an installer has been publicly released.
 
 This is the human-readable register for the internal-beta desktop package. The
 machine-readable source of truth is generated inside each App at
@@ -97,12 +97,9 @@ or a grant of rights.
   are fixed by SHA-256 and rechecked in the App inventory and package manifest.
   The TikOmni service/backend, service source, customer account, token, returned
   data and platform sessions are not shipped.
-- No open-source license was identified for the vendored connector subset in
-  this internal-beta build. Its machine-readable license value is therefore
-  `NOASSERTION`, not an invented OSS license.
-- `TikOmni-Connector-NOTICE.txt` records the internal-beta distribution and
-  service-terms boundary. Public or broader redistribution requires a fresh
-  provider/license review and appropriate authorization.
+- The official [`@tikomni/skills` 1.0.7 distribution](https://github.com/mark-ly-wang/TikOmni-Skills/tree/253c98e267e1444aca33ccfea51661cc5a28076c) declares MIT. Its complete upstream copyright and permission text is retained in `TikOmni-Connector-NOTICE.txt`.
+- Six approved snapshot files match that release. The local `scripts/core/tikomni_common.py`, `references/api-catalog/aliases.json`, and `references/api-catalog/operations.json` differ. Their provenance remains a review item; the whole local snapshot retains `NOASSERTION` without cancelling the upstream MIT rights.
+- Public or broader redistribution requires review of those differences and the separate service terms. No account, token or paid-service entitlement is included.
 
 ## Other reviewed capabilities
 
