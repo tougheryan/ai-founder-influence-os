@@ -48,6 +48,8 @@ describe('TikOmni desktop-local settings', () => {
     paths.installRoot = join(ROOT, 'install');
     paths.projectDir = join(ROOT, 'project');
     await mkdir(join(paths.installRoot, 'skills', 'social-media-crawl', 'scripts', 'core'), { recursive: true });
+    // The status check only tests file presence; keep it independent of locally installed connectors.
+    await writeFile(join(paths.installRoot, 'skills', 'social-media-crawl', 'scripts', 'core', 'call_tikomni_api.py'), '# Synthetic presence fixture, never executed.\n');
     await mkdir(paths.projectDir, { recursive: true });
     await chmod(paths.installRoot, 0o700);
     delete process.env.AIFIOS_TIKOMNI_ENV_FILE;
