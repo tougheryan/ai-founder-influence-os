@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/dbs-fusion.schema.json",
+  "title": "Pipeline Output: dbs-fusion",
+  "allOf": [
+    {
+      "$ref": "common.json"
+    }
+  ],
+  "description": "dbs-fusion 步骤输出文件。body 必须把外部 dbskill 结果转成可追溯、可写回、可被下游 content skill 使用的融合报告。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^##\\s*0\\.\\s+融合任务"
+        },
+        {
+          "pattern": "(?m)^##\\s*1\\.\\s+调用链"
+        },
+        {
+          "pattern": "(?m)^##\\s*2\\.\\s+关键结论"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+证据与风险"
+        },
+        {
+          "pattern": "(?m)^##\\s*4\\.\\s+写回计划"
+        },
+        {
+          "pattern": "(?m)^##\\s*5\\.\\s+下一步动作"
+        },
+        {
+          "pattern": "(?m)^##\\s*6\\.\\s+人工复核"
+        }
+      ]
+    }
+  }
+}

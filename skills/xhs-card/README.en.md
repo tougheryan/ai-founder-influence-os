@@ -69,9 +69,9 @@ Turn this game guide copy into a Xiaohongshu set; pull some game art from Wallha
 
 ## Fits / Doesn't fit
 
-**✅ Fits**: Xiaohongshu carousels / WeChat cover pairs / Moments covers / Channels covers / article visuals / tutorial pages / data recaps / travel guides / product reviews / screenshot explainers
+**✅ Fits**: Xiaohongshu carousels / WeChat cover pairs / Moments covers / article visuals / tutorial pages / data recaps / travel guides / product reviews / screenshot explainers
 
-**❌ Doesn't fit**: Horizontal swipe decks (use [guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill)) / long-form video generation / pure photo retouching / plain-text editing without layout
+**❌ Doesn't fit**: Horizontal swipe decks (use [guizang-ppt-skill](https://github.com/op7418/guizang-ppt-skill)) / pure photo retouching / plain-text editing without layout
 
 ## 11 Xiaohongshu categories
 
@@ -307,13 +307,12 @@ Bugs, layout issues, new layout requests — Issues and PRs welcome. Priorities 
 
 ## License
 
-AGPL-3.0 © 2026 [op7418](https://github.com/op7418)
+AGPL-3.0-only © 2026 [op7418](https://github.com/op7418)
 
-This project is licensed under **GNU AGPL-3.0**. Key points:
+The declared SPDX license identifier for this project is
+**AGPL-3.0-only**. The accompanying original [`LICENSE`](./LICENSE) text is the
+authoritative license.
 
-1. **Attribution required** — Retain the copyright notice
-2. **Derivatives must be open-sourced** — Any modified version, fork, or redistribution must be released under AGPL-3.0 (or a compatible license), with full source code made available
-3. **Network use is distribution** — Even if you only run a modified version as a SaaS / web service without distributing the code, you must still publish the source (this is what makes AGPL stricter than GPL)
-4. **No closed-source, proprietary, or paid-only distribution**
-
-Full terms in [`LICENSE`](./LICENSE).
+This README does not determine compliance for any commercial, distribution,
+modification, or network-use scenario and does not replace an independent
+license-compliance review.

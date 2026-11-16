@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/blueprint.schema.json",
+  "title": "Pipeline Output: blueprint",
+  "allOf": [{ "$ref": "common.json" }],
+  "description": "blueprint 步骤输出文件。body 必须包含思想母版蓝图、爆款拆解吸收、证据链、评论区互动预埋、人工确认清单和下一步指令。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        { "pattern": "(?m)^##\\s*0\\.\\s+上游约束" },
+        { "pattern": "(?m)^##\\s*1\\.\\s+爆款拆解吸收" },
+        { "pattern": "(?m)^##\\s*2\\.\\s+核心判断" },
+        { "pattern": "(?m)^##\\s*3\\.\\s+目标读者与情绪入口" },
+        { "pattern": "(?m)^##\\s*4\\.\\s+公众号思想母版骨架" },
+        { "pattern": "(?m)^##\\s*5\\.\\s+证据链与素材分配" },
+        { "pattern": "(?m)^##\\s*6\\.\\s+叙事推进与章节任务" },
+        { "pattern": "(?m)^##\\s*7\\.\\s+金句与可拆资产" },
+        { "pattern": "(?m)^##\\s*8\\.\\s+评论区互动预埋" },
+        { "pattern": "(?m)^##\\s*9\\.\\s+风险边界" },
+        { "pattern": "(?m)^##\\s*10\\.\\s+人工确认清单" },
+        { "pattern": "(?m)^##\\s*11\\.\\s+下一步执行指令" }
+      ]
+    }
+  }
+}

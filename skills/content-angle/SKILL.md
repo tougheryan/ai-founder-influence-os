@@ -1,13 +1,17 @@
 ---
 name: content-angle
-description: AI FOUNDER INFLUENCE OS第二步：角度生成。基于 content-intake 输出的素材报告，生成身份背书、反差冲突、方法论、案例纪实、情绪共鸣、叙事结构等候选角度，输出带评估的角度清单。
+description: AI FOUNDER INFLUENCE OS第二步：角度生成。基于已通过的 content-validate 立项报告，把素材资产转成身份背书、反差冲突、方法论、案例纪实、情绪共鸣、叙事结构等候选表达方案；每个角度必须标注素材证据、平台适配、商业承接、风险边界和可执行性。
 ---
 
 # content-angle · 角度生成
 
 ## 作用
 
-把素材理解报告变成可执行的内容角度。每个角度都要回答：我是谁、我在对谁说、我凭什么说、读者为什么要在意。
+把已通过立项的素材变成可执行的内容角度。每个角度都要回答：我是谁、我在对谁说、我凭什么说、读者为什么要在意、最后如何自然承接商业目标。
+
+第一性原则：`content-angle` 不负责判断“要不要写”，也不负责自由发散灵感。只要 `content-validate` 已产出可校验报告，就可以继续生成角度；「有条件通过」或「不通过」时自动降级为低证据创作，只使用已确认素材并保留补证与风险边界，不再把创作卡死。
+
+剃刀原则：角度不是灵感列表，而是进入 `content-breakdown` 的上游决策。每个角度只保留下游会使用的信息：读者是谁、凭什么说、为什么此刻值得说、用什么素材支撑、能自然承接什么商业动作、哪些边界不能碰。
 
 ## 触发方式
 
@@ -17,19 +21,29 @@ description: AI FOUNDER INFLUENCE OS第二步：角度生成。基于 content-in
 
 ## 输入
 
-- `content-validate` 输出的立项报告路径，或 `content-intake` 输出的素材报告路径，或用户直接提供的素材
+- `content-validate` 输出的立项报告路径（结论可为「通过」「有条件通过」或「不通过」）
 - 如果用户未指定路径，优先通过 content-runtime 读取最新 validate 报告：
   ```bash
-  python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+  python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
     --project ~/ai-content-system \
     read --step validate --latest
   ```
 
-如果用户提供了 validate 报告，优先读取其中的「素材补充清单」和「平台首发策略」，作为角度生成的约束。
+如果用户只提供 intake 报告或原始素材，先返回下一步建议：执行 `/content-validate`。不要绕过立项闸门直接生成角度。
+
+必须读取并继承 validate 报告中的：
+- `立项决策`：决定证据等级；任何明确决策都可继续，非「通过」自动使用低证据模式
+- `HKR 质检`：决定角度排序
+- `商业成立性判断`：决定商业承接
+- `平台首发策略`：决定首推平台
+- `素材补充清单 / 风险提示`：决定角度可用性和禁区
+- 可选的 `researchReportPath`：只能作为公开背景、行业事实、平台表达机制和对标样本参考，不能替代一手素材证据
 
 可选参数：
-- `platforms`：wechat / xhs / douyin，默认全部
+- `platforms`：wechat / xhs，默认全部
 - `count`：生成角度数量，默认 6
+- `researchReportPath`：公开补证报告路径，通常来自 `materials/research/`，只用于补充公开背景、平台语境和对标方向
+- `explorationMode`：兼容参数；默认关闭。低证据模式仍可写入正式 `pipeline/angles`，但不得生成未经证实的案例或成果宣称
 
 ## 输出
 
@@ -42,7 +56,7 @@ description: AI FOUNDER INFLUENCE OS第二步：角度生成。基于 content-in
 **必须通过 content-runtime 写入**：
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step angle --slug {slug} \
   --content @/path/to/angle-body.md \
@@ -54,13 +68,22 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 ```markdown
 # 角度生成报告 · {标题}
 
+## 0. 立项约束
+- validate 报告路径：{...}
+- 立项结论：通过
+- 首发平台：{wechat / xhs}
+- 必须使用的素材证据：{来自 intake/validate 的事实、案例、观点}
+- 不可触碰的风险边界：{隐私、事实不确定、商业承诺等}
+
 ## 推荐角度（按匹配度排序）
 
 ### 角度 1：身份背书
 - **一句话定位**：...
 - **目标用户**：...
+- **素材证据**：...
 - **情绪曲线**：...
 - **差异化**：...
+- **商业承接**：...
 - **适合平台**：...
 - **风险点**：...
 
@@ -81,13 +104,15 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 
 ## 角度对比表
 
-| 角度 | 平台适配 | 传播潜力 | 创作难度 | 风险 |
+| 角度 | 素材支撑 | 平台适配 | 传播潜力 | 商业承接 | 创作难度 | 风险 |
 |---|---|---|---|---|
 | ... | ... | ... | ... | ... |
 
 ## 建议
 - 首选角度：...
 - 组合策略：...
+- 不建议使用的角度：...
+- 进入 content-breakdown 的约束：...
 ```
 
 ## 六类角度定义
@@ -101,10 +126,41 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 
 ## 评估维度
 
-- **平台适配**：该角度在公众号/小红书/抖音上的天然优势
+- **平台适配**：该角度在公众号/小红书上的天然优势
+- **素材支撑**：是否有一手事实、具体场景、人物原话或可公开证据
 - **传播潜力**：话题热度 × 情绪强度 × 信息差
+- **商业承接**：能否自然连接产品/服务/咨询入口
 - **创作难度**：素材支撑度 × 个人表达成本
 - **风险**：隐私、争议、事实可靠性
+
+## 闸门规则
+
+- validate 结论为「通过」：按正常证据等级生成角度。
+- validate 结论为「有条件通过」：允许生成低证据角度，并把补证清单写入每个角度的风险边界。
+- validate 结论为「不通过」：仍可生成仅基于已确认素材的创作角度；禁止案例、数字和结果承诺，补证路线作为下一步而非阻断。
+- 如果启用 `explorationMode`，可以生成“预研角度”，但必须写入 `materials/research/` 或作为对话建议，不得写成正式 `# 角度生成报告`，不得进入 `content-breakdown`。
+- 没有 validate 报告：优先执行 `/content-validate`，不要直接从 intake 或原始素材生成角度。
+- 每个 `### 角度 N：...` 必须包含：一句话定位、目标用户、素材证据、商业承接、适合平台、风险点。
+- `素材证据` 不能写“暂无/待补/根据实际情况”，必须引用 validate/intake 中的具体事实、场景、观点、人物原话或公开证据。
+- 如果使用公开补证，必须标明它是“公开背景/平台语境/对标依据”，不要把公开搜索结果写成用户自己的业务成绩。
+- 如果 validate 报告注明“低证据降级通过”，只能生成行业观察、方法论清单、访谈观点、问题征集、公开对标拆解类角度；不得生成客户证明、案例纪实或成果宣称角度。
+- `风险点` 不能写“无”，必须说明隐私、事实不确定、平台风险、商业承诺或表达边界。
+- `建议` 必须明确 `首选角度` 和 `进入 content-breakdown 的约束`，否则下游无法稳定抽取。
+
+## 预研模式输出规则
+
+当素材缺证据但需要给用户发挥空间时，只允许输出以下类型：
+
+- 假设角度：可以写“如果补到某类证据，这个角度可能成立”。
+- 补证路线：说明需要补哪条原话、截图、授权、数据、公开来源或客户场景。
+- 高精度检索建议：围绕实体名、公司名、产品名、平台关键词、客户行业和素材缺口给出查询式。
+- 风险边界：明确哪些内容不能写成既成事实。
+
+预研模式禁止：
+
+- 把公开资料写成用户自己的成绩。
+- 把“有条件通过 / 不通过”的选题伪装成已被案例、数据或外部样本证明的角度。
+- 进入 `pipeline/angles`、`content-breakdown`、`wechat-writer` 或 `xhs`。
 
 ## 与其他 Skill 的关系
 
@@ -119,6 +175,27 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 >
 > `content-breakdown` 可通过 `read --step angle --latest` 自动读取最新角度报告。
 
+写入后建议立刻运行：
+
+```bash
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
+  --project ~/ai-content-system \
+  validate --step angle --file pipeline/angles/{文件名}.md
+```
+
+`validate` 会调用 runtime 的角度质量审计。阻断问题必须修复后再进入 `content-breakdown`；复核提醒可以保留，但拆解方案需要显式承接。
+
+## 交付自检
+
+在写回 runtime 前逐条检查：
+
+- `0. 立项约束` 有明确 `立项结论`、`证据模式`、`首发平台`、`必须使用的素材证据`、`不可触碰的风险边界`。
+- 至少输出 2 个可比较角度，除非上游明确只允许单一角度。
+- 每个角度都能回答“读者为什么在意”和“我凭什么说”，不能只有角度名称。
+- `商业承接` 是自然动作，例如诊断、咨询、产品试用、资料领取，不写硬转化承诺。
+- `角度对比表` 必须比较素材支撑、平台适配、传播潜力、商业承接、创作难度和风险。
+- `建议` 明确首选角度、组合策略、不建议角度和进入 `content-breakdown` 的约束。
+
 ## 输入/输出示例
 
 ### 示例 1：立项后的素材 → 角度清单
@@ -130,17 +207,29 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 ```markdown
 # 角度清单 · AI 编程助手的真实冲击
 
+## 0. 立项约束
+- 立项结论：通过
+- 首发平台：公众号
+- 必须使用的素材证据：预计三天的老项目一晚推进完成；说话人同时兴奋和焦虑
+- 不可触碰的风险边界：不公开项目名称、客户信息和代码细节
+
 ## 推荐角度
-1. 「护城河焦虑」：为什么越老练的程序员越不慌
-2. 「实习生类比」：Codex 不是替代者，是带漏洞的超人实习生
+1. 「实习生类比」：Codex 不是替代者，是带漏洞的超人实习生
+   - 素材证据：一晚完成三天活，但需要人工把关
+   - 商业承接：引出 AI 编程方法论/咨询
+2. 「护城河焦虑」：为什么越老练的程序员越不该只靠手速
+   - 素材证据：护城河变窄的主观冲击
+   - 商业承接：引出职业再定位
 3. 「职业再定位」：从写代码的人变成审代码的人
+   - 素材证据：效率提升后人的价值迁移
+   - 商业承接：引出团队 AI 工作流
 
 ## 角度对比表
-| 角度 | 情绪强度 | 专业度 | 获客力 | 建议 |
-|------|---------|--------|--------|------|
-| 护城河焦虑 | 高 | 中 | 中 | 容易泛泛 |
-| 实习生类比 | 中 | 高 | 高 | 首推 |
-| 职业再定位 | 中 | 高 | 中 | 次推 |
+| 角度 | 素材支撑 | 平台适配 | 传播潜力 | 商业承接 | 创作难度 | 风险 |
+|---|---|---|---|---|---|---|
+| 实习生类比 | 高 | 公众号/小红书 | 高 | 高 | 中 | 需避免夸大效率 |
+| 护城河焦虑 | 中 | 公众号 | 中 | 中 | 中 | 容易写成泛焦虑 |
+| 职业再定位 | 中 | 公众号/小红书 | 中 | 中 | 中 | 需要补具体方法 |
 
 ## 建议
 首选「实习生类比」：既有真实体感，又能给出可迁移的判断框架。

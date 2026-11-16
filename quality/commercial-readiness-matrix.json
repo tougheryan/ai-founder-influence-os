@@ -1,0 +1,1132 @@
+{
+  "schema": "echo-founder.commercial-capability-matrix.v1",
+  "product": "Echo Founder",
+  "product_version": "0.2.0-beta.2",
+  "target": {
+    "os": "macOS 13+",
+    "architecture": "arm64",
+    "distribution": "internal ad-hoc signed beta"
+  },
+  "generated_at": "2026-09-16",
+  "overall_status": "blocked",
+  "status_definitions": {
+    "pass": "真实本地链路具备实现并纳入自动化门禁。",
+    "degraded": "主能力可用，但需要人工接管、外部授权或存在明确降级路径。",
+    "blocked": "缺少外部凭据、真实账号证据、签名条件或其他交付前置条件。",
+    "demo_only": "仅显式演示或非本期本地自配交付面使用。",
+    "retired": "保留兼容入口或历史实现，不再维护独立正式状态。"
+  },
+  "blockers": [
+    "当前固定 stable、md2wechat 与本地卡片候选尚无经评审的正式商业验收 schema；旧 echo-founder.real-account-acceptance.v3 付费生图证据仅供历史审计，不能标记当前候选通过。",
+    "TikOmni v5 与公众号/小红书/视频号测试账号草稿闭环尚需完成真实验收记录。",
+    "未配置 Apple Developer ID，当前安装包不得宣称已完成公证或 Gatekeeper 公开分发验收。",
+    "公开或扩大分发前，须完成 TikOmni connector 授权/服务条款与 xhs-card AGPL 源码提供、修改和网络使用义务的人工复核；内部 beta manifest 会保留该边界。"
+  ],
+  "inventory_policy": "每个源代码入口均显式列出；数据文件使用受约束的项目相对路径模式。状态描述 0.2.0-beta.2 当前商业交付边界，不等于外部账号验收证据。",
+  "inventories": {
+    "pages": [
+      {
+        "path": "ui/app/benchmark-advisor/page.tsx",
+        "status": "blocked",
+        "capability": "/benchmark-advisor"
+      },
+      {
+        "path": "ui/app/brain/page.tsx",
+        "status": "retired",
+        "capability": "/brain"
+      },
+      {
+        "path": "ui/app/case/page.tsx",
+        "status": "demo_only",
+        "capability": "/case"
+      },
+      {
+        "path": "ui/app/closing/page.tsx",
+        "status": "demo_only",
+        "capability": "/closing"
+      },
+      {
+        "path": "ui/app/content-radar/page.tsx",
+        "status": "blocked",
+        "capability": "/content-radar"
+      },
+      {
+        "path": "ui/app/delivery/page.tsx",
+        "status": "retired",
+        "capability": "/delivery"
+      },
+      {
+        "path": "ui/app/materials/page.tsx",
+        "status": "pass",
+        "capability": "/materials"
+      },
+      {
+        "path": "ui/app/page.tsx",
+        "status": "pass",
+        "capability": "/"
+      },
+      {
+        "path": "ui/app/pipeline/page.tsx",
+        "status": "retired",
+        "capability": "/pipeline"
+      },
+      {
+        "path": "ui/app/production/page.tsx",
+        "status": "degraded",
+        "capability": "/production"
+      },
+      {
+        "path": "ui/app/publication-desk/page.tsx",
+        "status": "degraded",
+        "capability": "/publication-desk"
+      },
+      {
+        "path": "ui/app/settings/page.tsx",
+        "status": "pass",
+        "capability": "/settings"
+      },
+      {
+        "path": "ui/app/twin/page.tsx",
+        "status": "retired",
+        "capability": "/twin"
+      },
+      {
+        "path": "ui/app/weekly-review/page.tsx",
+        "status": "degraded",
+        "capability": "/weekly-review"
+      }
+    ],
+    "api_routes": [
+      {
+        "path": "ui/app/api/agent/invoke/route.ts",
+        "status": "blocked",
+        "capability": "/api/agent/invoke"
+      },
+      {
+        "path": "ui/app/api/benchmark-advisor/media/route.ts",
+        "status": "blocked",
+        "capability": "/api/benchmark-advisor/media"
+      },
+      {
+        "path": "ui/app/api/benchmark-advisor/route.ts",
+        "status": "blocked",
+        "capability": "/api/benchmark-advisor"
+      },
+      {
+        "path": "ui/app/api/blueprint/approval/route.ts",
+        "status": "pass",
+        "capability": "/api/blueprint/approval"
+      },
+      {
+        "path": "ui/app/api/brain/route.ts",
+        "status": "retired",
+        "capability": "/api/brain"
+      },
+      {
+        "path": "ui/app/api/brand-templates/preview/route.ts",
+        "status": "degraded",
+        "capability": "/api/brand-templates/preview safe md2wechat API-theme preview; requires the optional local CLI"
+      },
+      {
+        "path": "ui/app/api/brand-templates/route.ts",
+        "status": "pass",
+        "capability": "/api/brand-templates"
+      },
+      {
+        "path": "ui/app/api/config/demo-unlock/route.ts",
+        "status": "demo_only",
+        "capability": "/api/config/demo-unlock"
+      },
+      {
+        "path": "ui/app/api/config/hosted/activate/route.ts",
+        "status": "demo_only",
+        "capability": "/api/config/hosted/activate"
+      },
+      {
+        "path": "ui/app/api/config/hosted/deactivate/route.ts",
+        "status": "demo_only",
+        "capability": "/api/config/hosted/deactivate"
+      },
+      {
+        "path": "ui/app/api/config/hosted/status/route.ts",
+        "status": "demo_only",
+        "capability": "/api/config/hosted/status"
+      },
+      {
+        "path": "ui/app/api/config/route.ts",
+        "status": "pass",
+        "capability": "/api/config"
+      },
+      {
+        "path": "ui/app/api/config/test/route.ts",
+        "status": "blocked",
+        "capability": "/api/config/test"
+      },
+      {
+        "path": "ui/app/api/content-radar/route.ts",
+        "status": "blocked",
+        "capability": "/api/content-radar"
+      },
+      {
+        "path": "ui/app/api/creative-enhancements/adopt/route.ts",
+        "status": "pass",
+        "capability": "/api/creative-enhancements/adopt"
+      },
+      {
+        "path": "ui/app/api/creative-library/profile/route.ts",
+        "status": "pass",
+        "capability": "/api/creative-library/profile"
+      },
+      {
+        "path": "ui/app/api/creative-library/proposals/route.ts",
+        "status": "pass",
+        "capability": "/api/creative-library/proposals"
+      },
+      {
+        "path": "ui/app/api/creative-library/published-scripts/route.ts",
+        "status": "pass",
+        "capability": "/api/creative-library/published-scripts"
+      },
+      {
+        "path": "ui/app/api/creative-library/route.ts",
+        "status": "pass",
+        "capability": "/api/creative-library"
+      },
+      {
+        "path": "ui/app/api/creative-library/rules/route.ts",
+        "status": "pass",
+        "capability": "/api/creative-library/rules"
+      },
+      {
+        "path": "ui/app/api/delivery/route.ts",
+        "status": "pass",
+        "capability": "/api/delivery"
+      },
+      {
+        "path": "ui/app/api/desktop/diagnostics/package/route.ts",
+        "status": "pass",
+        "capability": "/api/desktop/diagnostics/package"
+      },
+      {
+        "path": "ui/app/api/desktop/diagnostics/route.ts",
+        "status": "pass",
+        "capability": "/api/desktop/diagnostics"
+      },
+      {
+        "path": "ui/app/api/desktop/health/route.ts",
+        "status": "pass",
+        "capability": "/api/desktop/health"
+      },
+      {
+        "path": "ui/app/api/desktop/release-readiness/route.ts",
+        "status": "blocked",
+        "capability": "/api/desktop/release-readiness"
+      },
+      {
+        "path": "ui/app/api/material-library/route.ts",
+        "status": "pass",
+        "capability": "/api/material-library"
+      },
+      {
+        "path": "ui/app/api/materials/route.ts",
+        "status": "pass",
+        "capability": "/api/materials"
+      },
+      {
+        "path": "ui/app/api/output/[...path]/route.ts",
+        "status": "pass",
+        "capability": "/api/output/[...path]"
+      },
+      {
+        "path": "ui/app/api/production/advance/route.ts",
+        "status": "pass",
+        "capability": "/api/production/advance"
+      },
+      {
+        "path": "ui/app/api/production/approval/route.ts",
+        "status": "pass",
+        "capability": "/api/production/approval"
+      },
+      {
+        "path": "ui/app/api/production/service-calls/route.ts",
+        "status": "degraded",
+        "capability": "/api/production/service-calls"
+      },
+      {
+        "path": "ui/app/api/production/content-attempts/route.ts",
+        "status": "pass",
+        "capability": "/api/production/content-attempts"
+      },
+      {
+        "path": "ui/app/api/production/content-plan/route.ts",
+        "status": "pass",
+        "capability": "/api/production/content-plan"
+      },
+      {
+        "path": "ui/app/api/production/content-revisions/route.ts",
+        "status": "degraded",
+        "capability": "/api/production/content-revisions"
+      },
+      {
+        "path": "ui/app/api/production/drafts/route.ts",
+        "status": "pass",
+        "capability": "/api/production/drafts"
+      },
+      {
+        "path": "ui/app/api/production/flow/route.ts",
+        "status": "pass",
+        "capability": "/api/production/flow"
+      },
+      {
+        "path": "ui/app/api/production/intake/route.ts",
+        "status": "pass",
+        "capability": "/api/production/intake"
+      },
+      {
+        "path": "ui/app/api/production/material-corrections/route.ts",
+        "status": "degraded",
+        "capability": "/api/production/material-corrections"
+      },
+      {
+        "path": "ui/app/api/production/material-analysis/route.ts",
+        "status": "pass",
+        "capability": "/api/production/material-analysis"
+      },
+      {
+        "path": "ui/app/api/production/tasks/[taskId]/retry/route.ts",
+        "status": "pass",
+        "capability": "/api/production/tasks/[taskId]/retry"
+      },
+      {
+        "path": "ui/app/api/production/tasks/route.ts",
+        "status": "pass",
+        "capability": "/api/production/tasks"
+      },
+      {
+        "path": "ui/app/api/production/writing-brief/route.ts",
+        "status": "pass",
+        "capability": "/api/production/writing-brief"
+      },
+      {
+        "path": "ui/app/api/publish-assets/route.ts",
+        "status": "degraded",
+        "capability": "/api/publish-assets"
+      },
+      {
+        "path": "ui/app/api/publish/drafts/route.ts",
+        "status": "degraded",
+        "capability": "/api/publish/drafts"
+      },
+      {
+        "path": "ui/app/api/publish/results/route.ts",
+        "status": "pass",
+        "capability": "/api/publish/results"
+      },
+      {
+        "path": "ui/app/api/publish/route.ts",
+        "status": "degraded",
+        "capability": "/api/publish"
+      },
+      {
+        "path": "ui/app/api/quality/route.ts",
+        "status": "pass",
+        "capability": "/api/quality"
+      },
+      {
+        "path": "ui/app/api/research/evidence/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/evidence"
+      },
+      {
+        "path": "ui/app/api/research/exploration-angles/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/exploration-angles"
+      },
+      {
+        "path": "ui/app/api/research/market-signal/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/market-signal"
+      },
+      {
+        "path": "ui/app/api/research/passage-plan/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/passage-plan"
+      },
+      {
+        "path": "ui/app/api/research/repair-angle/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/repair-angle"
+      },
+      {
+        "path": "ui/app/api/research/repair-breakdown/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/repair-breakdown"
+      },
+      {
+        "path": "ui/app/api/research/repair-draft/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/repair-draft"
+      },
+      {
+        "path": "ui/app/api/research/repair-validate/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/repair-validate"
+      },
+      {
+        "path": "ui/app/api/research/repair-visual/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/repair-visual"
+      },
+      {
+        "path": "ui/app/api/research/samples/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/samples"
+      },
+      {
+        "path": "ui/app/api/research/status/route.ts",
+        "status": "pass",
+        "capability": "/api/research/status"
+      },
+      {
+        "path": "ui/app/api/research/topic-selection/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/topic-selection"
+      },
+      {
+        "path": "ui/app/api/research/topic-suggestions/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/topic-suggestions"
+      },
+      {
+        "path": "ui/app/api/research/weekly-market/route.ts",
+        "status": "blocked",
+        "capability": "/api/research/weekly-market"
+      },
+      {
+        "path": "ui/app/api/run/route.ts",
+        "status": "pass",
+        "capability": "/api/run"
+      },
+      {
+        "path": "ui/app/api/run/template/route.ts",
+        "status": "pass",
+        "capability": "/api/run/template"
+      },
+      {
+        "path": "ui/app/api/settings/image-providers/route.ts",
+        "status": "retired",
+        "capability": "/api/settings/image-providers (legacy image experiment compatibility)"
+      },
+      {
+        "path": "ui/app/api/settings/tikomni/route.ts",
+        "status": "blocked",
+        "capability": "/api/settings/tikomni"
+      },
+      {
+        "path": "ui/app/api/skills/route.ts",
+        "status": "pass",
+        "capability": "/api/skills"
+      },
+      {
+        "path": "ui/app/api/status/route.ts",
+        "status": "pass",
+        "capability": "/api/status"
+      },
+      {
+        "path": "ui/app/api/layout-calls/route.ts",
+        "status": "degraded",
+        "capability": "/api/layout-calls reads locally recorded layout-service attempts for the specified run; provider billing remains unverified"
+      },
+      {
+        "path": "ui/app/api/visual/adopt/route.ts",
+        "status": "degraded",
+        "capability": "/api/visual/adopt"
+      },
+      {
+        "path": "ui/app/api/visual/download/route.ts",
+        "status": "degraded",
+        "capability": "/api/visual/download exports the adopted native Xiaohongshu P1-P8 set, current publishing copy and use restrictions as one version-checked ZIP; real account and customer acceptance remain required"
+      },
+      {
+        "path": "ui/app/api/visual/publish/route.ts",
+        "status": "degraded",
+        "capability": "/api/visual/publish"
+      },
+      {
+        "path": "ui/app/api/visual/review/route.ts",
+        "status": "degraded",
+        "capability": "/api/visual/review"
+      },
+      {
+        "path": "ui/app/api/visual/revise/route.ts",
+        "status": "degraded",
+        "capability": "/api/visual/revise"
+      },
+      {
+        "path": "ui/app/api/visual/select/route.ts",
+        "status": "degraded",
+        "capability": "/api/visual/select"
+      },
+      {
+        "path": "ui/app/api/visual/workbench/route.ts",
+        "status": "degraded",
+        "capability": "/api/visual/workbench"
+      },
+      {
+        "path": "ui/app/api/weekly-review/route.ts",
+        "status": "degraded",
+        "capability": "/api/weekly-review"
+      },
+      {
+        "path": "ui/app/api/production/export-events/route.ts",
+        "status": "degraded",
+        "capability": "/api/production/export-events records a version-bound download request; does not prove a saved or published file"
+      },
+      {
+        "path": "ui/app/api/production/outcomes/route.ts",
+        "status": "degraded",
+        "capability": "/api/production/outcomes separates adopted content, deliverables, downloads and publication, with author-reported effort; real customer acceptance remains required"
+      }
+    ],
+    "desktop_bridges": [
+      {
+        "path": "ui/electron/credential-vault.cjs",
+        "status": "pass",
+        "capability": "credential-vault"
+      },
+      {
+        "path": "ui/electron/delivery-authority.cjs",
+        "status": "pass",
+        "capability": "Read-only reuse of desktop source, disclosure, approval and asset authority for selected-platform file handoff; never sends or changes draft jobs"
+      },
+      {
+        "path": "ui/electron/desktop-redaction.cjs",
+        "status": "pass",
+        "capability": "desktop error, secret and local-path redaction"
+      },
+      {
+        "path": "ui/electron/device-key.cjs",
+        "status": "demo_only",
+        "capability": "device-key"
+      },
+      {
+        "path": "ui/electron/distribution-mode.cjs",
+        "status": "pass",
+        "capability": "distribution-mode"
+      },
+      {
+        "path": "ui/electron/hosted-gateway-proxy.cjs",
+        "status": "demo_only",
+        "capability": "hosted-gateway-proxy"
+      },
+      {
+        "path": "ui/electron/main.cjs",
+        "status": "pass",
+        "capability": "main"
+      },
+      {
+        "path": "ui/electron/material-disclosure.cjs",
+        "status": "degraded",
+        "capability": "Explicit whole-draft internal-only restrictions shared by workbench and external draft gates; detail-specific and ambiguous language still require author review; no automatic grant of publication permission"
+      },
+      {
+        "path": "ui/electron/md2wechat-runtime.cjs",
+        "status": "degraded",
+        "capability": "safe discovery and version validation for the optional local md2wechat CLI"
+      },
+      {
+        "path": "ui/electron/native-xhs-copy.cjs",
+        "status": "degraded",
+        "capability": "Full native Xiaohongshu paragraphs, closing question and source tags shared by review and local preparation; source-to-file equality required before confirmation or desktop draft send. Real-account publication acceptance remains pending."
+      },
+      {
+        "path": "ui/electron/preload.cjs",
+        "status": "pass",
+        "capability": "preload"
+      },
+      {
+        "path": "ui/electron/project-activation.cjs",
+        "status": "pass",
+        "capability": "validated restore activation with rollback"
+      },
+      {
+        "path": "ui/electron/project-backup.cjs",
+        "status": "pass",
+        "capability": "project-backup"
+      },
+      {
+        "path": "ui/electron/publication-asset-snapshot.cjs",
+        "status": "pass",
+        "capability": "main-owned 0700/0600 verified-byte browser asset snapshots with startup crash recovery and sanitization"
+      },
+      {
+        "path": "ui/electron/publication-authority.cjs",
+        "status": "pass",
+        "capability": "Canonical run and selected-platform queue ownership, current human approvals, frozen selected-platform research or immutable author material and blueprint binding, disclosure restrictions, and package/visual/content/asset lineage before draft transmission; legacy 11-job queues verified separately"
+      },
+      {
+        "path": "ui/electron/publication-bridge.cjs",
+        "status": "degraded",
+        "capability": "publication-bridge"
+      },
+      {
+        "path": "ui/electron/publication-transaction.cjs",
+        "status": "pass",
+        "capability": "durable pre-side-effect attempt/result journal, dead-owner crash recovery and server attempt-count-gated no-duplicate retry"
+      },
+      {
+        "path": "ui/electron/python-process-environment.cjs",
+        "status": "pass",
+        "capability": "immutable bundled Python probe and service environment that disables bytecode and user-site writes inside the signed app"
+      },
+      {
+        "path": "ui/electron/runtime-tree.cjs",
+        "status": "pass",
+        "capability": "versioned byte/directory/symlink/executable-bit runtime integrity projection shared by packaged Chromium verification and materialization"
+      },
+      {
+        "path": "ui/electron/secure-desktop-log.cjs",
+        "status": "pass",
+        "capability": "no-follow desktop log creation and append"
+      },
+      {
+        "path": "ui/electron/service-lifecycle.cjs",
+        "status": "pass",
+        "capability": "serialized service lifecycle operations with stale-generation suppression"
+      },
+      {
+        "path": "ui/electron/service-restart.cjs",
+        "status": "pass",
+        "capability": "service-restart"
+      },
+      {
+        "path": "ui/electron/startup-route.cjs",
+        "status": "pass",
+        "capability": "startup-route"
+      }
+    ],
+    "runtime_scripts": [
+      {
+        "path": "skills/content-runtime/scripts/aifios_material_ocr.swift",
+        "status": "pass",
+        "capability": "aifios_material_ocr.swift"
+      },
+      {
+        "path": "skills/content-runtime/scripts/angle_quality.py",
+        "status": "pass",
+        "capability": "angle_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/archive_quality.py",
+        "status": "pass",
+        "capability": "archive_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/audit_quality.py",
+        "status": "pass",
+        "capability": "audit_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/author_evidence.py",
+        "status": "degraded",
+        "capability": "author_evidence.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/benchmark_advisor.py",
+        "status": "blocked",
+        "capability": "benchmark_advisor.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/blueprint_platform_scope.py",
+        "status": "pass",
+        "capability": "Checks native blueprint platform sections against the run's verified selection; rejects missing, extra and duplicate sections without claiming factual or editorial quality."
+      },
+      {
+        "path": "skills/content-runtime/scripts/blueprint_quality.py",
+        "status": "pass",
+        "capability": "blueprint_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/breakdown_quality.py",
+        "status": "pass",
+        "capability": "breakdown_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/browser_hit_collector.mjs",
+        "status": "blocked",
+        "capability": "browser_hit_collector.mjs"
+      },
+      {
+        "path": "skills/content-runtime/scripts/browser_hit_doctor.mjs",
+        "status": "blocked",
+        "capability": "browser_hit_doctor.mjs"
+      },
+      {
+        "path": "skills/content-runtime/scripts/browser_hit_fixture_check.mjs",
+        "status": "blocked",
+        "capability": "browser_hit_fixture_check.mjs"
+      },
+      {
+        "path": "skills/content-runtime/scripts/check_manifest.py",
+        "status": "pass",
+        "capability": "check_manifest.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/compliance_quality.py",
+        "status": "pass",
+        "capability": "compliance_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/content_link_collector.py",
+        "status": "pass",
+        "capability": "content_link_collector.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/content_pipeline.py",
+        "status": "pass",
+        "capability": "content_pipeline.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/content_radar.py",
+        "status": "blocked",
+        "capability": "content_radar.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/content_runtime.py",
+        "status": "pass",
+        "capability": "content_runtime.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/dbs_fusion_apply.py",
+        "status": "pass",
+        "capability": "dbs_fusion_apply.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/dbs_fusion_quality.py",
+        "status": "pass",
+        "capability": "dbs_fusion_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/delivery_audit.py",
+        "status": "pass",
+        "capability": "delivery_audit.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/delivery_pack.py",
+        "status": "pass",
+        "capability": "delivery_pack.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/demo_data.py",
+        "status": "demo_only",
+        "capability": "demo_data.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/generated_language_quality.py",
+        "status": "pass",
+        "capability": "deterministic generated-copy safety and voice checks"
+      },
+      {
+        "path": "skills/content-runtime/scripts/hit_collector.py",
+        "status": "pass",
+        "capability": "hit_collector.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/image_account_policy.py",
+        "status": "retired",
+        "capability": "legacy image-account and budget policy retained for compatibility; new stable runs do not read it"
+      },
+      {
+        "path": "skills/content-runtime/scripts/image_provider_benchmark.py",
+        "status": "retired",
+        "capability": "historical ten-route paid-image benchmark; excluded from new stable runs and current release qualification"
+      },
+      {
+        "path": "skills/content-runtime/scripts/intake_quality.py",
+        "status": "pass",
+        "capability": "intake_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/layout_call_records.py",
+        "status": "degraded",
+        "capability": "local layout-service dispatch records; not provider receipts or verified costs"
+      },
+      {
+        "path": "skills/content-runtime/scripts/market_signal.py",
+        "status": "blocked",
+        "capability": "market_signal.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/market_signal_report.py",
+        "status": "blocked",
+        "capability": "market_signal_report.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/material_corrections.py",
+        "status": "degraded",
+        "capability": "material_corrections.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/minimal_loop_acceptance.py",
+        "status": "pass",
+        "capability": "minimal_loop_acceptance.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/native_delivery.py",
+        "status": "pass",
+        "capability": "Current selected-platform pre-pack, directory and ZIP integrity contract; legacy five-platform delivery remains separate; offline demos stay internal-only"
+      },
+      {
+        "path": "skills/content-runtime/scripts/package_quality.py",
+        "status": "pass",
+        "capability": "package_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/paid_image_gateway.py",
+        "status": "retired",
+        "capability": "historical paid-image gateway retained for audit compatibility; unreachable from new stable runs"
+      },
+      {
+        "path": "skills/content-runtime/scripts/performance_collector.py",
+        "status": "pass",
+        "capability": "performance_collector.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/performance_quality.py",
+        "status": "pass",
+        "capability": "performance_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/platform_adapt_quality.py",
+        "status": "pass",
+        "capability": "platform_adapt_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/prelaunch_quality.py",
+        "status": "pass",
+        "capability": "prelaunch_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/publish_quality.py",
+        "status": "pass",
+        "capability": "publish_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/quality_check.py",
+        "status": "pass",
+        "capability": "quality_check.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/release_gate.py",
+        "status": "retired",
+        "capability": "release_gate.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/review_quality.py",
+        "status": "pass",
+        "capability": "review_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/session_manager.py",
+        "status": "pass",
+        "capability": "session_manager.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/tikomni_adapter.py",
+        "status": "blocked",
+        "capability": "tikomni_adapter.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/tikomni_calibration.py",
+        "status": "blocked",
+        "capability": "TikOmni v5 multi-evidence precision calibration"
+      },
+      {
+        "path": "skills/content-runtime/scripts/tikomni_scheduler.py",
+        "status": "blocked",
+        "capability": "tikomni_scheduler.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/topic_suggestions.py",
+        "status": "pass",
+        "capability": "topic_suggestions.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/twin_quality.py",
+        "status": "pass",
+        "capability": "twin_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/validate_quality.py",
+        "status": "pass",
+        "capability": "validate_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/viral_video_advisor.py",
+        "status": "degraded",
+        "capability": "viral_video_advisor.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/visual_director.py",
+        "status": "degraded",
+        "capability": "visual_director.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/visual_publish.py",
+        "status": "degraded",
+        "capability": "visual_publish.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/visual_quality.py",
+        "status": "degraded",
+        "capability": "visual_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/visual_release.py",
+        "status": "degraded",
+        "capability": "visual_release.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/visual_revision.py",
+        "status": "degraded",
+        "capability": "visual_revision.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/visual_screenshot.mjs",
+        "status": "degraded",
+        "capability": "visual_screenshot.mjs"
+      },
+      {
+        "path": "skills/content-runtime/scripts/wechat_mp_browser_collector.mjs",
+        "status": "blocked",
+        "capability": "wechat_mp_browser_collector.mjs"
+      },
+      {
+        "path": "skills/content-runtime/scripts/wechat_official_api.py",
+        "status": "blocked",
+        "capability": "wechat_official_api.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/wechat_official_mapper.py",
+        "status": "blocked",
+        "capability": "wechat_official_mapper.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/weekly_learning.py",
+        "status": "pass",
+        "capability": "weekly_learning.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/write_quality.py",
+        "status": "pass",
+        "capability": "write_quality.py"
+      },
+      {
+        "path": "skills/content-runtime/scripts/xhs_quality.py",
+        "status": "pass",
+        "capability": "xhs_quality.py"
+      }
+    ],
+    "data_contracts": [
+      {
+        "path": "runs/<run_id>/service-calls/<call_id>.json",
+        "status": "degraded",
+        "capability": "Per-run model request records and provider-reported usage; not a complete service bill",
+        "schema": "echo.service-call.v1"
+      },
+      {
+        "path": "sessions/latest.json",
+        "schema": "aifios.runtime-state.v2",
+        "status": "pass",
+        "capability": "当前 run 与阶段产物索引"
+      },
+      {
+        "path": "sessions/session-state.json",
+        "schema": "aifios.session-state.v1",
+        "status": "pass",
+        "capability": "桌面会话恢复状态"
+      },
+      {
+        "path": "runs/<run_id>.json",
+        "schema": "aifios.run.v1",
+        "authority_schema": "echo-founder.publication-authority.v1",
+        "status": "pass",
+        "capability": "run_id + slug 权威运行记录、素材边界与后续四阶段人工审批及发布 lineage 真源"
+      },
+      {
+        "path": "runs/<run_id>/market-research/frozen-snapshot.json",
+        "schema": "aifios.market-snapshot.v1",
+        "status": "blocked",
+        "capability": "三平台 TikOmni 冻结证据"
+      },
+      {
+        "path": "materials/content-radar/<platform>/latest.json",
+        "schema": "aifios.content-radar.v5",
+        "status": "degraded",
+        "capability": "不按账号类型或内容目标裁剪的 TikOmni 多证据爆款雷达快照"
+      },
+      {
+        "path": "pipeline/<step>/<slug>.md",
+        "schema": "runtime markdown contract",
+        "status": "pass",
+        "capability": "内容生产阶段产物"
+      },
+      {
+        "path": "pipeline/visual/<slug>/selected-assets.json",
+        "schema": "aifios.visual-asset-manifest.v1",
+        "status": "degraded",
+        "capability": "已确认 stable 排版 revision、真实文件与哈希绑定"
+      },
+      {
+        "path": "materials/library/index.json",
+        "schema": "aifios.raw-material-library.v1",
+        "status": "pass",
+        "capability": "原始素材索引"
+      },
+      {
+        "path": "brain/creative-library/profile.json",
+        "schema": "aifios.creative-profile.v1",
+        "status": "pass",
+        "capability": "创作定位"
+      },
+      {
+        "path": "brain/creative-library/rules.json",
+        "schema": "aifios.creative-rules.v1",
+        "status": "pass",
+        "capability": "表达与执行规则"
+      },
+      {
+        "path": "brain/creative-library/proposals.json",
+        "schema": "aifios.creative-proposals.v1",
+        "status": "pass",
+        "capability": "待人工采用的学习建议"
+      },
+      {
+        "path": "brain/creative-library/published-scripts.json",
+        "schema": "aifios.published-script-library.v1",
+        "status": "degraded",
+        "capability": "已确认发布内容样本"
+      },
+      {
+        "path": "materials/publication/drafts/<slug>/draft-queue.json",
+        "schema": "aifios.publication-draft-queue.v1",
+        "status": "degraded",
+        "capability": "按本期所选平台各生成一项草稿或执行稿；兼容完整旧版 11 项队列，真实平台交付仍待验收"
+      },
+      {
+        "path": "materials/publication/desktop-transactions/<run_id>/<job_id>.json",
+        "schema": "echo-founder.publication-transaction.v1",
+        "status": "pass",
+        "capability": "外呼前 in_flight、结果回执与崩溃 unknown_completion 的持久事务；备份保留 JSON 并排除瞬态 .lock"
+      },
+      {
+        "path": "materials/publication/ledger/<slug>/publication-ledger.json",
+        "schema": "aifios.publication-ledger.v1",
+        "status": "degraded",
+        "capability": "人工确认的发布凭证"
+      },
+      {
+        "path": "materials/performance/review-inputs/<slug>.json",
+        "schema": "authorized performance evidence",
+        "status": "degraded",
+        "capability": "真实指标回流输入"
+      },
+      {
+        "path": "sessions/weekly-review-schedule.json",
+        "schema": "aifios.weekly-review-schedule.v1",
+        "status": "pass",
+        "capability": "周复盘提醒"
+      },
+      {
+        "path": "materials/weekly-review/<YYYY-Www>/learning-record.json",
+        "schema": "aifios.weekly-learning-record.v1",
+        "status": "degraded",
+        "capability": "待人工确认的周复盘"
+      },
+      {
+        "path": "<backup-name>.aifios-backup/manifest.json",
+        "schema": "aifios.project-backup.v1",
+        "status": "pass",
+        "capability": "不含凭据的项目备份清单、逐文件 SHA-256 与清单自身摘要"
+      },
+      {
+        "path": "<backup-name>.aifios-backup/data/**",
+        "schema": "manifest.files[] 约束的项目文件",
+        "status": "pass",
+        "capability": "经路径、重复项、符号链接、大小与 SHA-256 校验的备份数据树"
+      },
+      {
+        "path": "<Echo Founder userData>/project-backups/<project>-pre-schema-v1-<timestamp>.aifios-backup/manifest.json",
+        "schema": "aifios.project-backup.v1",
+        "status": "pass",
+        "capability": "项目 schema 迁移前自动建立的可恢复备份"
+      },
+      {
+        "path": "dist/desktop/desktop-package-manifest.json",
+        "schema": "Echo Founder desktop package manifest + echo-founder.source-control-trace.v1 + echo-founder.shipped-runtime-tree.v1 + echo-founder.shipped-dependency-inventory.v2 + echo-founder.runtime-supply-chain.v2",
+        "status": "blocked",
+        "capability": "arm64 应用构建、品牌图标、客户包卫生、Git baseline/current SHA、真实 dirty 状态与完整 shipped runtime tree SHA-256；持久化路径已去除构建机绝对路径"
+      },
+      {
+        "path": "dist/Echo-Founder-0.2.0-beta.2-mac-arm64.package-manifest.json",
+        "schema": "Echo Founder portable delivery package manifest",
+        "status": "blocked",
+        "capability": "经验证后逐字复制的客户交付 build manifest；其 SHA-256 由 DMG manifest 绑定"
+      },
+      {
+        "path": "dist/Echo-Founder-0.2.0-beta.2-mac-arm64.manifest.json",
+        "schema": "Echo Founder DMG manifest + echo-founder.package-manifest-binding.v1",
+        "status": "blocked",
+        "capability": "DMG SHA-256、arm64 构建元数据、可移植相对产物路径、四项 staging 白名单，并绑定 package manifest 摘要与 mounted runtime tree"
+      },
+      {
+        "path": "dist/Echo-Founder-0.2.0-beta.2-mac-arm64.dmg.sha256",
+        "schema": "SHA-256 checksum sidecar",
+        "status": "blocked",
+        "capability": "绑定精确 DMG 文件名的独立 SHA-256 校验文件；DMG manifest 与 verify gate 共同校验"
+      },
+      {
+        "path": "quality/acceptance/trusted-qa-public-keys.json",
+        "schema": "echo-founder.trusted-qa-public-keys.v1",
+        "status": "blocked",
+        "capability": "构建前经独立评审预批准的 QA key_id 与公钥 SHA-256 信任锚；空清单主动阻断正式商业验收"
+      },
+      {
+        "path": "quality/acceptance/real-account-acceptance.json",
+        "schema": "echo-founder.real-account-acceptance.v3",
+        "status": "retired",
+        "capability": "旧付费生图设计的历史真实账号验收记录；不能认证当前 stable 排版候选"
+      },
+      {
+        "path": "<Echo Founder userData>/acceptance/real-account-current/acceptance-state.json",
+        "schema": "echo-founder.real-account-acceptance-workspace.v1",
+        "status": "retired",
+        "capability": "旧 v3 验收工具的历史工作区绑定；不构成当前候选发布门禁"
+      },
+      {
+        "path": "<Echo Founder userData>/acceptance/real-account-current/evidence/*.json",
+        "schema": "echo-founder.acceptance-evidence.v3 / echo-founder.fault-evidence.v3",
+        "status": "retired",
+        "capability": "旧付费生图验收的摘要绑定证据信封，仅供历史审计"
+      },
+      {
+        "path": "<Echo Founder userData>/acceptance/real-account-current/acceptance-to-sign.bin",
+        "schema": "echo-founder.real-account-acceptance.v3 canonical bytes",
+        "status": "retired",
+        "capability": "旧 v3 独立 QA 待签名字节；签名结果不能认证当前 stable 排版候选"
+      },
+      {
+        "path": "<Echo Founder userData>/image-account-policy.json",
+        "schema": "echo-founder.image-account-policy.v1",
+        "status": "retired",
+        "capability": "旧生图账户、付费确认与预算策略，只读兼容；新 stable run 不读取"
+      },
+      {
+        "path": "deliveries/<delivery>/manifest.json",
+        "schema": "echo-founder.selected-platform-delivery.v1",
+        "status": "pass",
+        "capability": "Selected platforms, public file hashes and current source/approval inspection digest; not evidence of public publication or commercial acceptance"
+      }
+    ]
+  }
+}

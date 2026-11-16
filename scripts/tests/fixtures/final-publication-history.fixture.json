@@ -1,0 +1,22 @@
+{
+  "run_id": "legacy-run",
+  "slug": "legacy-topic",
+  "topic": "A verified legacy publication",
+  "final_content": "# Final published article\n\nThis is the exact published content.\n",
+  "visual_asset": "selected-cover-bytes",
+  "publication_url": "https://mp.weixin.qq.com/s/verified-legacy-publication",
+  "performance": {
+    "slug": "legacy-topic",
+    "platform": "wechat",
+    "captured_at": "2026-07-01T10:00:00Z",
+    "metrics": {
+      "reads": 128,
+      "shares": 9,
+      "comments": 4
+    },
+    "comments": [
+      {"content": "This must not be copied into the normalized history metric."}
+    ],
+    "raw_token": "must-not-be-copied"
+  }
+}

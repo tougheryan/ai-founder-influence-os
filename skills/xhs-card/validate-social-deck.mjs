@@ -43,7 +43,14 @@ if (!fs.existsSync(htmlPath)) {
 }
 
 const url = "file://" + htmlPath;
+const chromiumPath = String(process.env.AIFIOS_PLAYWRIGHT_CHROMIUM_PATH || "").trim();
+if (chromiumPath && !fs.existsSync(chromiumPath)) {
+  console.error(`configured AIFIOS Playwright Chromium is missing: ${chromiumPath}`);
+  process.exit(2);
+}
 const browser = await chromium.launch({
+  ...(chromiumPath ? { executablePath: chromiumPath } : {}),
+  headless: true,
   args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
 });
 const ctx = await browser.newContext({
@@ -51,8 +58,19 @@ const ctx = await browser.newContext({
   deviceScaleFactor: 1,
 });
 const page = await ctx.newPage();
-await page.goto(url, { waitUntil: "networkidle" });
-await page.waitForTimeout(1200);
+await page.route(/^https?:\/\//, route => route.abort());
+// Templates may reference remote font stylesheets. Layout validation only
+// needs the local DOM; waiting for global network idleness makes offline or
+// throttled release checks hang even though the deck is already renderable.
+await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+await page.evaluate(async () => {
+  if (document.fonts?.ready) await document.fonts.ready;
+  await Promise.all(Array.from(document.images).map(async (img) => {
+    if (img.complete) return;
+    try { await img.decode(); } catch { /* broken media is reported by the deck itself */ }
+  }));
+});
+await page.waitForTimeout(250);
 
 const style = styleOverride || await page.evaluate(() => {
   const html = document.documentElement;
@@ -248,6 +266,7 @@ for (const s of sections) {
         return false;
       };
       for (const n of el.querySelectorAll("*")) {
+        if (n.matches('.mag-bg,.grain,.dot-mat,.ring-mat,.cross-mat,[data-density="ignore"]')) continue;
         const r = n.getBoundingClientRect();
         if (r.width < 8 || r.height < 8) continue;
         const tag = n.tagName;
@@ -256,7 +275,26 @@ for (const s of sections) {
         const isImg = tag === "IMG" || tag === "CANVAS" || tag === "SVG"
                     || (cs.backgroundImage && cs.backgroundImage !== "none");
         const isRule = tag === "HR" || (parseFloat(cs.borderTopWidth) >= 1 && r.height < 4);
-        const hasFill = cs.backgroundColor && !cs.backgroundColor.match(/rgba?\(\s*0\s*,\s*0\s*,\s*0\s*,\s*0?\s*\)/) && cs.backgroundColor !== "transparent";
+        // A generic wrapper with a background is not content. Counting it as
+        // filled allowed a 500px-tall empty `.visual-stage` to pass R5. Only
+        // known semantic components with real copy/media may contribute their
+        // designed bounds.
+        const semanticFill = n.matches([
+          '.matrix-fill', '.matrix-cell',
+          '.comparison-panel', '.comparison-side',
+          '.step-path-panel', '.step-path-item',
+          '.story-path-panel', '.story-path-item',
+          '.editorial-callout-panel', '.editorial-notes', '.editorial-note',
+          '.recipe-evidence', '.evidence-row',
+          '.cover-signal-panel', '.cover-signal-row',
+          '.bar-chart', '.h-bar-chart', '.bar-row', '.stacked-ledger', '.ledger', '.ledger-row'
+        ].join(','));
+        const semanticCopy = n.textContent.trim().length >= 6 || Boolean(n.querySelector('img,svg,canvas'));
+        // Count the designed bounds of known semantic components when they
+        // contain real copy/media. This preserves whitespace inside a chart,
+        // comparison, or evidence panel as intentional composition without
+        // letting a generic empty wrapper claim the same occupied area.
+        const hasFill = semanticFill && semanticCopy;
         if (!isText && !isImg && !isRule && !hasFill) continue;
         const top = Math.max(0, Math.floor(r.top - er.top));
         const bot = Math.min(H, Math.ceil(r.bottom - er.top));

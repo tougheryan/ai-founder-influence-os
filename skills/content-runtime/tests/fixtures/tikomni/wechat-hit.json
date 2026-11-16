@@ -1,0 +1,39 @@
+{
+  "object_type": "work_collection",
+  "platform": "wechat_mp",
+  "input": {"keyword": "创始人 IP"},
+  "normalized": {
+    "items": [
+      {
+        "platform": "wechat_mp",
+        "platform_work_id": "wechat-article-001",
+        "platform_author_id": "gh_fixture",
+        "author_handle": "gh_fixture",
+        "author": "创始人内容研究",
+        "title": "创始人做个人 IP，别先写自我介绍",
+        "caption_raw": "第一篇内容真正要证明的，不是你是谁，而是你懂不懂客户问题。",
+        "work_modality": "article",
+        "published_date": "2026-07-07",
+        "source_url": "https://mp.weixin.qq.com/s/fixture001",
+        "share_url": "https://mp.weixin.qq.com/s/fixture001",
+        "primary_text": "第一篇内容真正要证明的，不是你是谁，而是你懂不懂客户问题。",
+        "primary_text_source": "caption_raw",
+        "read_count": 18000,
+        "digg_count": 460,
+        "wow_count": 120,
+        "comment_count": 64,
+        "share_count": 300,
+        "request_id": "fixture-wechat-hit",
+        "completeness": "complete",
+        "missing_fields": [],
+        "error_reason": "",
+        "extract_trace": []
+      }
+    ]
+  },
+  "completeness": "complete",
+  "missing_fields": [],
+  "error_reason": "",
+  "extract_trace": [],
+  "request_id": "fixture-wechat-hit"
+}

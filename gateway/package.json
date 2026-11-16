@@ -1,0 +1,25 @@
+{
+  "name": "aifios-gateway",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@cloudbase/node-sdk": "4.0.3"
+  },
+  "overrides": {
+    "axios": "1.19.0"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test test/**/*.test.mjs",
+    "test:device-proof": "node --test test/device-proof.test.mjs test/store.test.mjs",
+    "invite": "node admin.mjs",
+    "backup": "node scripts/backup-ledger.mjs",
+    "bundle:cloudbase": "node scripts/build-cloudbase-bundle.mjs",
+    "verify:deployment": "node scripts/verify-deployment.mjs"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "license": "MIT"
+}

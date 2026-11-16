@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "echo-founder.image-provider-registry.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "execution_policy", "budget_cny", "credential_groups", "routes"],
+  "properties": {
+    "schema_version": {"const": "echo-founder.image-provider-registry.v1"},
+    "updated_at": {"type": "string"},
+    "execution_policy": {
+      "type": "object",
+      "required": ["required_credential_groups", "required_paid_routes", "model_freeze_required", "preview_models_allowed", "ambiguous_result_auto_retry"],
+      "properties": {
+        "required_credential_groups": {"const": 6},
+        "required_paid_routes": {"const": 10},
+        "provider_policy": {"const": "auto"},
+        "allow_codex_login": {"const": false},
+        "allow_simulated_provider": {"const": false},
+        "allow_free_local_generation": {"const": false},
+        "model_freeze_required": {"const": true},
+        "preview_models_allowed": {"const": false},
+        "ambiguous_result_auto_retry": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "budget_cny": {
+      "type": "object",
+      "required": ["hard_limit", "round_1", "round_2", "round_3", "retry_reserve"],
+      "properties": {
+        "hard_limit": {"const": 100},
+        "round_1": {"const": 40},
+        "round_2": {"const": 25},
+        "round_3": {"const": 30},
+        "retry_reserve": {"const": 5}
+      },
+      "additionalProperties": false
+    },
+    "credential_groups": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "object"}},
+    "routes": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["id", "provider", "credential_id", "adapter", "family", "display_name", "model_discovery"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "provider": {"type": "string"},
+          "credential_id": {"type": "string", "pattern": "^image_"},
+          "adapter": {"type": "string"},
+          "family": {"type": "string"},
+          "display_name": {"type": "string"},
+          "model_discovery": {"type": "object"}
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

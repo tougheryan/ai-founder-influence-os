@@ -7,5 +7,32 @@
       "$ref": "common.json"
     }
   ],
-  "description": "visual 步骤输出文件。body 必须包含以下章节标题：无固定要求"
+  "description": "visual 步骤输出文件。支持旧版视觉生产计划，也支持新版视觉发布产物索引记录。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文",
+      "anyOf": [
+        {
+          "allOf": [
+            {"pattern": "(?m)^##\\s*0\\.\\s+原文与视觉目标"},
+            {"pattern": "(?m)^##\\s*1\\.\\s+视觉系统"},
+            {"pattern": "(?m)^##\\s*2\\.\\s+视觉资产清单"},
+            {"pattern": "(?m)^##\\s*3\\.\\s+资产生产说明"},
+            {"pattern": "(?m)^##\\s*4\\.\\s+验收清单"},
+            {"pattern": "(?m)^##\\s*5\\.\\s+下一步执行指令"},
+            {"pattern": "(?m)^##\\s*6\\.\\s+(?:交付\\s*Manifest|视觉资产\\s*Manifest|资产\\s*Manifest|交付清单)"}
+          ]
+        },
+        {
+          "allOf": [
+            {"pattern": "(?m)^##\\s*0\\.\\s+来源"},
+            {"pattern": "(?m)^##\\s*1\\.\\s+已生成文件"},
+            {"pattern": "(?m)^##\\s*2\\.\\s+生成索引"}
+          ]
+        }
+      ]
+    }
+  }
 }

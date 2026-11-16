@@ -1,0 +1,87 @@
+{
+  "schema": "echo-founder.internal-release-acceptance.v2",
+  "status": "pending",
+  "product_version": "0.2.0-beta.2",
+  "layout_mode": "stable",
+  "accepted_at": null,
+  "reviewer": {
+    "name": "",
+    "review_id": ""
+  },
+  "non_commercial": true,
+  "self_reviewed": true,
+  "ad_hoc_signed": true,
+  "apple_notarized": false,
+  "independent_qa": false,
+  "public_send_performed": false,
+  "candidate": {
+    "dmg": {
+      "path": "candidate/Echo-Founder.dmg",
+      "sha256": ""
+    },
+    "package_manifest": {
+      "path": "candidate/package-manifest.json",
+      "sha256": ""
+    },
+    "dmg_manifest": {
+      "path": "candidate/dmg-manifest.json",
+      "sha256": ""
+    }
+  },
+  "evidence": [
+    {
+      "kind": "clean_install",
+      "result": "pending",
+      "path": "evidence/clean_install.json",
+      "sha256": ""
+    },
+    {
+      "kind": "model_and_cost",
+      "result": "pending",
+      "path": "evidence/model_and_cost.json",
+      "sha256": ""
+    },
+    {
+      "kind": "author_material_path",
+      "result": "pending",
+      "path": "evidence/author_material_path.json",
+      "sha256": ""
+    },
+    {
+      "kind": "tikomni_research",
+      "result": "pending",
+      "path": "evidence/tikomni_research.json",
+      "sha256": ""
+    },
+    {
+      "kind": "platform_native_production",
+      "result": "pending",
+      "path": "evidence/platform_native_production.json",
+      "sha256": ""
+    },
+    {
+      "kind": "stable_layout",
+      "result": "pending",
+      "path": "evidence/stable_layout.json",
+      "sha256": ""
+    },
+    {
+      "kind": "platform_drafts",
+      "result": "pending",
+      "path": "evidence/platform_drafts.json",
+      "sha256": ""
+    },
+    {
+      "kind": "fault_and_backup_recovery",
+      "result": "pending",
+      "path": "evidence/fault_and_backup_recovery.json",
+      "sha256": ""
+    },
+    {
+      "kind": "frozen_dmg_runtime",
+      "result": "pending",
+      "path": "evidence/frozen_dmg_runtime.json",
+      "sha256": ""
+    }
+  ]
+}

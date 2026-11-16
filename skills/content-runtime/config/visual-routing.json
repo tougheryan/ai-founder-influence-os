@@ -1,0 +1,57 @@
+{
+  "product_demo": {
+    "evidence_mode": "screenshot_first",
+    "wechat_system": "swiss",
+    "xhs_system": "swiss",
+    "xhs_recipes": ["S01", "S08", "S06", "S10", "S12"],
+    "share_formats": {
+      "contrast": {"system": "swiss", "page_recipes": ["S01", "S09", "S08", "S10", "S12"]},
+      "framework": {"system": "swiss", "page_recipes": ["S01", "S10", "S06", "S08", "S12"]},
+      "story": {"system": "editorial", "page_recipes": ["M01", "M03", "M08", "M11", "M15"]}
+    }
+  },
+  "analysis": {
+    "evidence_mode": "data_first",
+    "wechat_system": "swiss",
+    "xhs_system": "swiss",
+    "xhs_recipes": ["S01", "S10", "S06", "S09", "S12"],
+    "share_formats": {
+      "contrast": {"system": "swiss", "page_recipes": ["S01", "S09", "S06", "S10", "S12"]},
+      "framework": {"system": "swiss", "page_recipes": ["S01", "S10", "S06", "S08", "S12"]},
+      "story": {"system": "editorial", "page_recipes": ["M01", "M03", "M08", "M11", "M15"]}
+    }
+  },
+  "founder_story": {
+    "evidence_mode": "artifact_first",
+    "wechat_system": "editorial",
+    "xhs_system": "editorial",
+    "xhs_recipes": ["M01", "M05", "M08", "M11", "M15"],
+    "share_formats": {
+      "contrast": {"system": "swiss", "page_recipes": ["S01", "S09", "S06", "S10", "S12"]},
+      "framework": {"system": "swiss", "page_recipes": ["S01", "S10", "S06", "S08", "S12"]},
+      "story": {"system": "editorial", "page_recipes": ["M01", "M03", "M08", "M11", "M15"]}
+    }
+  },
+  "concept": {
+    "evidence_mode": "illustration_allowed",
+    "wechat_system": "editorial",
+    "xhs_system": "editorial",
+    "xhs_recipes": ["M01", "M03", "M09", "M12", "M15"],
+    "share_formats": {
+      "contrast": {"system": "swiss", "page_recipes": ["S01", "S09", "S06", "S10", "S12"]},
+      "framework": {"system": "swiss", "page_recipes": ["S01", "S10", "S06", "S08", "S12"]},
+      "story": {"system": "editorial", "page_recipes": ["M01", "M03", "M08", "M11", "M15"]}
+    }
+  },
+  "research": {
+    "evidence_mode": "data_first",
+    "wechat_system": "editorial",
+    "xhs_system": "hybrid",
+    "xhs_recipes": ["M01", "S10", "S06", "M10", "S12"],
+    "share_formats": {
+      "contrast": {"system": "swiss", "page_recipes": ["S01", "S09", "S06", "S10", "S12"]},
+      "framework": {"system": "swiss", "page_recipes": ["S01", "S10", "S06", "S08", "S12"]},
+      "story": {"system": "editorial", "page_recipes": ["M01", "M03", "M08", "M11", "M15"]}
+    }
+  }
+}

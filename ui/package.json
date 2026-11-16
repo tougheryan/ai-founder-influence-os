@@ -1,0 +1,63 @@
+{
+  "name": "echo-founder-workbench",
+  "version": "0.2.0-beta.2",
+  "private": true,
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint",
+    "audit:production": "npm audit --omit=dev --audit-level=high",
+    "test": "npm run test:license && npm run test:unit && npm run test:desktop && npm run test:copy",
+    "test:copy": "vitest run components/TechnicalDetails.test.tsx components/production/ContentPackageReview.test.ts components/production/CreativeEnhancementDrawer.test.ts components/production/FinalDeliverablesReview.test.ts components/production/ProductionStagePanel.test.ts components/production/production-status-copy-contract.test.ts components/production/sidebar-copy-contract.test.ts hooks/useAgentStream.test.ts lib/benchmark-display-copy.test.ts lib/client-error-copy.test.ts lib/content-radar-display-copy.test.ts lib/product-copy.test.ts lib/product-voice.test.ts lib/user-facing-error.test.ts",
+    "test:license": "vitest run proxy.test.ts lib/hosted-license-access.test.ts lib/hosted-gateway.test.ts app/api/desktop/health/route.test.ts && node --test electron/device-key.test.cjs electron/hosted-gateway-proxy.test.cjs electron/distribution-mode.test.cjs electron/main-window-options.test.cjs",
+    "test:unit": "vitest run proxy.test.ts app/surface-boundaries.test.ts app/api/status/route.test.ts app/api/config/route.test.ts app/api/config/hosted/status/route.test.ts app/api/delivery/route.test.ts app/api/desktop/diagnostics/package/route.test.ts app/api/desktop/release-readiness/route.test.ts app/api/publish/route.test.ts app/api/publish-assets/route.test.ts app/api/publish/drafts/route.test.ts app/api/publish/results/route.test.ts app/api/weekly-review/route.test.ts app/api/output/[...path]/route.test.ts app/api/benchmark-advisor/route.test.ts app/api/content-radar/route.test.ts app/api/visual/publish/route.test.ts app/api/visual/revise/route.test.ts app/api/visual/select/route.test.ts app/api/visual/adopt/route.test.ts app/api/visual/workbench/route.test.ts app/api/blueprint/approval/route.test.ts app/api/production/approval/route.test.ts app/api/production/flow/route.test.ts app/api/production/advance/route.test.ts app/api/production/writing-brief/route.test.ts app/api/production/material-analysis/route.test.ts app/api/production/intake/route.test.ts app/api/production/tasks/route.test.ts app/api/agent/invoke/route.test.ts app/api/skills/route.test.ts app/api/brand-templates/route.test.ts app/api/brand-templates/preview/route.test.ts app/api/run/route.test.ts app/api/run/template/route.test.ts app/api/research/market-signal/route.test.ts app/api/research/samples/route.test.ts app/api/research/topic-suggestions/route.test.ts app/api/research/topic-selection/route.test.ts app/api/research/weekly-market/route.test.ts app/api/settings/tikomni/route.test.ts app/api/settings/image-providers/route.test.ts app/api/creative-enhancements/adopt/route.test.ts app/api/creative-library/published-scripts/route.test.ts app/api/material-library/route.test.ts app/publication-desk/page.test.tsx components/VisualWorkbench.test.tsx components/Md2WechatThemePreview.test.tsx components/production/ContentPackageReview.test.ts components/production/TikOmniSampleBrowser.test.ts components/production/ProductionWorkbench.test.ts components/production/production-model.test.ts components/production/ContentRevisionEditor.test.tsx components/production/ProductionStageRail.test.tsx lib/brand-templates.test.ts lib/md2wechat-theme-directory.test.ts lib/md2wechat-theme-preferences.test.ts lib/md2wechat-preview-client.test.ts lib/brand-template-config.test.ts lib/config-lite.test.ts lib/content-radar.test.ts lib/material-intake-report.test.ts lib/skill-files.test.ts lib/tikomni-settings.test.ts lib/tikomni-content-link.test.ts lib/tikomni-content-link-evidence.test.ts lib/hosted-client-config.test.ts lib/hosted-market-research.test.ts lib/llm-client.test.ts lib/service-call-records.test.ts lib/layout-call-records.test.ts components/LayoutCallHistory.test.tsx components/production/ProductionCallHistory.test.tsx components/production/MaterialDisclosureNotice.test.tsx components/ModelAccountGuide.test.tsx lib/publish/draft-queue.test.ts lib/publish/desktop-authority-integration.test.ts lib/publish/desktop-receipt.test.ts lib/write-guard.test.ts lib/visual-workbench.test.ts lib/visual-revision-request.test.ts lib/wechat-layout-copy.test.ts components/WechatLayoutCopyButton.test.tsx lib/visual-suite.test.ts lib/visual-asset-manifest.test.ts lib/publish-assets.test.ts lib/visual-auto-adoption.test.ts lib/public-research.test.ts lib/benchmark-advisor.test.ts lib/creative-enhancements.test.ts lib/creative-library.test.ts lib/material-library.test.ts lib/material-analysis.test.ts lib/blueprint-approval.test.ts lib/runtime-writer.test.ts lib/production-state.test.ts lib/production-integrity.test.ts lib/production-task-authority.test.ts lib/production-task-operations.test.ts lib/production-tasks.test.ts lib/production-flow.test.ts lib/production-review.test.ts lib/pipeline-registry.test.ts lib/content-editing.test.ts lib/content-plan.test.ts lib/content-revisions.test.ts lib/market-research-context.test.ts lib/writing-brief.test.ts lib/blueprint-sections.test.ts lib/production-drafts.test.ts lib/material-writing-requirements.test.ts lib/material-source-nature.test.ts lib/production-workspace-context.test.ts lib/research-status.test.ts lib/model-connection-records.test.ts components/ResearchActivityStatus.test.tsx app/api/research/status/route.test.ts components/production/MaterialIntakeWorkspace.test.ts lib/topic-suggestions-client.test.ts components/production/TopicTemplateConfirmation.test.ts lib/topic-research.test.ts lib/content-plan-comparison.test.ts components/production/SavedContentReview.test.tsx lib/content-radar-context.test.ts lib/material-analysis-version.test.ts lib/material-corrections.test.ts lib/output-copy.test.ts lib/output-disclosure.test.ts lib/output-disclosure-format.test.ts lib/output-export.test.ts lib/xhs-bundle.test.ts app/api/visual/download/route.test.ts lib/portable-article.test.ts app/api/production/content-attempts/route.test.ts lib/output-download.test.ts components/OutputDownloadLink.test.tsx lib/material-title-suggestion.test.ts lib/skill-loader.test.ts components/production/ProductionDraftShelf.test.tsx lib/draft-preference-candidates.test.ts lib/draft-preference-reuse.test.ts app/api/creative-library/profile/route.test.ts components/materials/CreativeProfilePanel.test.tsx lib/output-download-events.test.ts app/api/production/export-events/route.test.ts lib/production-outcomes.test.ts app/api/production/outcomes/route.test.ts components/production/ProductionOutcomes.test.tsx components/production/PublishingCopyNotice.test.tsx lib/readable-article.test.ts lib/readable-article-copy.test.ts components/production/ReadableArticleActions.test.tsx lib/reader-selection.test.ts components/production/SelectableArticleBody.test.tsx lib/publish-copy-integrity.test.ts lib/publication-text.test.ts lib/publication-text-copy.test.ts lib/native-field-contract.test.ts lib/writing-requirement-review.test.ts lib/recovered-content-task.test.ts lib/publish/selected-delivery-integration.test.ts lib/commercial-acceptance-file.test.ts components/CommercialAcceptancePanel.test.tsx lib/commercial-acceptance-policy.test.ts",
+    "test:desktop": "node --test electron/*.test.cjs",
+    "test:materials": "vitest run app/api/materials/route.test.ts",
+    "test:benchmark-advisor": "vitest run lib/benchmark-advisor.test.ts",
+    "test:desktop-publication": "node --test electron/publication-bridge.test.cjs",
+    "test:desktop-startup": "node --test electron/startup-route.test.cjs",
+    "desktop": "electron .",
+    "desktop:check": "node --check electron/main.cjs && node --check electron/preload.cjs && node --check electron/credential-vault.cjs && node --check electron/desktop-redaction.cjs && node --check electron/project-backup.cjs && node --check electron/project-activation.cjs && node --check electron/python-process-environment.cjs && node --check electron/md2wechat-runtime.cjs && node --check electron/service-restart.cjs && node --check electron/service-lifecycle.cjs && node --check electron/publication-authority.cjs && node --check electron/publication-asset-snapshot.cjs && node --check electron/publication-transaction.cjs && node --check electron/publication-bridge.cjs && node --check electron/runtime-tree.cjs && node --check electron/startup-route.cjs && node --check electron/distribution-mode.cjs && node --check electron/native-xhs-copy.cjs && node --check electron/delivery-authority.cjs"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.5.0",
+    "@react-three/fiber": "^9.6.1",
+    "@types/three": "^0.184.1",
+    "ajv": "^8.20.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.18.0",
+    "next": "16.4.6",
+    "next-themes": "^0.4.6",
+    "openai": "^6.42.0",
+    "parse5": "8.0.0",
+    "playwright": "^1.61.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.6.0",
+    "three": "^0.184.0",
+    "tw-animate-css": "^1.4.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "electron": "^43.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "shadcn": "^4.19.0",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
+  },
+  "overrides": {
+    "fast-uri": "3.1.9"
+  },
+  "license": "MIT"
+}

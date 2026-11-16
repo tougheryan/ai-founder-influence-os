@@ -1,18 +1,33 @@
 ---
 name: content-review
-description: AI FOUNDER INFLUENCE OS第七步：数据复盘。读取发布后的平台数据，输出表现记录、评论洞察、用户问题归类、选题优化和下一条建议，并维护 brain/insights.md 持续学习。
+description: AIFIOS 周度收获总结。读取已确认发布结果和授权表现数据，输出表现记录、评论洞察、选题优化和下一条建议。
 ---
 
-# content-review · 数据复盘
+# content-review · 收获总结
 
 ## 作用
 
-把一次发布的数据变成下一次创作的输入。不只是看阅读量，而是理解读者为什么互动、为什么不互动。
+把一次发布的数据变成下一次创作的输入。用户可见交付叫“收获总结”，不是中间报告；它只回答这次内容学到了什么、下一轮怎么改。
+
+如果内容还没有发布，不要伪造表现数据，也不要套用数据复盘模板。此时只允许输出轻量的“试产收获总结”，用于判断这次从真实素材到最终内容的生产质量。
+
+试产收获总结回答四件事：
+
+```markdown
+# 试产收获总结 · {素材或主题}
+
+## 1. 这份素材适合什么
+## 2. 哪些内容不能直接公开
+## 3. 最终内容质量判断
+## 4. AIFIOS 下一步优化
+```
+
+试产收获总结不得出现发布链接、阅读量、点赞量、转化率、真实评论或真实表现数据；发布后拿到平台数据，才生成下面的数据型“收获总结”。
 
 ## 触发方式
 
 - `/content-review`
-- `复盘数据`、`分析一下这条数据`、`评论区怎么说`
+- `收获总结`、`复盘数据`、`分析一下这条数据`、`评论区怎么说`
 - `下一条写什么`
 
 ## 输入
@@ -20,10 +35,11 @@ description: AI FOUNDER INFLUENCE OS第七步：数据复盘。读取发布后�
 - 发布后的平台数据（用户粘贴或读取本地记录文件）
 - 原文路径；如果未指定，可通过 content-runtime 读取最新成稿：
   ```bash
-  python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+  python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
     --project ~/ai-content-system read --step write --latest
   ```
 - 如已有发布记录，可通过 `read --step publish --latest` 读取
+- 未发布试产：读取最终内容路径，并人工/模型判断可发布性、风险边界和下一步优化，不写入真实表现数据
 
 ## 输出
 
@@ -33,28 +49,38 @@ description: AI FOUNDER INFLUENCE OS第七步：数据复盘。读取发布后�
 ~/ai-content-system/pipeline/review/{YYYY-MM-DD}-{slug}-review.md
 ```
 
-并更新 `~/ai-content-system/brain/insights.md`。
+长期学习不会由本 skill 直接写入。只有 `weekly_learning.py apply-memory` 在完整复盘和人工确认后，才能写入本机 `brain/`。
 
-**必须通过 content-runtime 写入复盘报告**：
+**必须通过 content-runtime 写入收获总结**：
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step review --slug {slug} \
   --content @/path/to/review-body.md \
   --source "publish:{发布记录路径或原文路径}"
 ```
 
-`brain/insights.md` 的更新由本 skill 直接维护，不经过 content-runtime。
+写入后必须运行 runtime 校验：
+
+```bash
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
+  --project ~/ai-content-system \
+  validate --step review --file pipeline/review/{文件名}.md
+```
+
+`validate` 会额外执行复盘学习质量审计，返回 `quality_status`、`quality_errors`、`quality_reviews` 和 `quality_checks`。
+
+`brain/insights.md`、读者画像、案例库和禁区的更新只由 `weekly_learning.py` 维护，不经过本 skill 的直接写入。
 
 输出结构：
 
 ```markdown
-# 数据复盘报告 · {标题}
+# 收获总结 · {标题}
 
 ## 0. 内容元信息
 - 原文路径：{...}
-- 发布平台：{wechat / xhs / douyin / 多平台}
+- 发布平台：{wechat / xhs / 多平台}
 - 发布日期：{YYYY-MM-DD}
 - 选题角度：{身份背书 / 反差冲突 / 方法论 / 案例纪实 / 情绪共鸣 / 叙事结构}
 - 关键词/词根：{...}
@@ -65,7 +91,6 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 |---|---|---|---|---|---|
 | 公众号 | ... | ... | ... | ... | ... |
 | 小红书 | ... | ... | ... | ... | ... |
-| 抖音 | ... | ... | ... | ... | ... |
 
 ### 1.1 关键指标解读
 - {指标背后的行为解释}
@@ -77,13 +102,20 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 | 封面 | ... | ... | ... | ... |
 | 开头 | ... | ... | ... | ... |
 
+### 1.3 数据来源与口径
+| 项目 | 说明 |
+|---|---|
+| 数据源 | 平台后台 / 发布记录 / 截图 / 导出表 / 用户手工记录 |
+| 采集时间 | 截至何时，发布后多久 |
+| 样本范围 | 哪条内容、哪些平台、多少条有效评论，剔除了什么 |
+| 指标口径 | 阅读/播放/互动/评论/转化分别如何计算 |
+
 ## 2. 跨平台归因
 
 | 平台 | 表现 | 可能原因 | 可迁移经验 |
 |---|---|---|---|
 | 公众号 | ... | ... | ... |
 | 小红书 | ... | ... | ... |
-| 抖音 | ... | ... | ... |
 
 ## 3. 评论洞察
 
@@ -151,6 +183,30 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - 维护选题命中率：用数据校准选题判断
 - 记录 A/B 测试结果：标题、封面、开头的可控实验
 
+## 复盘质量闸门
+
+收获总结不能只是“数据好/不好”，必须能反哺下一轮内容：
+
+- `## 0. 内容元信息` 必须写明发布平台，建议补原文路径、发布日期和选题角度。
+- `## 1. 表现记录` 必须有真实数字信号，不能全部是“待统计 / 未发布 / 待回填”。
+- `### 1.3 数据来源与口径` 必须写明数据源、采集时间、样本范围和指标口径；否则不能沉淀到 `brain/insights.md`。
+- 真实复盘必须来自真实发布后的平台后台、截图、导出表、发布记录或用户手工记录；未真实发布、demo、示例项目不能填写看似真实的阅读、评论、转化数字。
+- demo/未发布只允许作为流程演示：表现记录写“未真实发布，无真实数据”，评论洞察、用户问题和下一条建议必须标注“demo 预设反馈样例 / 不作为真实发布反馈”。
+- demo/未发布可以写入 `brain/insights.md` 的流程样例说明，但不能写成“新增有效洞察”或真实用户画像更新；正式项目必须用真实数据替换后再沉淀。
+- `## 3. 评论洞察` 至少包含高频词/语气、提问方式、情绪问题和争议点。
+- `## 4. 用户问题归类` 必须判断哪些问题值得单独成题。
+- `## 6. 选题优化` 必须包含命中点、失误点、可复用角度和需要避开的雷。
+- `## 7. 下一条建议` 至少给 2 个可执行选题，并写明优先级。
+- `## 8. 洞察沉淀` 必须说明已写入 `brain/insights.md`，并建议更新读者画像或禁区。
+
+质量状态含义：
+
+| 状态 | 含义 | 后续动作 |
+|---|---|---|
+| `pass` | 数据、评论、用户问题和下一条建议都可反哺下一轮内容 | 可进入 `self-archive` / `content-twin` |
+| `review_required` | 数据可用，但历史基准、读者画像或部分评论证据不足 | 可沉淀，但需要人工补充 |
+| `blocked` | 缺真实数据、缺评论洞察、缺问题归类或下一条建议不可执行 | 不归档为有效复盘，先补发布数据和评论样本 |
+
 ## 工作流程
 
 1. **读取数据**：读取用户提供的平台数据或本地记录
@@ -162,26 +218,26 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
    - 归类用户问题
    - 识别值得单独成题的问题
 6. **选题命中率评估**：与历史基准对比
-7. **输出复盘报告**：写入 `pipeline/review/`
-8. **沉淀洞察**：更新 `brain/insights.md` 和 `brain/twin/reader-profile.md`
+7. **输出收获总结**：写入 `pipeline/review/`
+8. **确认沉淀**：在每周复盘界面完成指标补录并由操作者确认后，交由 `weekly_learning.py` 写入本机长期学习。
 
 ## 与其他 Skill 的关系
 
 - **上游**：`content-audit`（发布前的审核）、`content-prelaunch`（发布前检查）
 - **下游**：`self-archive`（归档沉淀）、`content-twin`（孪生观察）、`content-angle`（下一轮角度生成）
 - **可调用**：`dbs-good-question`（把"为什么这篇爆了"写成可验证问题）
-- **更新**：`brain/insights.md`、`brain/twin/reader-profile.md`、`brain/no-fly-zone.md`
+- **长期学习**：`weekly_learning.py` 在人工确认后写入 `brain/insights.md`、`brain/style-evolution.md`、`brain/case-library.md` 和 `brain/no-fly-zone.md`
 
 ## 输入/输出示例
 
-### 示例 1：发布数据 → 复盘报告
+### 示例 1：发布数据 → 收获总结
 
 **输入**
 公众号后台数据：阅读 1.2w，分享 230，评论 45。
 
 **预期输出**
 ```markdown
-# 数据复盘报告
+# 收获总结
 
 ## 1. 表现记录
 - 阅读：1.2w

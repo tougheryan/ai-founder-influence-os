@@ -1,0 +1,77 @@
+{
+  "package": {
+    "title": "产品工作流演示",
+    "wechat": {
+      "title": "产品工作流演示",
+      "cover_text": "三步跑通工作流",
+      "summary": "从素材进入系统，到配方生成，再到发布前质检，每一步都能追溯真实输入。",
+      "body": "这次演示不展示抽象概念，而是沿着真实界面走完素材上传、视觉配方和发布质检。"
+    },
+    "xhs_posts": [
+      {
+        "index": 1,
+        "title": "产品工作流演示",
+        "cover_text": "三步跑通工作流",
+        "body": "真实界面、明确步骤、可追溯结果。",
+        "pages": [
+          {
+            "page_id": "P1",
+            "title": "三步跑通工作流",
+            "body": "素材进入系统；自动生成视觉配方；质检通过后才进入交付。",
+            "image_prompt": "三段式产品路径概览",
+            "visual_hierarchy": "主标题 + 三步动作 + 结果状态",
+            "layout_note": "封面先给结论，步骤保持可扫描"
+          },
+          {
+            "page_id": "P2",
+            "title": "先看真实界面",
+            "body": "这张截图保留导航、任务状态和输出区域，读者能直接核对产品正在做什么。",
+            "image_prompt": "使用真实产品截图，不生成伪 UI",
+            "visual_hierarchy": "标题 + 大幅截图 + 来源说明",
+            "layout_note": "截图主体至少占视觉区域 40%"
+          },
+          {
+            "page_id": "P3",
+            "title": "每一步都有记录",
+            "body": "素材路径可追溯；配方版本可回看；质量结果可复核。",
+            "image_prompt": "三条版本账本",
+            "visual_hierarchy": "编号 + 动作 + 可核验结果",
+            "layout_note": "按执行顺序排列三条记录"
+          },
+          {
+            "page_id": "P4",
+            "title": "发布前检查三件事",
+            "body": "证据是否真实；版式是否合格；当前版本是否已采用。",
+            "image_prompt": "三项发布检查",
+            "visual_hierarchy": "检查项 + 状态条 + 顺序编号",
+            "layout_note": "不使用虚构百分比，只显示检查顺序"
+          },
+          {
+            "page_id": "P5",
+            "title": "用结果进入下一轮",
+            "body": "采用通过的版本；打包发布资产；把表现数据带回下一轮。",
+            "image_prompt": "交付、发布、复盘三格行动板",
+            "visual_hierarchy": "行动矩阵 + 单一 CTA",
+            "layout_note": "结尾只保留一个下一步动作"
+          }
+        ]
+      }
+    ]
+  },
+  "materials": {
+    "assets": [
+      {
+        "path": "materials/product-demo/product-flow.png",
+        "kind": "screenshot",
+        "role": "product_ui",
+        "fixture_kind": "product_screenshot",
+        "fixture_asset": "product-flow.png"
+      }
+    ]
+  },
+  "expected": {
+    "content_archetype": "product_demo",
+    "xhs_system": "swiss",
+    "xhs_recipes": ["S01", "S08", "S06", "S10", "S12"]
+  }
+}

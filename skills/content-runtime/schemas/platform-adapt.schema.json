@@ -7,5 +7,26 @@
       "$ref": "common.json"
     }
   ],
-  "description": "platform-adapt 步骤输出文件。body 必须包含以下章节标题：无固定要求"
+  "description": "platform-adapt 步骤输出文件。body 必须包含原文信息、至少一个公众号/小红书/视频号/抖音/朋友圈的发布稿、平台差异对照和下一步执行指令。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^##\\s*0\\.\\s+原文信息"
+        },
+        {
+          "pattern": "(?m)^##\\s*[1-5]\\.\\s+(?:公众号|小红书(?:图文)?|(?:微信)?视频号|抖音|(?:微信)?朋友圈)(?:发布稿|改编)"
+        },
+        {
+          "pattern": "(?m)^##\\s*6\\.\\s+平台差异对照"
+        },
+        {
+          "pattern": "(?m)^##\\s*7\\.\\s+(?:下一步执行指令|下游执行指令|下一步)"
+        }
+      ]
+    }
+  }
 }

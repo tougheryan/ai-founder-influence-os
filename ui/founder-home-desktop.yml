@@ -1,0 +1,247 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - link "Founder AI Influence System 首页" [ref=e6] [cursor=pointer]:
+          - /url: "#top"
+          - generic [ref=e11]:
+            - generic [ref=e12]: FOUNDER AI
+            - emphasis [ref=e13]: INFLUENCE SYSTEM
+        - navigation "页面导航" [ref=e14]:
+          - link "系统能力" [ref=e15] [cursor=pointer]:
+            - /url: "#system"
+          - link "如何运作" [ref=e16] [cursor=pointer]:
+            - /url: "#how-it-works"
+          - link "适合谁" [ref=e17] [cursor=pointer]:
+            - /url: "#for-founders"
+          - link "我们的原则" [ref=e18] [cursor=pointer]:
+            - /url: "#principles"
+        - link "预约体验" [ref=e19] [cursor=pointer]:
+          - /url: "#diagnosis"
+          - img [ref=e20]
+          - text: 预约体验
+          - img [ref=e23]
+      - main [ref=e26]:
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - paragraph [ref=e30]: FOUNDER-LED · AI-POWERED
+            - heading "让你的一个观点 生成全球影响力。" [level=1] [ref=e31]:
+              - text: 让你的一个观点
+              - text: 生成全球影响力。
+            - paragraph [ref=e32]: 从一次访谈开始，沉淀知识库，生成多平台原生内容。
+            - generic [ref=e33]:
+              - link "预约一次内容诊断" [ref=e34] [cursor=pointer]:
+                - /url: mailto:hello@founderai.system?subject=预约创始人内容诊断
+                - text: 预约一次内容诊断
+                - img [ref=e35]
+              - link "查看如何生成" [ref=e38] [cursor=pointer]:
+                - /url: "#how-it-works"
+                - text: 查看如何生成
+                - img [ref=e39]
+            - list "系统承诺" [ref=e42]:
+              - listitem [ref=e43]:
+                - img [ref=e44]
+                - text: 保留你的真实观点
+              - listitem [ref=e46]:
+                - img [ref=e47]
+                - text: 一源多端原生表达
+              - listitem [ref=e49]:
+                - img [ref=e50]
+                - text: 越用越懂你的系统
+          - img "一条创始人观点在知识库中被组织为多平台内容的可视化" [ref=e52]:
+            - paragraph [ref=e56]: FAIS / NEURAL CONTENT ENGINE
+            - generic [ref=e60]:
+              - text: 核心观点
+              - strong [ref=e61]: 判断不是噪音，是可复利的资产。
+              - generic [ref=e62]: CREATOR INTERVIEW · 12:48
+            - generic [ref=e65]:
+              - generic [ref=e66]: 公众号
+              - strong [ref=e67]: 深度长文
+              - img [ref=e68]
+            - generic [ref=e71]:
+              - generic [ref=e72]: 视频号
+              - strong [ref=e73]: 口播脚本
+              - img [ref=e74]
+            - generic [ref=e77]:
+              - generic [ref=e78]: 小红书
+              - strong [ref=e79]: 图文笔记
+              - img [ref=e80]
+            - generic [ref=e83]:
+              - generic [ref=e84]: "01"
+              - generic [ref=e85]: 观点识别
+              - generic [ref=e86]: THESIS
+            - generic [ref=e87]:
+              - generic [ref=e88]: "02"
+              - generic [ref=e89]: 风格匹配
+              - generic [ref=e90]: VOICE
+            - generic [ref=e91]:
+              - generic [ref=e92]: "03"
+              - generic [ref=e93]: 平台适配
+              - generic [ref=e94]: ADAPT
+            - paragraph [ref=e95]:
+              - text: ONE IDEA
+              - text: THREE NATIVE EXPRESSIONS
+        - generic [ref=e98]:
+          - paragraph [ref=e99]: THE SYSTEM / 02
+          - generic [ref=e100]:
+            - heading "不是内容代运营。 是创始人的影响力基础设施。" [level=2] [ref=e101]:
+              - text: 不是内容代运营。
+              - text: 是创始人的影响力基础设施。
+            - paragraph [ref=e102]: 内容只是外显结果。真正持续产生价值的，是背后的知识、表达与反馈系统。
+          - generic [ref=e103]:
+            - article [ref=e104]:
+              - paragraph [ref=e105]: 01 / 03
+              - paragraph [ref=e106]: KNOWLEDGE
+              - heading "创始人知识库" [level=3] [ref=e107]
+              - paragraph [ref=e108]: 把访谈、文章、会议、语音和零散观点，沉淀为可检索、可复用、持续生长的思想资产。
+              - list [ref=e109]:
+                - listitem [ref=e110]: 个人表达风格提取
+                - listitem [ref=e111]: 观点与案例自动归档
+                - listitem [ref=e112]: 事实来源与引用管理
+            - article [ref=e113]:
+              - paragraph [ref=e114]: 02 / 03
+              - paragraph [ref=e115]: CONTENT
+              - heading "一源多端内容系统" [level=3] [ref=e116]
+              - paragraph [ref=e117]: 同一个核心观点，按不同平台的阅读习惯重新组织。不是简单缩写，也不是一稿多发。
+              - list [ref=e118]:
+                - listitem [ref=e119]: 公众号深度文章
+                - listitem [ref=e120]: 视频号口播与拍摄方案
+                - listitem [ref=e121]: 小红书图文与标题
+            - article [ref=e122]:
+              - paragraph [ref=e123]: 03 / 03
+              - paragraph [ref=e124]: INFLUENCE
+              - heading "全球影响力引擎" [level=3] [ref=e125]
+              - paragraph [ref=e126]: 建立稳定的内容节奏与品牌表达，让创始人的专业判断持续抵达客户、人才与合作伙伴。
+              - list [ref=e127]:
+                - listitem [ref=e128]: 中英双语表达
+                - listitem [ref=e129]: 多平台品牌一致性
+                - listitem [ref=e130]: 数据复盘与选题迭代
+        - generic [ref=e132]:
+          - paragraph [ref=e133]: HOW IT WORKS / 03
+          - generic [ref=e134]:
+            - heading "从灵感到影响力， 形成可持续的闭环。" [level=2] [ref=e135]:
+              - text: 从灵感到影响力，
+              - text: 形成可持续的闭环。
+            - paragraph [ref=e136]: 人负责做判断，AI 负责理解、组织与放大。每一步都可看见、可确认、可迭代。
+          - generic [ref=e137]:
+            - group [ref=e138]:
+              - generic "01 输入 一段访谈、一个观点、一篇文章，甚至一条语音。" [ref=e139] [cursor=pointer]:
+                - generic [ref=e140]: "01"
+                - strong [ref=e141]: 输入
+                - generic [ref=e142]: 一段访谈、一个观点、一篇文章，甚至一条语音。
+                - img [ref=e143]
+            - group [ref=e145]:
+              - generic "02 理解 识别核心观点、事实依据、受众问题和创始人语气。" [ref=e146] [cursor=pointer]:
+                - generic [ref=e147]: "02"
+                - strong [ref=e148]: 理解
+                - generic [ref=e149]: 识别核心观点、事实依据、受众问题和创始人语气。
+                - img [ref=e150]
+            - group [ref=e152]:
+              - generic "03 拆解 生成内容角度、标题方向、关键词与平台化结构。" [ref=e153] [cursor=pointer]:
+                - generic [ref=e154]: "03"
+                - strong [ref=e155]: 拆解
+                - generic [ref=e156]: 生成内容角度、标题方向、关键词与平台化结构。
+                - img [ref=e157]
+            - group [ref=e159]:
+              - generic "04 创作 分别完成公众号、视频号、小红书的原生内容。" [ref=e160] [cursor=pointer]:
+                - generic [ref=e161]: "04"
+                - strong [ref=e162]: 创作
+                - generic [ref=e163]: 分别完成公众号、视频号、小红书的原生内容。
+                - img [ref=e164]
+            - group [ref=e166]:
+              - generic "05 审核 检查事实、风格、隐私和平台合规，保留人工确认。" [ref=e167] [cursor=pointer]:
+                - generic [ref=e168]: "05"
+                - strong [ref=e169]: 审核
+                - generic [ref=e170]: 检查事实、风格、隐私和平台合规，保留人工确认。
+                - img [ref=e171]
+        - generic [ref=e174]:
+          - generic [ref=e175]:
+            - paragraph [ref=e176]: BUILT FOR FOUNDERS / 04
+            - heading "你的思想， 值得被长期经营。" [level=2] [ref=e177]:
+              - text: 你的思想，
+              - text: 值得被长期经营。
+          - generic [ref=e178]:
+            - paragraph [ref=e179]: 你已经有足够多的经验和判断，只是它们散落在会议、访谈、朋友圈和脑海里。
+            - paragraph [ref=e180]: Founder AI Influence System 适合希望建立个人品牌、扩大行业影响力，却没有时间持续写作，也不愿把声音交给模板化运营的创始人。
+            - generic [ref=e181]:
+              - article [ref=e182]:
+                - heading "科技与 AI" [level=3] [ref=e183]
+                - paragraph [ref=e184]: 把技术判断变成市场认知
+              - article [ref=e185]:
+                - heading "咨询与专业服务" [level=3] [ref=e186]
+                - paragraph [ref=e187]: 把经验沉淀为信任资产
+              - article [ref=e188]:
+                - heading "品牌与消费" [level=3] [ref=e189]
+                - paragraph [ref=e190]: 让品牌拥有创始人温度
+              - article [ref=e191]:
+                - heading "出海与全球化" [level=3] [ref=e192]
+                - paragraph [ref=e193]: 建立跨语言影响力
+        - generic [ref=e195]:
+          - generic [ref=e196]:
+            - paragraph [ref=e197]: OUR PRINCIPLES / 05
+            - heading "AI 放大思想， 不制造人设。" [level=2] [ref=e198]:
+              - text: AI 放大思想，
+              - text: 不制造人设。
+          - generic [ref=e199]:
+            - article [ref=e200]:
+              - paragraph [ref=e201]: "01"
+              - heading "真实" [level=3] [ref=e202]
+              - paragraph [ref=e203]: 所有内容源自你的真实经历、判断与证据，不凭空编造观点。
+            - article [ref=e204]:
+              - paragraph [ref=e205]: "02"
+              - heading "原生" [level=3] [ref=e206]
+              - paragraph [ref=e207]: 尊重每个平台的语境与用户，不用同一篇稿机械裁切。
+            - article [ref=e208]:
+              - paragraph [ref=e209]: "03"
+              - heading "复利" [level=3] [ref=e210]
+              - paragraph [ref=e211]: 每次表达都回到知识库，形成越来越懂你的长期资产。
+            - article [ref=e212]:
+              - paragraph [ref=e213]: "04"
+              - heading "可控" [level=3] [ref=e214]
+              - paragraph [ref=e215]: 事实、隐私与最终表达始终保留人工审核和明确边界。
+        - generic [ref=e217]:
+          - generic [ref=e218]:
+            - paragraph [ref=e219]: START WITH ONE CONVERSATION
+            - heading "从一次访谈开始， 建立你的影响力系统。" [level=2] [ref=e220]:
+              - text: 从一次访谈开始，
+              - text: 建立你的影响力系统。
+            - paragraph [ref=e221]: 用 60 分钟梳理你的知识资产、内容方向与第一阶段落地路径。
+          - complementary "创始人内容诊断" [ref=e222]:
+            - generic [ref=e223]:
+              - strong [ref=e224]: 创始人内容诊断
+              - generic [ref=e225]: FOUNDER SESSION · 60 MIN
+            - generic [ref=e226]:
+              - paragraph [ref=e227]: 你将获得
+              - list [ref=e228]:
+                - listitem [ref=e229]:
+                  - img [ref=e230]
+                  - text: 个人知识资产梳理
+                - listitem [ref=e232]:
+                  - img [ref=e233]
+                  - text: 3 个可持续内容母题
+                - listitem [ref=e235]:
+                  - img [ref=e236]
+                  - text: 一源多端的试运行建议
+              - link "预约内容诊断" [ref=e238] [cursor=pointer]:
+                - /url: mailto:hello@founderai.system?subject=预约创始人内容诊断
+                - text: 预约内容诊断
+                - img [ref=e239]
+              - paragraph [ref=e242]: 点击后通过邮件联系我们，我们会在 1 个工作日内回复。
+      - generic [ref=e243]:
+        - generic [ref=e244]:
+          - link "Founder AI Influence System 首页" [ref=e245] [cursor=pointer]:
+            - /url: "#top"
+            - generic [ref=e250]:
+              - generic [ref=e251]: FOUNDER AI
+              - emphasis [ref=e252]: INFLUENCE SYSTEM
+          - paragraph [ref=e253]: 帮助创始人构建知识库、内容系统和全球影响力。
+          - link "hello@founderai.system" [ref=e254] [cursor=pointer]:
+            - /url: mailto:hello@founderai.system?subject=预约创始人内容诊断
+            - img [ref=e255]
+            - text: hello@founderai.system
+        - generic [ref=e258]:
+          - generic [ref=e259]: © 2026 Founder AI Influence System
+          - generic [ref=e260]: HUMAN INSIGHT · AI AMPLIFIED
+  - button "Open Next.js Dev Tools" [ref=e267] [cursor=pointer]:
+    - img [ref=e268]
+  - alert [ref=e261]

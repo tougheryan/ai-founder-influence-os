@@ -1,0 +1,23 @@
+{
+  "object_type": "work",
+  "platform": "xiaohongshu",
+  "normalized": {
+    "platform": "xiaohongshu",
+    "platform_work_id": "xhs-own-001",
+    "author": "自有账号",
+    "title": "普通人做 AI 咨询，第一步不是做产品",
+    "work_modality": "note",
+    "published_date": "2026-07-10",
+    "source_url": "https://www.xiaohongshu.com/explore/xhs-own-001",
+    "primary_text": "先找到客户愿意付费的问题，再决定产品形态。",
+    "digg_count": 320,
+    "comment_count": 46,
+    "collect_count": 210,
+    "share_count": 31
+  },
+  "comments": [
+    {"content": "想要模板，我的微信 wx12345 可以发吗", "like_count": 9, "type": "content_request"},
+    {"content": "适合一人公司吗", "like_count": 6, "type": "question"}
+  ],
+  "request_id": "fixture-xhs-performance"
+}

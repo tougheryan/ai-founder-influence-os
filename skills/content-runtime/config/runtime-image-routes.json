@@ -1,0 +1,39 @@
+{
+  "schema_version": "echo-founder.runtime-image-route-catalog.v1",
+  "benchmark_id": "runtime-catalog-2026-08-26",
+  "status": "ready",
+  "updated_at": "2026-08-26T00:00:00+08:00",
+  "description": "Bundled production routes for user-initiated AI image generation. Internal benchmark scores are intentionally not required here.",
+  "routes": [
+    {
+      "route_id": "runtime-ark-seedream-5",
+      "credential_id": "image_ark",
+      "provider": "ark",
+      "model_id": "doubao-seedream-5-0-260128",
+      "estimated_cost_cny": 5.0,
+      "priority": 10,
+      "runtime_eligible": true,
+      "source": "bundled-official-model"
+    },
+    {
+      "route_id": "runtime-zai-glm-image",
+      "credential_id": "image_zai",
+      "provider": "zai",
+      "model_id": "glm-image",
+      "estimated_cost_cny": 5.0,
+      "priority": 20,
+      "runtime_eligible": true,
+      "source": "bundled-official-model"
+    },
+    {
+      "route_id": "runtime-minimax-image-01",
+      "credential_id": "image_minimax",
+      "provider": "minimax",
+      "model_id": "image-01",
+      "estimated_cost_cny": 5.0,
+      "priority": 30,
+      "runtime_eligible": true,
+      "source": "bundled-official-model"
+    }
+  ]
+}

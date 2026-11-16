@@ -1,0 +1,122 @@
+{
+  "schema_version": "echo-founder.image-provider-registry.v1",
+  "updated_at": "2026-08-26T00:00:00+08:00",
+  "execution_policy": {
+    "required_credential_groups": 6,
+    "required_paid_routes": 10,
+    "provider_policy": "auto",
+    "allow_codex_login": false,
+    "allow_simulated_provider": false,
+    "allow_free_local_generation": false,
+    "model_freeze_required": true,
+    "preview_models_allowed": false,
+    "ambiguous_result_auto_retry": false
+  },
+  "budget_cny": {
+    "hard_limit": 100,
+    "round_1": 40,
+    "round_2": 25,
+    "round_3": 30,
+    "retry_reserve": 5
+  },
+  "credential_groups": [
+    {"id": "image_openrouter", "env": "OPENROUTER_API_KEY", "display_name": "OpenRouter"},
+    {"id": "image_replicate", "env": "REPLICATE_API_TOKEN", "display_name": "Replicate"},
+    {"id": "image_ark", "env": "ARK_API_KEY", "display_name": "火山方舟"},
+    {"id": "image_dashscope", "env": "DASHSCOPE_API_KEY", "display_name": "阿里云百炼"},
+    {"id": "image_zai", "env": "ZAI_API_KEY", "display_name": "智谱开放平台"},
+    {"id": "image_minimax", "env": "MINIMAX_API_KEY", "display_name": "MiniMax"}
+  ],
+  "routes": [
+    {
+      "id": "openrouter_openai_image",
+      "provider": "openrouter",
+      "credential_id": "image_openrouter",
+      "adapter": "openrouter_images_v1",
+      "family": "openai-image",
+      "display_name": "OpenRouter / OpenAI 正式图像模型",
+      "model_discovery": {"kind": "openrouter_image_catalog", "include": ["openai/", "image"], "prefer": ["gpt-image"], "exclude": ["preview", "beta", "free"]}
+    },
+    {
+      "id": "openrouter_google_pro_image",
+      "provider": "openrouter",
+      "credential_id": "image_openrouter",
+      "adapter": "openrouter_images_v1",
+      "family": "google-pro-image",
+      "display_name": "OpenRouter / Google Gemini Pro Image",
+      "model_discovery": {"kind": "openrouter_image_catalog", "include": ["google/", "pro", "image"], "prefer": ["gemini"], "exclude": ["preview", "beta", "free"]}
+    },
+    {
+      "id": "openrouter_google_flash_image",
+      "provider": "openrouter",
+      "credential_id": "image_openrouter",
+      "adapter": "openrouter_images_v1",
+      "family": "google-flash-image",
+      "display_name": "OpenRouter / Google Gemini Flash Image",
+      "model_discovery": {"kind": "openrouter_image_catalog", "include": ["google/", "flash", "image"], "prefer": ["gemini"], "exclude": ["preview", "beta", "free"]}
+    },
+    {
+      "id": "openrouter_seedream",
+      "provider": "openrouter",
+      "credential_id": "image_openrouter",
+      "adapter": "openrouter_images_v1",
+      "family": "seedream",
+      "display_name": "OpenRouter / ByteDance Seedream",
+      "model_discovery": {"kind": "openrouter_image_catalog", "include": ["bytedance", "seedream"], "prefer": [], "exclude": ["preview", "beta", "free"]}
+    },
+    {
+      "id": "replicate_nano_banana",
+      "provider": "replicate",
+      "credential_id": "image_replicate",
+      "adapter": "replicate_official_predictions_v1",
+      "family": "google-nano-banana",
+      "display_name": "Replicate / Google Nano Banana",
+      "model_discovery": {"kind": "official_catalog_review", "include": ["google", "nano-banana"], "exclude": ["preview", "beta"]}
+    },
+    {
+      "id": "ark_seedream",
+      "provider": "ark",
+      "credential_id": "image_ark",
+      "adapter": "openai_images_compatible_v1",
+      "family": "seedream-5",
+      "display_name": "火山方舟 / Seedream 5",
+      "model_discovery": {"kind": "official_catalog_review", "include": ["seedream", "5"], "exclude": ["preview", "beta"]}
+    },
+    {
+      "id": "dashscope_qwen_image_pro",
+      "provider": "dashscope",
+      "credential_id": "image_dashscope",
+      "adapter": "dashscope_multimodal_v1",
+      "family": "qwen-image-pro",
+      "display_name": "阿里云百炼 / Qwen Image Pro",
+      "model_discovery": {"kind": "official_catalog_review", "include": ["qwen-image", "pro"], "prefer": ["qwen-image-3.0-pro", "qwen-image-2.0-pro"], "exclude": ["preview", "beta"]}
+    },
+    {
+      "id": "dashscope_wan_image_pro",
+      "provider": "dashscope",
+      "credential_id": "image_dashscope",
+      "adapter": "dashscope_multimodal_v1",
+      "family": "wan-image-pro",
+      "display_name": "阿里云百炼 / Wan Image Pro",
+      "model_discovery": {"kind": "official_catalog_review", "include": ["wan", "image", "pro"], "prefer": ["wan2.7-image-pro"], "exclude": ["preview", "beta"]}
+    },
+    {
+      "id": "zai_glm_image",
+      "provider": "zai",
+      "credential_id": "image_zai",
+      "adapter": "openai_images_compatible_v1",
+      "family": "glm-image",
+      "display_name": "智谱 / GLM-Image",
+      "model_discovery": {"kind": "official_catalog_review", "include": ["glm-image"], "exclude": ["preview", "beta"]}
+    },
+    {
+      "id": "minimax_image",
+      "provider": "minimax",
+      "credential_id": "image_minimax",
+      "adapter": "minimax_image_v1",
+      "family": "image-01",
+      "display_name": "MiniMax / Image-01",
+      "model_discovery": {"kind": "official_catalog_review", "include": ["image-01"], "prefer": ["image-01"], "exclude": ["preview", "beta"]}
+    }
+  ]
+}

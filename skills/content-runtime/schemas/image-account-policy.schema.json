@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "echo-founder.image-account-policy.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "preset",
+    "primary_provider",
+    "backup_provider",
+    "advanced_provider",
+    "budgets_cny",
+    "first_paid_call_confirmed",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "echo-founder.image-account-policy.v1"},
+    "preset": {"enum": ["model_richness", "domestic_stability", "custom"]},
+    "primary_provider": {"$ref": "#/$defs/provider"},
+    "backup_provider": {"$ref": "#/$defs/provider"},
+    "advanced_provider": {"$ref": "#/$defs/provider"},
+    "budgets_cny": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["per_call_limit", "per_task_limit", "monthly_reminder"],
+      "properties": {
+        "per_call_limit": {"type": "number", "minimum": 0.1, "maximum": 40},
+        "per_task_limit": {"type": "number", "minimum": 0.1, "maximum": 100},
+        "monthly_reminder": {"type": "number", "minimum": 1, "maximum": 10000}
+      }
+    },
+    "first_paid_call_confirmed": {"type": "boolean"},
+    "updated_at": {"type": "string"}
+  },
+  "$defs": {
+    "provider": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "image_openrouter",
+        "image_replicate",
+        "image_ark",
+        "image_dashscope",
+        "image_zai",
+        "image_minimax"
+      ]
+    }
+  }
+}

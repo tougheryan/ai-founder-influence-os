@@ -1,0 +1,35 @@
+{
+  "schema": "aifios.final-publication-history-migration.v1",
+  "description": "Contract for manifests emitted by scripts/migrate_final_publication_history.py. Runtime manifests are project-local and include only final content, adopted visual assets, publication links and normalized performance metrics.",
+  "required_entry_fields": [
+    "source",
+    "destination",
+    "sha256",
+    "record_type",
+    "import_status"
+  ],
+  "record_types": [
+    "final_content",
+    "adopted_visual_asset",
+    "publication_links",
+    "performance_metrics",
+    "history_record",
+    "excluded_legacy_artifact"
+  ],
+  "excluded_source_prefixes": [
+    "pipeline/drafts/",
+    "pipeline/angles/",
+    "pipeline/breakdown/",
+    "pipeline/intake/",
+    "pipeline/validate/",
+    "pipeline/prelaunch/",
+    "pipeline/compliance/",
+    "pipeline/audit/",
+    "pipeline/review/",
+    "pipeline/archive/",
+    "pipeline/twin/",
+    "sessions/",
+    "materials/performance/raw/",
+    "materials/performance/review-inputs/"
+  ]
+}

@@ -1,328 +1,93 @@
 ---
 name: content-runtime
-description: AI FOUNDER INFLUENCE OS 的轻量状态与文件管理 runtime。统一初始化项目目录、读写 pipeline/brain/sessions、管理跨步骤状态、校验输出结构。被 content 及所有子 skill 调用。
+description: Echo Founder 轻量运行时。管理按平台选择的内容任务、独立生产线、质量门和交付文件。
 ---
 
-# content-runtime · AI Founder Influence OS 状态与文件管理器
+# content-runtime
 
-## 作用
+## 范围
 
-`content-runtime` 是 AI Founder Influence OS 的工程底座。它不负责内容创意，只负责：
+运行时管理一条真实素材的多平台原生内容生产。新任务支持 `wechat`、`xhs`、`shipinhao`，并允许任意非空子集。它负责项目初始化、run 生命周期、平台选择、步骤状态、文件归属、质量校验和交付审计；不替代写作、视觉、拍摄或真人发布。
 
-1. **项目初始化**：创建 `pipeline/`、`brain/`、`sessions/`、`assets/`、`materials/` 标准目录
-2. **文件读写**：统一把每个步骤的输出写成带 YAML frontmatter 的 markdown
-3. **状态管理**：维护 `sessions/latest.json`，记录当前步骤和每个步骤最新文件路径
-4. **最近文件扫描**：按时间列出最近 N 天的 pipeline 文件
-5. **结构校验**：检查某步骤输出是否包含必需的章节标题
+共享素材不等于共享文稿。运行时只允许各平台共享事实底座、证据、人物与风险边界；每个平台的研究结果、内容包、审核、发布结果和复盘必须保持独立可追溯。
 
-所有 content 子 skill 在执行具体工作前，应该先调用本 runtime 完成 IO 和状态管理。
+## v2 标准路径
 
-## 安装与位置
+`intake -> validate -> blueprint -> package -> visual(条件执行) -> prelaunch -> compliance -> audit -> publish -> performance -> review -> archive -> twin`
 
-本 skill 无需 pip 安装，CLI 脚本路径固定：
+上式为平台研究路径。用户明确选择“按我的题目写”时，采用 `intake -> author-source-select（版本核验） -> blueprint -> package`，之后使用同样的交付检查；`author-source-select` 是本地依据操作，不是新内容步骤。默认生产止于 audit 后的 `draft_information` 人工确认，publish 与周度复盘由实际事件另行触发。
 
-```
-$HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py
-```
+作者素材模式必须先保存当前素材整理上下文、底稿、题目与平台，再通过 `author-source-context/select/verify` 建立并核验不可变记录。只传 `research_mode`、研究失败或缺少样本都不能启用该路径。题目、素材或平台变化时重新确认，旧文件保留。方案须包含当前记录的绑定行并明确未进行平台研究，H2 确认后才可写正文。不得生成样本数量、热度或市场验证结论。CLI next/flow 与页面使用同一依据；继续 flow 不重复导入 intake。
 
-每个子 skill 可以通过绝对路径调用它。
+- `intake`：保存真实素材与共享事实底座。
+- 平台选择：必须在确认写作依据前锁定；更改后研究模式重新研究受影响平台，作者模式重新确认素材依据。
+- `market-signal`：只研究已选平台，各平台独立返回证据与状态。
+- `validate`：结合共享素材和各平台样本决定是否立项。
+- `blueprint`：输出共享事实约束和每个平台的独立内容蓝图。
+- `package`：只输出已选平台的原生成稿。
+- `visual`：选择微信或小红书时执行；仅选视频号时跳过。
+- 后续审核、发布、表现与复盘均按平台记录。
 
-## 命令
+新任务不包含 `write` 母稿步骤，也不固定生成全平台内容。
 
-### 1. 初始化项目
+## 市场研究契约
 
-```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py   --project ~/ai-content-system init
-```
+平台研究模式的 TikOmni 质量门只要求当前已选平台；作者模式不运行此研究门禁，也不声称已取得研究证据：
 
-会创建：
+- 每个平台至少有一条带公开链接、可独立核验的合格样本。
+- 指标缺失保留 `unknown`，不得转换为零。
+- 样本必须区分 verified hit、potential 与 related reference。
+- 平台失败互不连坐：成功平台可继续；失败平台保持阻断或由用户取消选择。
+- 未取得本平台证据的生产线不得借用其他平台样本继续。
+- 快照必须绑定当前 run、slug、intake 摘要与已选平台。
 
-```
-~/ai-content-system
-├── pipeline/
-│   ├── intake/
-│   ├── validate/
-│   ├── angles/
-│   ├── breakdown/
-│   ├── final/
-│   ├── platform-adapt/
-│   │   ├── wechat/
-│   │   ├── xhs/
-│   │   └── douyin/
-│   ├── audit/
-│   ├── visual/
-│   ├── review/
-│   ├── archive/
-│   └── twin/
-├── brain/
-│   ├── insights.md
-│   ├── style-evolution.md
-│   ├── case-library.md
-│   ├── no-fly-zone.md
-│   └── twin/
-│       ├── content-dna.md
-│       ├── pattern-library.md
-│       ├── voice-signature.md
-│       ├── evolution-log.md
-│       └── reader-profile.md
-├── sessions/
-│   └── latest.json
-├── assets/
-└── materials/
-```
-
-### 2. 写入步骤输出
+## 常用命令
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py   --project ~/ai-content-system   write --step intake --slug demo   --content "# 素材理解报告\n\n## 0. 素材场景\n..."   --source "用户口述"
+RUNTIME="python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py --project ~/ai-content-system"
+
+$RUNTIME init
+$RUNTIME run-create --topic "{主题}" --platforms "公众号,小红书"
+$RUNTIME run-visual-preferences-set --run-id {run-id} --mode stable --direction-count 2 --provider-policy auto
+$RUNTIME state
+$RUNTIME read --step package --latest --slug {slug}
+$RUNTIME write --step package --slug {slug} --content @/path/to/package.md --source "blueprint:{path}"
+$RUNTIME validate --step package --file /path/to/package.md
 ```
 
-`--content` 也可以指向文件：`--content @/path/to/content.md`
+`run-create` 接受 `公众号/wechat`、`小红书/xhs`、`视频号/shipinhao` 及已有中文别名。未知平台值不能创建新分支。
 
-写入后会自动更新 `sessions/latest.json` 中 `intake` 对应的最新文件路径。
+## 文件与状态约束
 
-### 3. 读取步骤输出
+- 所有新文件必须归属当前 run 与 slug。
+- 可写内容限于 runtime 管理的 `pipeline/`、`materials/`、`brain/`、`sessions/` 和 `runs/`。
+- run schema v2 记录 `selected_platforms`、共享素材摘要和各平台 lane 状态。
+- run schema v2 同时记录 `visual_preferences`；新任务固定使用 `stable`，方向数固定为 2，provider 策略固定为 `auto`。
+- `pipeline/package/` 保存已选平台的最终内容；不得包含未选择的平台段落。
+- `pipeline/visual/{slug}/` 只保存微信或小红书的可交付视觉。
+- 发布记录必须绑定同一 run 的最终内容；公开平台 URL 必须为真实 `http(s)` 链接。
+- 表现数据、复盘和学习继续沿用相同 run/slug/platform，防止跨任务混写。
 
-读最新：
+## 内容与视觉质量门
+
+- 微信：完整长文、摘要、正文、引用、评论引导与发布提示。
+- 小红书：独立正文、封面三句话、P1-P8 逐页图卡文案、结尾标签。
+- 视频号：独立口播、镜头/B-roll、字幕重点与发布文案；不要求静态视觉。
+- 真实人物、数字、客户信息和案例必须可追溯或匿名化。
+- `visual` 只有在已选平台包含 `wechat` 或 `xhs` 时进入草稿审批队列。
+- `stable` 视觉只执行本地排版与已有素材渲染，不调用 AI 生图，不接受重新生成插画或不可落地的配色修订。
+- 公众号排版修订明确指定主题时，由服务端与运行时核对本机 md2wechat 的可用 API 主题目录；未知、不可用或歧义主题不得静默替换。未指定主题的通用换版仍可在原候选中轮换。正文绑定的有限标题与间距参数写入新配方，原内容包与旧修订保留；生成后重新通过 HTML 保真与视觉质量门。
+- 发布队列只创建已选平台的发布件；平台结果与错误不得合并覆盖。
+
+## 旧任务兼容
+
+旧 schema 中的 `douyin`、`moments`、`write`、`xhs` 独立步骤、固定发布资产及历史待审视觉继续只读可见，运行时不得继续生成、晋级、迁移或重写其历史文件。v2 新任务一律遵循三平台可选子集、`stable` 视觉和独立 lane 契约。
+
+## 验证
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py   --project ~/ai-content-system   read --step intake --latest
-```
-
-读指定文件：
-
-```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py   --project ~/ai-content-system   read --step intake --file pipeline/intake/2026-06-23-demo-intake.md
-```
-
-### 4. 列出最近文件
-
-```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py   --project ~/ai-content-system list --days 7
-```
-
-### 5. 读取 session state
-
-```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py   --project ~/ai-content-system state
-```
-
-### 6. 校验文件结构
-
-```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py   --project ~/ai-content-system   validate --step intake --file pipeline/intake/2026-06-23-demo-intake.md
-```
-
-`validate` 会优先加载 `schemas/{step}.schema.json` 做校验：检查 frontmatter 必填字段、`step` 枚举值，以及 body 中是否包含 schema 要求的章节标题正则。如果该步骤没有 schema 文件，则回退到内置 `REQUIRED_SECTIONS` 做简单子串检查。
-
-### 7. 追加/读取 brain 文件
-
-```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system \
-  brain --file insights.md --content "本次投放数据表现..."
-
-# 读取
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system \
-  brain --file insights.md --read
-```
-
-`--content` 也支持文件：`--content @/path/to/note.md`。
-
-## 输出文件格式
-
-每个 pipeline 文件必须是以下的 markdown 格式：
-
-```markdown
----
-step: intake
-slug: demo
-date: 2026-06-23
-source: 用户口述
-created_at: 2026-06-23T17:16:01
----
-
-# 素材理解报告 · {标题}
-
-## 0. 素材场景
-...
-```
-
-frontmatter 由 runtime 自动写入，skill 只需提供正文。
-
-## 给子 skill 的调用约定
-
-每个子 skill 在执行时应该：
-
-1. 先确定 `PROJECT` 路径（默认 `~/ai-content-system`，用户可指定）
-2. 调用 `init` 确保目录存在
-3. 调用 `state` 或 `list` 获取上下文
-4. 调用 `read --step {上游} --latest` 读取上游输出
-5. 生成内容后调用 `write --step {当前} --slug {slug} --content ... --source ...`
-6. （可选）调用 `validate` 自检输出结构
-
-## 流水线导演（一键推进）
-
-除了直接调用 runtime，还可以用 `content-pipeline` 导演脚本查看状态、生成下一步任务卡：
-
-```bash
-# 查看当前流水线进度
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_pipeline.py \
-  --project ~/ai-content-system status
-
-# 生成下一步任务卡
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_pipeline.py \
-  --project ~/ai-content-system next
-```
-
-任务卡会写入 `sessions/next-task.md`，包含推荐步骤、对应 Skill、上游摘要和写回命令。
-
-也可以使用 Makefile 快捷入口：
-
-```bash
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime status PROJECT=~/ai-content-system
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime next PROJECT=~/ai-content-system [SLUG=demo]
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime flow PROJECT=... INTAKE=/path/to/intake.md [SLUG=demo]
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime write PROJECT=... STEP=intake SLUG=demo FILE=output.md
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime brain PROJECT=... FILE=insights.md CONTENT="..."
-```
-
-也可以从 intake 素材直接启动 `flow`：
-
-```bash
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime flow \
-  PROJECT=~/ai-content-system INTAKE=/path/to/intake.md SLUG=demo
-```
-
-或直接调用 pipeline 导演：
-
-```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_pipeline.py \
-  --project ~/ai-content-system flow --intake /path/to/intake.md --slug demo
-```
-
-`flow` 会先把 intake 写入 `pipeline/intake/`，然后定位当前未完成的步骤，并生成 `sessions/flow-task.md` 任务卡。
-
-
-## 步骤填写模板
-
-每个 pipeline 步骤都有对应的 markdown 模板，位于 `templates/` 目录：
-
-```bash
-templates/
-├── intake.md
-├── validate.md
-├── angle.md
-├── breakdown.md
-├── write.md
-├── douyin.md
-├── xhs.md
-├── visual.md
-├── prelaunch.md
-├── compliance.md
-├── audit.md
-├── review.md
-├── archive.md
-└── twin.md
-```
-
-`content-flow` / `next` / `guide` 生成的任务卡会自动引用对应模板路径。你可以复制模板、填充内容，再用 `write` 命令写回 runtime。
-
-## 详细引导命令
-
-如果不知道当前步骤该做什么，使用 `guide`：
-
-```bash
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime guide PROJECT=~/ai-content-system [SLUG=demo]
-```
-
-`guide` 会输出当前步骤的：
-- 这一步是做什么
-- 输入/输出标准
-- 需要调用的 Skill
-- 具体写回命令
-- 常见坑
-
-## 支持步骤
-
-`intake`、`validate`、`angle`、`breakdown`、`write`、`douyin`、`xhs`、`platform-adapt`、`visual`、`prelaunch`、`compliance`、`audit`、`publish`、`review`、`archive`、`twin`
-
-
-## JSON Schema 校验
-
-每个 pipeline 步骤都有对应的 JSON Schema，位于 `schemas/` 目录：
-
-```bash
-schemas/
-├── common.json              # frontmatter 通用结构
-├── intake.schema.json
-├── validate.schema.json
-├── angle.schema.json
-├── breakdown.schema.json
-├── write.schema.json
-├── douyin.schema.json
-├── xhs.schema.json
-├── visual.schema.json
-├── prelaunch.schema.json
-├── compliance.schema.json
-├── audit.schema.json
-├── review.schema.json
-├── archive.schema.json
-└── twin.schema.json
-```
-
-`validate` 命令会检查 body 中是否包含该步骤必需的章节标题。
-未来可在 `content_runtime.py` 中加载 schema 做更严格的 JSON 校验。
-
-## 通用 Session Manager
-
-content-runtime 提供通用会话状态管理器，统一处理 Context Boot、状态恢复、模块路由：
-
-```bash
-# Context Boot（首次完整，后续压缩）
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py   --project ~/ai-content-system boot [--force]
-
-# 根据用户输入推荐 skill
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py   --project ~/ai-content-system route "帮我写获客稿"
-
-# 更新 session state
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py   --project ~/ai-content-system update --section knowledge_log --content "新增观察..."
-
-# 读取完整状态
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/session_manager.py   --project ~/ai-content-system state
-```
-
-状态文件保存在 `sessions/session-state.json`，结构包含：定位、选题追踪、稿子追踪、待处理、知识库日志、校准日志、临时观察、会话摘要。
-
-Makefile 快捷入口：
-
-```bash
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime session-boot PROJECT=~/ai-content-system [FORCE=1]
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime session-route PROJECT=... INPUT='帮我写获客稿'
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime session-update PROJECT=... SECTION=knowledge_log CONTENT='...'
-make -C $HOME/plugins/ai-founder-influence-os/skills/content-runtime session-state PROJECT=...
-```
-
-## 与其他 skill 的关系
-
-- 被 `content` 总控入口优先调用
-- 被所有 content 子 skill 依赖，用于状态读写和文件管理
-- 不替代任何子 skill 的创意/判断工作
-
-## 输入/输出示例
-
-### 示例 1：写入 intake 步骤
-
-**输入**
-```bash
-python content_runtime.py --project ~/ai-content-system write   --step intake --slug codex   --content @intake.md --source "用户口述"
-```
-
-**预期输出**
-```json
-{
-  "status": "written",
-  "path": "pipeline/intake/2026-06-23-codex-intake.md"
-}
+make test
+make runtime-contracts
+make content-loop-check
+make delivery-audit PROJECT=~/ai-content-system AUTO_PACK=1
 ```

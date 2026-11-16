@@ -7,5 +7,35 @@
       "$ref": "common.json"
     }
   ],
-  "description": "douyin 步骤输出文件。body 必须包含以下章节标题：无固定要求"
+  "description": "douyin 步骤输出文件。body 必须包含短视频定位、候选口播、推荐口播、拍摄字幕、评论承接和风险边界；不代表视频成片或平台发布。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "可编辑的抖音/视频号获客口播脚本包",
+      "allOf": [
+        {
+          "pattern": "(?m)^#\\s+\\S+"
+        },
+        {
+          "pattern": "(?m)^##\\s*0\\.\\s+上游约束"
+        },
+        {
+          "pattern": "(?m)^##\\s*1\\.\\s+发布与定位"
+        },
+        {
+          "pattern": "(?m)^##\\s*2\\.\\s+30-45 秒候选脚本"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+推荐口播稿"
+        },
+        {
+          "pattern": "(?m)^##\\s*4\\.\\s+拍摄与字幕"
+        },
+        {
+          "pattern": "(?m)^##\\s*5\\.\\s+评论承接与风险边界"
+        }
+      ]
+    }
+  }
 }

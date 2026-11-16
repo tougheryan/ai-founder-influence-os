@@ -1,0 +1,102 @@
+{
+  "echo_founder": {
+    "name": "echo-founder",
+    "version": "2026.08",
+    "quality_policy": {
+      "min_density": 0.68,
+      "require_evidence_ratio": 0.4,
+      "min_evidence_detail": 0.08
+    },
+    "tokens": {
+      "colors": {
+        "paper": "#FDF8F3",
+        "paper_2": "#F5EDE4",
+        "ink": "#1A1A1A",
+        "muted": "#6B6B6B",
+        "line": "#D8CEC5",
+        "grey_1": "#F5EDE4",
+        "grey_2": "#D8CEC5",
+        "grey_3": "#6B6B6B",
+        "accent": "#E85D4C",
+        "accent_soft": "#F7D8D2",
+        "accent_on": "#FFFFFF"
+      },
+      "typography": {
+        "sans_zh": "Noto Sans SC",
+        "serif_zh": "Noto Serif SC",
+        "mono": "IBM Plex Mono",
+        "display_weight_max": 500
+      },
+      "composition": {
+        "grid_unit": 8,
+        "corner_style": "restrained",
+        "image_treatment": "source-first",
+        "decoration_budget": "low"
+      }
+    },
+    "principles": [
+      "warm-tech, not futuristic decoration",
+      "one visual argument per card",
+      "source evidence before illustration",
+      "editorial whitespace must support reading"
+    ],
+    "cover_scorecard": {
+      "schema": "echo-founder.cover-scorecard.v1",
+      "minimum_score": 80,
+      "human_confirmation_required": true,
+      "criteria": [
+        {
+          "id": "three_second_readability",
+          "label": "3 秒可读性",
+          "weight": 0.3,
+          "question": "手机缩略图中能否在 3 秒内读懂主题判断"
+        },
+        {
+          "id": "content_fit",
+          "label": "内容匹配",
+          "weight": 0.3,
+          "question": "视觉结构是否准确承接文章的观点、证据或场景"
+        },
+        {
+          "id": "brand_recognition",
+          "label": "品牌辨识",
+          "weight": 0.2,
+          "question": "是否符合 Echo Founder 的暖科技、克制编辑感"
+        },
+        {
+          "id": "share_safety",
+          "label": "转发安全",
+          "weight": 0.2,
+          "question": "是否不存在伪证据、泄露字段、Logo 水印和裁切风险"
+        }
+      ]
+    },
+    "golden_sample_standard": {
+      "schema": "echo-founder.visual-golden-sample.v1",
+      "required_wechat_directions": 3,
+      "required_inline_visuals_min": 2,
+      "required_share_series": 3,
+      "required_pages_per_series": 5,
+      "require_source_backed_evidence_when_available": true,
+      "require_distinct_render_hashes": true,
+      "require_mobile_preview": true
+    },
+    "rules": {
+      "render_chinese_text_in_code": true,
+      "allow_ai_raster_for": ["hero_background", "concept_illustration"],
+      "forbid_ai_raster_for": ["product_ui", "data_claim", "headline_text"]
+    }
+  },
+  "adaptive": {
+    "name": "adaptive",
+    "quality_policy": {
+      "min_density": 0.62,
+      "require_evidence_ratio": 0.4
+    },
+    "rules": {
+      "render_chinese_text_in_code": true,
+      "allow_ai_raster_for": ["hero_background", "concept_illustration"],
+      "forbid_ai_raster_for": ["product_ui", "data_claim", "headline_text"]
+    }
+  }
+}

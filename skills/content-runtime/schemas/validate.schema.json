@@ -7,7 +7,7 @@
       "$ref": "common.json"
     }
   ],
-  "description": "validate 步骤输出文件。body 必须包含以下章节标题：['1. 立项决策', '3. 商业成立性判断', '4. 平台首发策略']",
+  "description": "validate 步骤输出文件。body 必须包含立项闸门核心章节：素材来源、立项决策、HKR 质检、商业成立性、平台首发、素材补充、风险提示和下一步。",
   "properties": {
     "body": {
       "type": "string",
@@ -15,13 +15,28 @@
       "description": "markdown 正文",
       "allOf": [
         {
+          "pattern": "(?m)^##\\s*0\\.\\s+素材来源"
+        },
+        {
           "pattern": "(?m)^##\\s*1\\.\\s+立项决策"
+        },
+        {
+          "pattern": "(?m)^##\\s*2\\.\\s+HKR\\s+质检"
         },
         {
           "pattern": "(?m)^##\\s*3\\.\\s+商业成立性判断"
         },
         {
           "pattern": "(?m)^##\\s*4\\.\\s+平台首发策略"
+        },
+        {
+          "pattern": "(?m)^##\\s*5\\.\\s+素材补充清单"
+        },
+        {
+          "pattern": "(?m)^##\\s*6\\.\\s+风险提示"
+        },
+        {
+          "pattern": "(?m)^##\\s*7\\.\\s+下一步"
         }
       ]
     }

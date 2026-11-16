@@ -7,5 +7,41 @@
       "$ref": "common.json"
     }
   ],
-  "description": "archive 步骤输出文件。body 必须包含以下章节标题：无固定要求"
+  "description": "archive 步骤输出文件。body 必须包含选题资产、成稿资产、反馈资产、风格资产、案例库、禁区、复用模式、写入确认和资产索引。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^##\\s*1\\.\\s+选题资产"
+        },
+        {
+          "pattern": "(?m)^##\\s*2\\.\\s+成稿资产"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+数据与反馈资产"
+        },
+        {
+          "pattern": "(?m)^##\\s*4\\.\\s+风格资产更新"
+        },
+        {
+          "pattern": "(?m)^##\\s*5\\.\\s+案例库更新"
+        },
+        {
+          "pattern": "(?m)^##\\s*6\\.\\s+禁区更新"
+        },
+        {
+          "pattern": "(?m)^##\\s*7\\.\\s+可复用模式"
+        },
+        {
+          "pattern": "(?m)^##\\s*8\\.\\s+写入确认"
+        },
+        {
+          "pattern": "(?m)^##\\s*8\\.1\\s+资产索引"
+        }
+      ]
+    }
+  }
 }

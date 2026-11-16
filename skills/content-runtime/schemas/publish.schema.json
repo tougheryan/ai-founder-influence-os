@@ -7,5 +7,29 @@
       "$ref": "common.json"
     }
   ],
-  "description": "publish 步骤输出文件。body 必须包含以下章节标题：无固定要求"
+  "description": "publish 步骤输出文件。body 必须绑定最终版路径、发布平台、发布时间/状态、发布链接或未发布说明、表现数据、备注和最终版快照。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "发布记录 markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^#\\s+\\S+"
+        },
+        {
+          "pattern": "(?m)^##\\s*0\\.\\s+最终版"
+        },
+        {
+          "pattern": "(?m)^##\\s*1\\.\\s+表现数据"
+        },
+        {
+          "pattern": "(?m)^##\\s*2\\.\\s+发布备注"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+最终版正文快照"
+        }
+      ]
+    }
+  }
 }

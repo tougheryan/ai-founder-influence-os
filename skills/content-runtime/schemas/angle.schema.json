@@ -7,13 +7,16 @@
       "$ref": "common.json"
     }
   ],
-  "description": "angle 步骤输出文件。body 必须包含以下章节标题：['推荐角度', '角度对比表', '建议']",
+  "description": "angle 步骤输出文件。body 必须包含立项约束、推荐角度、角度对比表和建议，确保角度生成没有绕过 validate 闸门。",
   "properties": {
     "body": {
       "type": "string",
       "minLength": 1,
       "description": "markdown 正文",
       "allOf": [
+        {
+          "pattern": "(?m)^##\\s*0\\.\\s+立项约束"
+        },
         {
           "pattern": "(?m)^##\\s*推荐角度"
         },

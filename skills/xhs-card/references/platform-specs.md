@@ -101,6 +101,23 @@ output/wechat-1x1-cover.png
 output/wechat-cover-pair-preview.png
 ```
 
+## Short-Video Cover
+
+For 视频号、抖音 and 小红书视频, export one vertical cover per script:
+
+- `1080 x 1920`
+- Ratio: `9:16`
+- Export: PNG
+- Keep the 3-second hook inside the central 72-88% safe region; platform UI can cover the very top and bottom.
+- One hook only. Do not place the full spoken script, a subtitle wall, or decorative fake UI on the cover.
+
+Naming:
+
+```text
+output/video-01-cover-9x16.png
+output/video-02-cover-9x16.png
+```
+
 ## Screenshot And Photo Placement
 
 For supplied screenshots/photos:

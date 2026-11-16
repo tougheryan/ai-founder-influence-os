@@ -1,0 +1,25 @@
+{
+  "object_type": "work",
+  "platform": "wechat_mp",
+  "normalized": {
+    "platform": "wechat_mp",
+    "platform_work_id": "wechat-own-001",
+    "author": "自有公众号",
+    "title": "创始人做个人 IP，别先写自我介绍",
+    "work_modality": "article",
+    "published_date": "2026-07-10",
+    "source_url": "https://mp.weixin.qq.com/s/wechat-own-001",
+    "primary_text": "第一篇内容真正要证明的，不是你是谁，而是你懂不懂客户问题。",
+    "read_count": 5200,
+    "digg_count": 180,
+    "wow_count": 42,
+    "comment_count": 23,
+    "share_count": 90,
+    "collect_count": 130
+  },
+  "comments": [
+    {"content": "第一篇开头怎么写", "like_count": 11, "type": "question"},
+    {"content": "这个观点适合咨询顾问", "like_count": 7, "type": "resonance"}
+  ],
+  "request_id": "fixture-wechat-performance"
+}

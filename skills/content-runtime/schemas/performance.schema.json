@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/performance.schema.json",
+  "title": "Pipeline Output: performance",
+  "allOf": [{ "$ref": "common.json" }],
+  "description": "performance 步骤输出文件。body 必须包含采集对象、授权与数据源、原始快照、归一化指标、评论样本、Review 输入包和写回下一步。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        { "pattern": "(?m)^##\\s*0\\.\\s+采集对象" },
+        { "pattern": "(?m)^##\\s*1\\.\\s+授权与数据源" },
+        { "pattern": "(?m)^##\\s*2\\.\\s+原始快照" },
+        { "pattern": "(?m)^##\\s*3\\.\\s+归一化指标" },
+        { "pattern": "(?m)^##\\s*4\\.\\s+评论样本" },
+        { "pattern": "(?m)^##\\s*5\\.\\s+Review 输入包" },
+        { "pattern": "(?m)^##\\s*6\\.\\s+写回与下一步" }
+      ]
+    }
+  }
+}

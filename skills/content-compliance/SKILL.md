@@ -1,6 +1,6 @@
 ---
 name: content-compliance
-description: AI FOUNDER INFLUENCE OS 平台合规审核。扫描公众号/小红书/抖音成稿的平台规则风险、违禁词、广告法敏感词、版权风险，输出修改清单。
+description: AI FOUNDER INFLUENCE OS 平台合规审核。扫描公众号与小红书成稿的平台规则风险、违禁词、广告法敏感词、版权风险，输出修改清单。
 ---
 
 # content-compliance · 平台合规审核
@@ -23,20 +23,18 @@ description: AI FOUNDER INFLUENCE OS 平台合规审核。扫描公众号/小红
 
 ```bash
 # 公众号长文
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system read --step write --latest
-
-# 抖音口播稿
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system read --step douyin --latest
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
+  --project ~/ai-content-system read --step write --latest --slug {slug}
 
 # 小红书图文
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system read --step xhs --latest
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
+  --project ~/ai-content-system read --step xhs --latest --slug {slug}
 ```
 
- - 成稿文件路径
-- 目标平台（wechat / xhs / douyin），默认根据文件路径判断
+第一性原理约束：合规审核只能审核当前 run 的最新成稿。若任务卡或前端参数给出 `draftPath`，必须以该项目相对路径为唯一检查对象，并在 `## 0. 检查对象` 和 `## 6. 综合判断` 的下一步命令中原样写入。不得把路径改成绝对路径、旧文件路径、占位路径或其它 run 的路径。
+
+- 成稿文件路径（`pipeline/final/` 或 `pipeline/xhs/` 下的当前 run 最新文件）
+- 目标平台（wechat / xhs），默认根据文件路径判断
 
 ## 输出
 
@@ -49,11 +47,11 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 **必须通过 content-runtime 写入**：
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step compliance --slug {slug} \
   --content @/path/to/compliance-body.md \
-  --source "write:{成稿文件路径}"
+  --source "{write|xhs}:{成稿文件路径}"
 ```
 
 输出结构：
@@ -97,6 +95,15 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 | 引用内容有出处 | ✅/⚠️/❌ | ... |
 | 聊天记录/肖像授权 | ✅/⚠️/❌ | ... |
 
+## 4.1 授权与引流证据台账
+
+| 证据项 | 覆盖范围 | 状态 | 处理记录 |
+|---|---|---|---|
+| 广告法绝对化用语 | 标题/正文/CTA | ✅/⚠️/❌ | 是否出现「第一」「唯一」「保证」「100%」等 |
+| 引流方式 | 正文结尾/评论承接/图片 | ✅/⚠️/❌ | 是否出现加微信、私信、扫码、评论区扣 1 |
+| 版权素材 | 图片/引用/音乐/截图 | ✅/⚠️/❌ | 来源、授权或替换记录 |
+| 授权与隐私 | 聊天截图/肖像/客户信息 | ✅/⚠️/❌ | 授权、打码、匿名化记录 |
+
 ## 5. 修改清单
 
 - [ ] {问题 1：具体修改方式}
@@ -108,6 +115,40 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - **是否可发布**：{是 / 否，先修改}
 - **下一步**：{/content-audit {成稿路径}}
 ```
+
+写入后必须运行 runtime 校验：
+
+```bash
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
+  --project ~/ai-content-system \
+  validate --step compliance --file pipeline/compliance/{文件名}.md
+```
+
+`validate` 会额外执行合规报告质量审计，返回 `quality_status`、`quality_errors`、`quality_reviews` 和 `quality_checks`。
+
+### 合规质量闸门
+
+合规报告不能只写“无明显风险”，必须留下可复核证据：
+
+- `## 0. 检查对象` 必须写明成稿路径、目标平台、内容类型。
+- 违禁词扫描、广告法敏感词、平台规则风险、版权风险四类检查都要有明确结果。
+- `## 4.1 授权与引流证据台账` 必须覆盖广告法、引流、版权素材、授权与隐私四类证据。
+- 结果建议使用表格，状态可写 `✅ / ⚠️ / ❌` 或 `PASS / review / 高风险`。
+- `✅ / PASS` 只能用于已经完成的扫描、替换、授权、打码、来源确认或删除处理；如果说明仍是“无明显风险 / 已处理 / 已确认 / 默认合规 / 口头授权 / 后续确认 / 发布前补齐”等弱证据，必须降级为 `⚠️ / review`，并写清需要补的具体证据。
+- 只要出现高风险、违规、侵权、必须修改、❌，综合判断就不能写“可发布”。
+- 只要未修复出现「第一」「唯一」「顶级」「全网最强」「保证」「100%」「稳赚」「必然成交」「包过」等绝对化或承诺表达，必须标为阻断。
+- 只要未修复出现「加微信」「VX/v信」「私信我」「评论区扣 1」「扫码」「二维码」「手机号」等站外或诱导引流，必须标为阻断。
+- 只要未授权图片、聊天截图、肖像、音乐、外部截图、长段引用未说明来源或未打码，必须标为阻断。
+- `## 5. 修改清单` 如有未完成项 `- [ ]`，必须先修改；修改完成后改为 `- [x]` 并说明结果。
+- `## 6. 综合判断` 必须写明风险等级、是否可发布和下一步命令。
+
+质量状态含义：
+
+| 状态 | 含义 | 后续动作 |
+|---|---|---|
+| `pass` | 四类检查完整，无高风险、无未完成修改项，结论自洽 | 可进入 `content-audit` |
+| `review_required` | 没有高风险，但存在中风险或待确认项 | 可进入 audit，但需要人工复核 |
+| `blocked` | 存在高风险/违规/侵权/未完成修改项，或报告结论自相矛盾 | 不进入 audit，先修改成稿或报告 |
 
 合规报告通过 content-runtime 写入 `pipeline/compliance/` 后，下游 `content-audit` 可直接通过 `read --step compliance --latest` 获取检查结果（可选）。
 
@@ -122,15 +163,6 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - [ ] 标题 ≤ 20 字（含标点）
 - [ ] 无诱导点赞/收藏/关注话术（如「点赞收藏不迷路」）
 - [ ] 无虚假宣传（如「保证瘦」「包过」）
-
-### 抖音
-
-- [ ] 口播中无「加我微信」「私信我」「评论区扣 1」等诱导互动
-- [ ] 无未经证实的社会事件评论
-- [ ] 无低俗/争议/煽动性内容
-- [ ] 无医疗/健康/投资建议未标注
-- [ ] 无侵犯他人肖像权/名誉权内容
-- [ ] 背景音乐/素材无版权风险
 
 ### 公众号
 
@@ -160,7 +192,7 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 
 ## 与其他 Skill 的关系
 
-- **上游**：`wechat-writer`、`douyin-script`、`xhs-card`
+- **上游**：`wechat-writer`、`xhs-card`
 - **下游**：`content-audit`（深度可信审核）
 - **并行**：`content-prelaunch`（发布前统一检查）
 

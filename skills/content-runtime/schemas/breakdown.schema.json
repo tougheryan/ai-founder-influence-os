@@ -7,7 +7,7 @@
       "$ref": "common.json"
     }
   ],
-  "description": "breakdown 步骤输出文件。body 必须包含以下章节标题：['关键词矩阵', '标题方案', '开场钩子库']",
+  "description": "breakdown 步骤输出文件。body 必须包含可生产 brief 核心章节：上游约束、关键词矩阵、爆款档案参考、传播心理假设、标题方案、开场钩子库、阵地适配建议、素材补充清单和下一步执行指令。",
   "properties": {
     "body": {
       "type": "string",
@@ -15,13 +15,31 @@
       "description": "markdown 正文",
       "allOf": [
         {
+          "pattern": "(?m)^##\\s*0\\.\\s+上游约束"
+        },
+        {
           "pattern": "(?m)^##\\s*关键词矩阵"
+        },
+        {
+          "pattern": "(?m)^##\\s*爆款档案参考"
+        },
+        {
+          "pattern": "(?m)^##\\s*传播心理假设"
         },
         {
           "pattern": "(?m)^##\\s*标题方案"
         },
         {
           "pattern": "(?m)^##\\s*开场钩子库"
+        },
+        {
+          "pattern": "(?m)^##\\s*阵地适配建议"
+        },
+        {
+          "pattern": "(?m)^##\\s*素材补充清单"
+        },
+        {
+          "pattern": "(?m)^##\\s*下一步执行指令"
         }
       ]
     }

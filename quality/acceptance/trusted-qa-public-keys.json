@@ -1,0 +1,8 @@
+{
+  "schema": "echo-founder.trusted-qa-public-keys.v1",
+  "keys": [],
+  "policy": {
+    "onboarding": "A QA public-key fingerprint must be approved in a reviewed clean commit before the release App/DMG is built.",
+    "revocation": "Set status to revoked in a reviewed commit and rebuild any artifact that referenced the old source commit."
+  }
+}

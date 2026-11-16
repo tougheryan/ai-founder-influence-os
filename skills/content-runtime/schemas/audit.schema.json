@@ -7,7 +7,7 @@
       "$ref": "common.json"
     }
   ],
-  "description": "audit 步骤输出文件。body 必须包含以下章节标题：['1. 来源追溯', '2. 事实校验', '5. 修改建议']",
+  "description": "audit 步骤输出文件。body 必须包含检查对象、来源追溯、事实校验、事实声明台账、隐私提醒、平台风险、修改建议和总体结论。",
   "properties": {
     "body": {
       "type": "string",
@@ -15,13 +15,28 @@
       "description": "markdown 正文",
       "allOf": [
         {
+          "pattern": "(?m)^##\\s*0\\.\\s+检查对象"
+        },
+        {
           "pattern": "(?m)^##\\s*1\\.\\s+来源追溯"
         },
         {
           "pattern": "(?m)^##\\s*2\\.\\s+事实校验"
         },
         {
+          "pattern": "(?m)^##\\s*2\\.1\\s+事实声明台账"
+        },
+        {
+          "pattern": "(?m)^##\\s*3\\.\\s+隐私提醒"
+        },
+        {
+          "pattern": "(?m)^##\\s*4\\.\\s+平台风险"
+        },
+        {
           "pattern": "(?m)^##\\s*5\\.\\s+修改建议"
+        },
+        {
+          "pattern": "(?m)^##\\s*7\\.\\s+总体结论"
         }
       ]
     }

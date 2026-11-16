@@ -355,7 +355,7 @@ v0.13 起：git 仓库。`local-tests/` 整目录在 `.gitignore` 中，commit �
 最快的验证路径，不要发明新需求。
 
 ```bash
-cd /Users/guohao/Documents/code/HyperFrames-test/xhs-card/local-tests/smoke-ai-tools
+cd <xhs-card-root>/local-tests/smoke-ai-tools
 node render.mjs
 ls output/   # 应该看到 xhs-01.png ... xhs-05.png
 sips -g pixelWidth -g pixelHeight output/xhs-01.png   # 应为 1080×1440

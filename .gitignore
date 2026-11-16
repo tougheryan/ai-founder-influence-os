@@ -1,9 +1,96 @@
 .DS_Store
 __pycache__/
-*.pyc
+.pytest_cache
+.cache/
+.mypy_cache/
+.ruff_cache/
+**/.cache/
+**/.mypy_cache/
+**/.ruff_cache/
+*.py[cod]
 *.pyo
-*.egg-info/
-.venv/
-venv/
-node_modules/
 *.log
+
+# Local runtime/project state
+/.aifios-project/
+/.superpowers/
+/.baoyu-skills/
+/ai-content-system/
+/sessions/
+/pipeline/
+/brain/
+/assets/
+/materials/
+/uploads/
+/runs/
+/deliveries/
+/backups/
+/projects/
+/project-backups/
+/exports/
+/tmp/
+/quality/reports/
+/quality/system-audits/
+/quality/acceptance/real-account-acceptance.json
+/quality/acceptance/evidence/
+/quality/acceptance/artifacts/
+/quality/acceptance/*
+!/quality/acceptance/README.md
+!/quality/acceptance/internal-release-acceptance.template.json
+!/quality/acceptance/real-account-acceptance.template.json
+!/quality/acceptance/trusted-qa-public-keys.json
+
+# Track the checked-in Next.js workspace even though it has routes named
+# brain/pipeline/materials.
+!ui/
+!ui/**
+
+# Local secrets and package installs
+.env
+.env.*
+!/gateway/.env.example
+*.pem
+*.p12
+*.key
+*.mobileprovision
+**/storage_state.json
+**/cookies.json
+**/*-credentials.json
+**/credential-vault.json
+**/desktop-settings.json
+**/device-id.json
+**/tikomni.env
+*.aifios-backup/
+node_modules/
+/gateway/data/
+
+# Release build output
+/dist/
+*.dmg
+*.app.zip
+
+# Local generated QA/export artifacts
+/.playwright-cli/
+/outputs/
+/ui/.next
+/ui/.next*/
+/ui/.next-desktop
+/ui/.next-ocr
+/ui/.playwright-cli
+/ui/pdf-*.yml
+/ui/stage*.png
+/ui/stage*.yml
+/motion-audit*.png
+
+# Re-apply generated-file exclusions after the checked-in ui/ exception.
+**/.cache/
+**/.mypy_cache/
+**/.ruff_cache/
+*.log
+
+# Generated research/report artifacts
+AI_Founder_Influence_OS_横纵分析报告.*
+
+# Open-source review/build artifacts
+/public-source-review/
+/coverage/

@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/visual-revision-request.schema.json",
+  "title": "AIFI-OS Visual Revision Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "base_revision_id", "request", "operations", "constraints", "status"],
+  "properties": {
+    "schema": {"const": "aifios.visual-revision-request.v1"},
+    "base_revision_id": {"type": "string", "pattern": "^r[0-9]{3,}$"},
+    "request": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"enum": ["change_system", "replace_evidence", "change_layout", "reduce_copy"]}
+    },
+    "target_asset_ids": {
+      "type": "array",
+      "maxItems": 20,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9-]{0,79}$"}
+    },
+    "wechat_layout": {"$ref": "#/definitions/wechatLayout"},
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1, "maxLength": 200}
+    },
+    "status": {"enum": ["queued", "review_required", "rendered", "blocked"]},
+    "diagnostic_reason": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "revision_id": {"type": "string", "pattern": "^r[0-9]{3,}$"},
+    "index_path": {
+      "type": "string",
+      "pattern": "^pipeline/visual/[A-Za-z0-9\\u4e00-\\u9fff-]{1,50}/revisions/r[0-9]{3,}\\.index\\.json$"
+    }
+  },
+  "definitions": {
+    "wechatLayout": {
+      "type": "object", "additionalProperties": false,
+      "required": ["theme", "source_package_sha256"],
+      "properties": {
+        "theme": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"},
+        "source_package_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "refinement": {
+          "type": "object", "additionalProperties": false,
+          "required": ["profile", "title_lines", "heading_blocks"],
+          "properties": {
+            "profile": {"const": "title-spacing-v1"},
+            "title_lines": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"type": "string", "minLength": 1, "maxLength": 500}},
+            "heading_blocks": {
+              "type": "array", "maxItems": 30,
+              "items": {
+                "type": "object", "additionalProperties": false,
+                "required": ["block_index", "text_sha256", "segments"],
+                "properties": {
+                  "block_index": {"type": "integer", "minimum": 0, "maximum": 9999},
+                  "text_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                  "segments": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"type": "string", "minLength": 1, "maxLength": 500}}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"required": ["wechat_layout"]},
+      "then": {
+        "required": ["target_asset_ids"],
+        "properties": {
+          "operations": {"const": ["change_layout"]},
+          "target_asset_ids": {"const": ["wechat-html"]}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "rendered"}}, "required": ["status"]},
+      "then": {
+        "required": ["revision_id", "index_path"],
+        "not": {"required": ["diagnostic_reason"]}
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "blocked"}}, "required": ["status"]},
+      "then": {
+        "required": ["diagnostic_reason"],
+        "not": {"anyOf": [{"required": ["revision_id"]}, {"required": ["index_path"]}]}
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "review_required"}}, "required": ["status"]},
+      "then": {
+        "required": ["revision_id", "index_path"],
+        "not": {"required": ["diagnostic_reason"]}
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "queued"}}, "required": ["status"]},
+      "then": {
+        "not": {
+          "anyOf": [
+            {"required": ["diagnostic_reason"]},
+            {"required": ["revision_id"]},
+            {"required": ["index_path"]}
+          ]
+        }
+      }
+    }
+  ]
+}

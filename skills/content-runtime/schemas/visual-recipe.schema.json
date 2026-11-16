@@ -1,0 +1,267 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/visual-recipe.schema.json",
+  "title": "AIFI-OS Visual Recipe",
+  "type": "object",
+  "required": ["schema", "revision_id", "slug", "source_package", "content_archetype", "evidence_mode", "platforms", "assets", "quality_policy"],
+  "properties": {
+    "schema": {"enum": ["aifios.visual-recipe.v1", "aifios.visual-recipe.v2"]},
+    "revision_id": {"pattern": "^r[0-9]{3,}$"},
+    "slug": {"type": "string", "minLength": 1},
+    "source_package": {"type": "string", "minLength": 1},
+    "content_archetype": {"enum": ["tutorial", "analysis", "founder_story", "concept", "product_demo", "research", "campaign"]},
+    "evidence_mode": {"enum": ["screenshot_first", "data_first", "artifact_first", "illustration_allowed", "hybrid"]},
+    "platforms": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "wechat": {
+          "type": "object",
+          "required": ["system"],
+          "properties": {
+            "system": {"type": "string", "minLength": 1},
+            "layout_selection": {
+              "type": "object",
+              "required": ["selected", "candidates", "reason"],
+              "properties": {
+                "selected": {"type": "string", "minLength": 1},
+                "candidates": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+                "reason": {"type": "string", "minLength": 1},
+                "hint": {"type": "string"}
+              }
+            },
+            "wechat_layout": {"$ref": "#/definitions/wechatLayout"},
+            "cover_options": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "object",
+                "required": ["id", "label", "strategy", "asset_ids"],
+                "properties": {
+                  "id": {"type": "string", "minLength": 1},
+                  "label": {"type": "string", "minLength": 1},
+                  "strategy": {"type": "string", "minLength": 1},
+                  "asset_ids": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string", "minLength": 1}}
+                }
+              }
+            }
+          }
+        },
+        "xhs": {
+          "type": "object",
+          "required": ["system", "page_recipes"],
+          "properties": {
+            "system": {"type": "string", "minLength": 1},
+            "page_recipes": {"type": "array", "minItems": 5, "maxItems": 8},
+            "platform_bindings": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "items": {"enum": ["xiaohongshu", "moments"]}
+            },
+            "series": {"type": "array", "items": {"type": "object"}}
+          }
+        },
+        "moments": {
+          "type": "object",
+          "required": ["system", "format", "series"],
+          "properties": {
+            "system": {"type": "string", "minLength": 1},
+            "format": {"const": "square_triptych"},
+            "series": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["post_index", "upload_mode", "page_ids", "asset_ids"],
+                "properties": {
+                  "post_index": {"type": "integer", "minimum": 1},
+                  "upload_mode": {"const": "square_triptych"},
+                  "page_ids": {
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": {"type": "string", "enum": ["P1", "P3", "P5"]}
+                  },
+                  "asset_ids": {
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": {"type": "string", "minLength": 1}
+                  }
+                }
+              }
+            },
+            "asset_ids": {"type": "array", "items": {"type": "string", "minLength": 1}}
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "role", "layout_recipe", "renderer", "status"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "minLength": 1},
+          "layout_recipe": {"type": "string", "minLength": 1},
+          "renderer": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "minLength": 1},
+          "source": {"type": "string", "minLength": 1},
+          "platform": {"enum": ["wechat", "xhs", "moments", "video"]},
+          "platform_bindings": {
+            "type": "array",
+            "items": {"enum": ["wechat", "xiaohongshu", "moments", "shipinhao", "douyin"]}
+          },
+          "layout_style": {"type": "string", "minLength": 1},
+          "cover_strategy": {"type": "string", "minLength": 1},
+          "share_format": {"type": "string", "minLength": 1},
+          "card_structure": {"type": "string", "minLength": 1},
+          "series_system": {"type": "string", "minLength": 1},
+          "insert_after": {"type": "string", "minLength": 1},
+          "caption": {"type": "string", "minLength": 1},
+          "semantic_brief": {"type": "string", "minLength": 1},
+          "inline_order": {"type": "integer", "minimum": 1},
+          "inline_structure": {"type": "string", "minLength": 1},
+          "video_index": {"type": "integer", "minimum": 1},
+          "upload_format": {"type": "string", "minLength": 1},
+          "upload_order": {"type": "integer", "minimum": 1}
+          ,"source_type": {"enum": ["evidence", "authorized_source", "ai_concept"]}
+          ,"consistency_group": {"type": "string", "minLength": 1}
+          ,"art_direction_id": {"type": "string", "minLength": 1}
+          ,"text_overlay": {
+            "type": "object",
+            "required": ["renderer", "expected_text"],
+            "properties": {
+              "renderer": {"const": "html-playwright"},
+              "expected_text": {"type": "string"}
+            }
+          }
+          ,"generation": {
+            "type": "object",
+            "properties": {
+              "provider_policy": {"const": "auto"},
+              "provider_task": {"type": "string", "minLength": 1},
+              "prompt_hash": {"type": "string"},
+              "reference_asset_ids": {"type": "array", "items": {"type": "string"}},
+              "benchmark_id": {"type": "string", "pattern": "^imgbench_"},
+              "route_id": {"type": "string", "minLength": 1},
+              "model_id": {"type": "string", "minLength": 1},
+              "model_version": {"type": "string", "minLength": 1},
+              "operation_id": {"type": "string", "minLength": 1},
+              "request_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "estimated_cost_cny": {"type": "number", "minimum": 0},
+              "actual_cost_cny": {"type": ["number", "null"], "minimum": 0},
+              "output_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "human_review_status": {"enum": ["pending", "accepted", "rejected", "redo_requested"]},
+              "generated_at": {"type": "string"}
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"role": {"const": "evidence"}}},
+            "then": {"required": ["source"]}
+          }
+        ]
+      }
+    },
+    "quality_policy": {
+      "type": "object",
+      "required": ["min_density", "require_evidence_ratio"],
+      "properties": {
+        "min_density": {"type": "number", "minimum": 0, "maximum": 1},
+        "require_evidence_ratio": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "visual_preferences": {
+      "type": "object",
+      "required": ["mode", "direction_count", "provider_policy"],
+      "properties": {
+        "mode": {"enum": ["ai_enhanced", "stable"]},
+        "direction_count": {"const": 2},
+        "provider_policy": {"const": "auto"}
+      }
+    },
+    "art_directions": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "style_tokens", "composition", "negative_rules"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "style_tokens": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "palette": {"type": "object"},
+          "composition": {"type": "string", "minLength": 1},
+          "negative_rules": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+        }
+      }
+    },
+    "selected_direction": {"type": "string", "minLength": 1},
+    "generation_policy": {
+      "type": "object",
+      "required": ["text_renderer", "provider_policy", "fallback_mode"],
+      "properties": {
+        "text_renderer": {"const": "html-playwright"},
+        "provider_policy": {"const": "auto"},
+        "fallback_mode": {"const": "stable"}
+      }
+    }
+  },
+  "definitions": {
+    "wechatLayout": {
+      "type": "object", "additionalProperties": false,
+      "required": ["theme", "source_package_sha256"],
+      "properties": {
+        "theme": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{0,63}$"},
+        "source_package_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "refinement": {
+          "type": "object", "additionalProperties": false,
+          "required": ["profile", "title_lines", "heading_blocks"],
+          "properties": {
+            "profile": {"const": "title-spacing-v1"},
+            "title_lines": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"type": "string", "minLength": 1, "maxLength": 500}},
+            "heading_blocks": {
+              "type": "array", "maxItems": 30,
+              "items": {
+                "type": "object", "additionalProperties": false,
+                "required": ["block_index", "text_sha256", "segments"],
+                "properties": {
+                  "block_index": {"type": "integer", "minimum": 0, "maximum": 9999},
+                  "text_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                  "segments": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"type": "string", "minLength": 1, "maxLength": 500}}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"schema": {"const": "aifios.visual-recipe.v2"}}},
+      "then": {
+        "required": ["visual_preferences", "art_directions", "selected_direction", "generation_policy"],
+        "properties": {
+          "platforms": {
+            "properties": {
+              "xhs": {
+                "properties": {
+                  "page_recipes": {"type": "array", "minItems": 8, "maxItems": 8},
+                  "platform_bindings": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"const": "xiaohongshu"}}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "name": "aifios-skills",
+  "version": "0.2.0",
+  "description": "AIFIOS production-domain skill manifest",
+  "runtime": {
+    "python": "3.9+",
+    "entrypoints": {
+      "content_runtime": "skills/content-runtime/scripts/content_runtime.py",
+      "content_pipeline": "skills/content-runtime/scripts/content_pipeline.py",
+      "hit_collector": "skills/content-runtime/scripts/hit_collector.py",
+      "browser_hit_collector": "skills/content-runtime/scripts/browser_hit_collector.mjs",
+      "browser_hit_doctor": "skills/content-runtime/scripts/browser_hit_doctor.mjs",
+      "session_manager": "skills/content-runtime/scripts/session_manager.py",
+      "performance_collector": "skills/content-runtime/scripts/performance_collector.py",
+      "doctor": "scripts/doctor.py",
+      "install": "scripts/install.py",
+      "demo": "scripts/demo.py",
+      "package": "scripts/package.py",
+      "smoke_release": "scripts/smoke_release.py"
+    },
+    "contracts": {
+      "selected_platform_delivery": "skills/content-runtime/scripts/native_delivery.py"
+    }
+  },
+  "capability_tiers": {
+    "schema": "aifios.skill-capability-tiers.v2",
+    "default_tiers": [
+      "core"
+    ],
+    "tiers": {
+      "core": {
+        "label": "生产核心",
+        "description": "从共享事实底稿、平台独立研究与立项，到三条原生内容 lane、视觉和平台草稿的内部生产域。",
+        "skills": [
+          "content-runtime",
+          "content-intake",
+          "content-hit-collector",
+          "content-validate",
+          "content-blueprint",
+          "wechat-writer",
+          "content-package",
+          "content-visual",
+          "xhs-card",
+          "dbs-wechat-html"
+        ]
+      },
+      "optional": {
+        "label": "创作增强",
+        "description": "可选图解与漫画组件，保留其上游 MIT 许可证。",
+        "skills": [
+          "baoyu-diagram",
+          "baoyu-comic"
+        ]
+      }
+    }
+  },
+  "included_skills": [
+    {
+      "name": "content-runtime",
+      "path": "skills/content-runtime/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "content-intake",
+      "path": "skills/content-intake/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "content-hit-collector",
+      "path": "skills/content-hit-collector/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "content-validate",
+      "path": "skills/content-validate/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "content-blueprint",
+      "path": "skills/content-blueprint/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "wechat-writer",
+      "path": "skills/wechat-writer/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "content-package",
+      "path": "skills/content-package/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "content-visual",
+      "path": "skills/content-visual/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "xhs-card",
+      "path": "skills/xhs-card/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "dbs-wechat-html",
+      "path": "skills/dbs-wechat-html/SKILL.md",
+      "required": true
+    },
+    {
+      "name": "baoyu-diagram",
+      "path": "skills/baoyu-diagram/SKILL.md",
+      "required": false
+    },
+    {
+      "name": "baoyu-comic",
+      "path": "skills/baoyu-comic/SKILL.md",
+      "required": false
+    }
+  ],
+  "external_skills": [
+    {
+      "name": "dbskill",
+      "status": "not-bundled",
+      "resolution": "Install from https://github.com/dontbesilent2025/dbskill under its own terms; not required by the core workflow."
+    },
+    {
+      "name": "social-media-crawl",
+      "status": "not-bundled",
+      "resolution": "Optional platform-research connector, supplied separately under provider authorization. Author-material writing does not require it."
+    }
+  ],
+  "project_state": {
+    "default_project": "~/ai-content-system",
+    "state_file": "sessions/latest.json",
+    "session_state_file": "sessions/session-state.json",
+    "slug_scoped_latest": true
+  },
+  "quality_gates": {
+    "test_command": "make test",
+    "pytest_command": "make pytest",
+    "doctor_command": "make doctor",
+    "doctor_require_external": "make doctor REQUIRE_EXTERNAL=1",
+    "install_dry_run": "make install-dry-run",
+    "external_plan": "make external-plan",
+    "demo_command": "make demo",
+    "package_command": "make package",
+    "smoke_release": "make smoke-release",
+    "manifest_check": "python3 skills/content-runtime/scripts/check_manifest.py",
+    "runtime_contracts": "python3 scripts/check_runtime_contracts.py",
+    "runtime_test": "make -C skills/content-runtime test"
+  }
+}

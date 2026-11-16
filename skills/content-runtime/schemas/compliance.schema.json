@@ -7,13 +7,16 @@
       "$ref": "common.json"
     }
   ],
-  "description": "compliance 步骤输出文件。body 必须包含以下章节标题：['1. 违禁词扫描', '2. 广告法敏感词', '3. 平台规则风险', '4. 版权风险']",
+  "description": "compliance 步骤输出文件。body 必须包含检查对象、违禁词、广告法、平台规则、版权、授权与引流台账、修改清单和综合判断。",
   "properties": {
     "body": {
       "type": "string",
       "minLength": 1,
       "description": "markdown 正文",
       "allOf": [
+        {
+          "pattern": "(?m)^##\\s*0\\.\\s+检查对象"
+        },
         {
           "pattern": "(?m)^##\\s*1\\.\\s+违禁词扫描"
         },
@@ -25,6 +28,15 @@
         },
         {
           "pattern": "(?m)^##\\s*4\\.\\s+版权风险"
+        },
+        {
+          "pattern": "(?m)^##\\s*4\\.1\\s+授权与引流证据台账"
+        },
+        {
+          "pattern": "(?m)^##\\s*5\\.\\s+修改清单"
+        },
+        {
+          "pattern": "(?m)^##\\s*6\\.\\s+综合判断"
         }
       ]
     }

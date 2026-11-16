@@ -7,9 +7,13 @@ description: AI FOUNDER INFLUENCE OS 新增步骤：选题立项。基于 conten
 
 ## 作用
 
-`content-validate` 是内容生产流水线的「立项闸门」。在 `content-angle` 之前判断：**这个素材值得写成内容吗？如果写，首发哪个平台？**
+`content-validate` 是内容生产流水线的立项整理步骤。在 `content-blueprint` 之前判断：**这个素材适合怎样写成内容，以及首发哪个平台？**
 
-核心目标：减少无效生产。不是所有素材都值得进入 angle → breakdown → writer 的全流程。
+核心目标：让每份素材都能直接进入合适的创作路径；证据缺口与风险边界需要保留，但不作为停止生产的理由。
+
+第一性原则：立项为创作提供边界，而不是拦住创作。`## 1. 立项决策` 固定写「通过」并进入 `content-blueprint`；素材缺口、事实边界和承诺限制必须写入后续蓝图，不能补写成已验证的事实。
+
+剃刀原则：立项报告只保留会影响“是否继续生产”的判断。不要用“有潜力”“可以试试”“默认公众号”替代证据；不要把商业承接、素材缺口和风险边界留给后面的写作阶段猜。
 
 ## 触发方式
 
@@ -20,15 +24,19 @@ description: AI FOUNDER INFLUENCE OS 新增步骤：选题立项。基于 conten
 
 - `content-intake` 输出的素材报告路径；如果用户未指定路径，优先通过 content-runtime 读取最新 intake：
   ```bash
-  python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+  python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
     --project ~/ai-content-system \
     read --step intake --latest
   ```
 - 或直接提供素材（文字 / PDF / 链接 / 图片 / 语音转文字）
+- `marketSignalReportPath`：`intake -> validate` 的标准公开样本/对标报告，默认由 runtime 生成在 `materials/research/{slug}-market-signal.md`；只可引用公开可验证样本。
 
 可选参数：
-- `--strict`：严格模式，商业意图不清晰直接不通过
 - `--business-first`：优先调用 dbs-diagnosis / dbs-goal 做商业判断
+- `researchReportPath`：公开补证报告路径，通常来自 `materials/research/`，用于补公开背景、行业事实和对标样本
+- `researchMode=precision`：高精度补证模式。优先围绕素材补充清单、事实边界、公司/产品/人物实体、平台对标和可信来源检索，不做泛泛背景搜索
+- `passagePlanPath`：低证据通行方案路径，通常来自 `materials/research/*-passage-plan.md`
+- `allowLowEvidenceReframe`：允许低证据降级立项。仅当选题已从“案例证明/成果宣称”降级为“行业观察/方法论清单/访谈观点整理/问题征集/公开对标拆解”时使用
 
 ## 输出
 
@@ -41,7 +49,7 @@ description: AI FOUNDER INFLUENCE OS 新增步骤：选题立项。基于 conten
 **必须通过 content-runtime 写入**：
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step validate --slug {slug} \
   --content @/path/to/validate-body.md \
@@ -57,11 +65,15 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - intake 报告路径：{...}
 - 主场景：{六类之一}
 - 核心人物/观点/案例：{一句话概括}
+- 公开样本对标报告：{materials/research/{slug}-market-signal.md}
+- 公开样本状态：已完成 或 创作模式 / 暂不可用
+- 可验证样本数：{N；三平台实时快照通过后的实际样本数，创作模式允许为 0}
 
 ## 1. 立项决策
-- **决策**：{通过 / 有条件通过 / 不通过}
+- **决策**：通过
 - **决策理由**：{一句话}
 - **置信度**：{高 / 中 / 低}
+- **是否允许进入下一步**：{是/否}
 
 ## 2. HKR 质检
 | 维度 | 评分 | 说明 |
@@ -77,7 +89,7 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - 转化路径是否清晰：{是/否}
 
 ## 4. 平台首发策略
-- **推荐首发平台**：{wechat / xhs / douyin}
+- **推荐首发平台**：{wechat / xhs / shipinhao / douyin / moments}
 - **理由**：{}
 - **次发平台**：{}
 - **不建议平台**：{}
@@ -92,11 +104,29 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - {风险 2}
 
 ## 7. 下一步
-- 如果通过：进入 `/content-angle`，`content-angle` 可通过 `read --step validate --latest` 读取最新立项报告
-- 如果有条件通过：先补充清单中的素材，再重新 `/content-validate`
-- 如果不通过：说明原因，建议放弃或回到素材收集
+- 所有明确决策：进入 `/content-blueprint`，`content-blueprint` 可通过 `read --step validate --latest` 读取最新立项报告
+- 有条件通过 / 不通过：按低证据创作方式继续，把素材缺口与风险提示写入蓝图；不把缺失的案例、数据、授权或商业结果写成事实
 - 如果涉及重要商业判断：建议用 `/dbs-decision` 记录决策，并用 `/dbs-save` 存档
 ```
+
+### Runtime 输出硬约束
+
+最终交付给 runtime 的正文必须只包含可保存的 Markdown 报告，不要输出“好的，开始分析”“Phase 1”“请稍候”“正在写入”“已通过 runtime 写入”等过程性文字，也不要输出写入命令。
+
+标题层级必须严格一致：
+
+- 报告标题只能用一级标题：`# 选题立项报告 · {标题}`
+- 8 个必需章节必须全部使用二级标题，且文字完全一致：
+  - `## 0. 素材来源`
+  - `## 1. 立项决策`
+  - `## 2. HKR 质检`
+  - `## 3. 商业成立性判断`
+  - `## 4. 平台首发策略`
+  - `## 5. 素材补充清单`
+  - `## 6. 风险提示`
+  - `## 7. 下一步`
+
+不要把这些章节写成 `###`，不要改成 `Phase 1/Phase 2`，不要把 `选题立项报告` 写成 `##` 后再把必需章节降级。
 
 ## 工作流程
 
@@ -105,7 +135,7 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 1. 如果用户指定了 intake 报告路径，直接读取。
 2. 如果用户未指定路径，调用 content-runtime 读取最新 intake：
    ```bash
-   python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+   python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
      --project ~/ai-content-system \
      read --step intake --latest
    ```
@@ -127,7 +157,69 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - 1 星：几乎没有
 
 S 级选题三项兼备（均 ≥ 4 星）。及格选题至少占两项（均 ≥ 3 星）。
-如果只占一项或一项都没有，决策为「不通过」或「有条件通过」。
+如果只占一项或一项都没有，不要伪造通过依据；把缺口写入素材补充清单和风险提示，仍可按创作模式继续生成低证据蓝图。
+
+### Phase 2.4：爆款抓取与公开对标质量门
+
+这不是可选的灵感步骤。主题确认后、写立项报告前，必须读取 runtime 生成的：
+
+```text
+materials/research/{slug}-market-signal.md
+```
+
+处理规则：
+
+- 只接受公开可见、可验证、与本次人群/场景/目标相关的样本；不得绕过登录、验证码或访问控制。
+- 只吸收标题入口、开场钩子、叙事结构、评论互动和公开事实边界，禁止复制标题、正文、封面、镜头或评论原句。
+- 只有三平台实时查询均可用且跨平台证据充分时，才在 `## 0. 素材来源` 写清报告路径、样本数和本次实际吸收的机制。
+- Token、接口、任一平台数据或公开样本不足时，不再阻断创作：在 `## 0. 素材来源` 标记“公开样本状态：创作模式 / 暂不可用”、可验证样本数（允许为 `0`）和研究快照路径，明确本期只使用一手素材。只有当前 run/intake 缺失或快照完整性校验失败时才暂停并重新抓取。
+
+### Phase 2.5：公开补证吸收
+
+除标准 `marketSignalReportPath` 外，如果输入包含 `researchReportPath` 或其它 `materials/research/` 公开补证报告，必须先读取并区分两类信息：
+
+- **可用于补证**：公司/品牌公开背景、行业趋势、平台内容样本、公开政策、公开案例、公开对标账号/文章。
+- **不可替代**：用户自己的成交数据、播放量、ROI、客户转化、未公开合作关系、合作条款、聊天截图、客户授权、内部报价。
+
+允许因为公开补证而修正判断：
+
+- 原阻断项只是“公开背景不足 / 行业参照不足 / 对标样本不足”时，可以用公开补证补足。
+- 原阻断项是“一手案例、真实数据、授权、商业闭环未验证”时，不能只靠公开资料改成「通过」。
+
+若公开资料只能降低表达风险，应把选题从“案例已证明”改成“行业观察 + 待验证假设”，而不是虚构商业结果。
+
+高精度补证的推进规则：
+
+- 优先把 `## 5. 素材补充清单` 和 `## 6. 风险提示` 拆成检索问题，而不是只搜选题标题。
+- 优先识别实体名、公司名、产品名、平台关键词、客户行业和数据口径，再组合“官网 / 关于我们 / 新闻 / 采访 / 行业报告 / 对标 / 评论”等查询。
+- 公开补证报告必须标明证据类型和可信度；低可信平台内容只能作为线索，不能作为硬事实。
+- 当补证后仍缺一手案例、授权、成交、ROI 或内部截图时，仍应保持「有条件通过」或「不通过」。
+- 当只缺公开背景、行业参照、对标样本时，可以改为「通过」，但要在风险提示里注明哪些证据来自公开来源。
+
+### Phase 2.6：低证据降级立项
+
+如果输入包含 `passagePlanPath` 或 `allowLowEvidenceReframe=true`，可以在用户无法补充硬证据时尝试“降级通过”。这不是降低事实标准，而是降低内容承诺。
+
+允许降级通过的条件：
+
+- 选题类型从“案例证明 / 成果宣称 / 客户背书”改为以下之一：
+  - 行业观察
+  - 方法论清单
+  - 访谈观点整理
+  - 问题征集
+  - 公开对标拆解
+- 删除或匿名化所有缺证据的硬证明表达：ROI、成交、客户转化、授权截图、内部报价、未公开合作细节。
+- 商业承接从“证明我能带来结果”降级为：关注、诊断、资料领取、评论区提问、征集可公开案例。
+- HKR 至少两项达到 3 星以上，且风险提示能清楚说明“本内容不证明具体客户成果”。
+- `## 7. 下一步` 必须限制下游：只允许进入低证据思想母版蓝图，不允许案例纪实或客户证明型写法。
+
+不得降级通过的情况：
+
+- 仍保留“已实现结果 / 已证明有效 / 客户成功 / ROI 提升”等证明口吻。
+- 仍需要具体客户授权、内部截图或合作细节才能成立。
+- 商业模式或产品承接完全不清楚。
+
+降级通过时，`## 1. 立项决策` 可写“通过”，但决策理由必须说明是“低证据降级通过”，不是原证明型选题通过。
 
 ### Phase 3：商业成立性判断
 
@@ -148,9 +240,11 @@ S 级选题三项兼备（均 ≥ 4 星）。及格选题至少占两项（均 �
 |---|---|---|
 | 深度分析、长逻辑链、有独特洞察 | 公众号 | 能承载完整论证，沉淀专业信任 |
 | 视觉化强、清单/教程/方法论 | 小红书 | 搜索流量长尾，保存率高 |
-| 观点冲突强、个人表达有张力 | 抖音 | 算法推荐友好，传播效率高 |
-| 热点破题、时效性强 | 抖音/小红书 | 短期流量窗口 |
+| 观点冲突强、个人表达有张力 | 小红书 | 场景化观点更易被收藏与讨论 |
+| 热点破题、时效性强 | 小红书 | 可结合搜索词与具体场景 |
 | 案例纪实、人物故事 | 公众号/小红书 | 故事需要空间，也能图文呈现 |
+| 人物口播、强现场感、关系表达 | 视频号 | 用口播、首帧和评论问题承接，不把脚本伪装成已成片 |
+| 反差明显、节奏快、可讲清一个判断 | 视频号 | 3 秒钩子 + 高密度口播 + 字幕重点 |
 
 ### Phase 5：素材补充清单
 
@@ -168,7 +262,7 @@ S 级选题三项兼备（均 ≥ 4 星）。及格选题至少占两项（均 �
 调用 content-runtime 写入 validate 报告：
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step validate --slug {slug} \
   --content @/tmp/validate-body.md \
@@ -186,11 +280,18 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 | HKR 只有一项达标 或 商业不成立 或 素材严重不足 | **不通过** |
 | 目标严重空转 | **不通过**，建议先用 `/dbs-goal` |
 | 商业模式完全不成立 | **不通过**，建议先用 `/dbs-diagnosis` |
+| TikOmni 实时研究不可用或样本不足 | **创作模式**；允许继续生成，但不得把历史样本、本地缓存或模型推断写成公开证据 |
+
+> Runtime 约束：`content-pipeline next/flow` 会读取 `validate` 报告中的立项决策。任何明确的「通过 / 有条件通过 / 不通过」都会继续推荐 `content-blueprint`；无法识别的决策才需要修复报告。
+
+> 预研空间：当结论为「有条件通过」或「不通过」时，可把补证路线放入 `materials/research/*-blueprint-exploration.md`，也可直接生成正式 `pipeline/blueprint`；正式蓝图必须保留低证据表达边界。
+
+> 质量审计：runtime 会提示 HKR、商业承接、素材和风险边界的缺口；这些提醒不阻断创作，但缺失信息不能在后续内容中被包装为事实或效果承诺。
 
 ## 与其他 Skill 的关系
 
 - **上游**：`content-intake`
-- **下游**：`content-angle`
+- **下游**：`content-blueprint`
 - **可调用**：`dbs-goal`、`dbs-diagnosis`、`dbs-content`
 - **被读取**：`wechat-writer`（HKR 框架）、`content-breakdown`（平台策略）
 
@@ -199,7 +300,32 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - 不因为素材「看起来不错」就通过，必须有明确的传播理由和商业理由
 - 每个「不通过」都要给出具体原因和改进方向
 - 每个「有条件通过」都要有清晰的补充清单
-- 平台首发策略要基于素材特点，而不是默认公众号首发
+- 平台首发策略要基于素材特点，而不是默认公众号首发；可在公众号、小红书、视频号中选择任意非空组合
+- 不把素材缺口留给写作阶段解决；写作只能放大好素材，不能替代素材采集
+- 不用“有潜力”“可以试试”这类模糊判断替代闸门结论
+- 可以用公开补证帮助立项通过，但必须说明哪些证据来自公开资料、哪些仍需用户提供一手材料
+
+## 交付自检
+
+写回 runtime 前逐条检查：
+
+- `立项决策` 必须包含：决策、决策理由、置信度、是否允许进入下一步。
+- `决策` 固定写“通过”，`是否允许进入下一步` 固定写“是（创作模式）”。
+- HKR 三项必须有明确评分；如果三项未达到 4 星以上，不要轻易写“通过”。
+- `商业成立性判断` 必须回答：目标是否空转、商业模式是否成立、是否有产品/服务承接、转化路径是否清晰。
+- `平台首发策略` 必须说明推荐平台和理由，不得只写“默认公众号”。
+- `素材来源` 必须写入已通过校验的 `market-signal` 报告路径、`公开样本状态` 和实际样本数；创作模式可以为 `0`，但必须明确“不使用外部样本”。
+- `素材补充清单` 必须是可执行条目；有条件通过时不能为空。
+- `风险提示` 不能写“无”，至少说明隐私、事实不确定、平台表达或商业承诺边界。
+- `下一步` 必须进入 `/content-blueprint`；有条件通过或不通过时，同时写明低证据表达和风险边界。
+
+写入后建议立刻运行：
+
+```bash
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
+  --project ~/ai-content-system \
+  validate --step validate --file pipeline/validate/{文件名}.md
+```
 
 ## 语言
 
@@ -218,7 +344,10 @@ content-intake 输出的素材理解报告（核心：AI 编程助手的真实�
 # 选题立项决策 · AI 编程助手的真实冲击
 
 ## 1. 立项决策
-通过
+- **决策**：通过
+- **决策理由**：素材有真实场景、可验证问题和清晰商业承接。
+- **置信度**：中
+- **是否允许进入下一步**：是
 
 ## 3. 商业成立性判断
 - 目标读者：关注 AI 的程序员、技术管理者
@@ -226,5 +355,5 @@ content-intake 输出的素材理解报告（核心：AI 编程助手的真实�
 - 风险：容易写成情绪焦虑文，需落到真实判断框架
 
 ## 4. 平台首发策略
-公众号首发，3 天后拆成小红书图文与抖音口播
+公众号首发，后续拆成小红书图文
 ```

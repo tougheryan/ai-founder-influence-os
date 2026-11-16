@@ -1,0 +1,54 @@
+name: source-checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: skills/xhs-card/package-lock.json
+      - run: python3 -m pip install pytest
+      - run: npm ci --ignore-scripts --no-audit
+        working-directory: skills/xhs-card
+      - run: npx playwright install --with-deps chromium
+        working-directory: skills/xhs-card
+      - run: make version-check runtime-contracts content-loop-check
+      - run: make test
+      - run: make pytest
+      - run: make package
+      - run: make smoke-release
+  interface:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: npm ci --ignore-scripts --no-audit
+        working-directory: ui
+      - run: npm test
+        working-directory: ui
+      - run: npm run lint
+        working-directory: ui
+      - run: npm run build
+        working-directory: ui
+      - run: npx tsc --noEmit
+        working-directory: ui

@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/content-runtime/package.schema.json",
+  "title": "Pipeline Output: package",
+  "allOf": [{ "$ref": "common.json" }],
+  "description": "package 步骤输出文件。用户可见标题必须是最终内容，body 必须包含 1 篇公众号长文、2 条短视频口播稿和 3 条分享观点图文；来源追溯保留在 frontmatter/source，不作为用户可见章节。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        { "pattern": "(?m)^#\\s+最终内容\\s*·" },
+        { "pattern": "(?m)^##\\s*1\\.\\s+公众号(?:母稿|长文)" },
+        { "pattern": "(?m)^##\\s*2\\.\\s+短视频(?:内容|口播(?:稿)?)" },
+        { "pattern": "(?m)^##\\s*3\\.\\s+(?:分享观点(?:图文)?|图文内容)" },
+        { "pattern": "(?m)^###\\s*短视频\\s*1" },
+        { "pattern": "(?m)^###\\s*短视频\\s*2" },
+        { "pattern": "(?m)^###\\s*(?:分享观点|图文)\\s*1" },
+        { "pattern": "(?m)^###\\s*(?:分享观点|图文)\\s*2" },
+        { "pattern": "(?m)^###\\s*(?:分享观点|图文)\\s*3" }
+      ]
+    }
+  }
+}

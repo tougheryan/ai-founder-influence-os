@@ -1,160 +1,60 @@
 ---
 name: content-breakdown
-description: AI FOUNDER INFLUENCE OS第三步：内容拆解。基于 content-angle 选定的角度，输出关键词矩阵、爆款档案参考、公众号/小红书/抖音主副标题、开场 3 秒钩子、小红书封面三行文案。
+description: AIFIOS 内容拆解。将已立项主题转为公众号与小红书的可执行写作 brief。
 ---
 
-# content-breakdown · 内容拆解
+# content-breakdown
 
 ## 作用
 
-把选定的角度变成可直接进入生产的拆解方案：不同平台怎么起标题、怎么钩人、怎么切关键词。
-
-## 触发方式
-
-- `/content-breakdown`
-- `拆解内容`、`怎么写标题`、`生成钩子`
-- `小红书标题怎么写`、`抖音前 3 秒怎么切`
+把 `validate` 与 `angle` 的结论收敛为可执行 brief，供 `wechat-writer`、`content-package`、`xhs-card` 和视觉流程使用。
 
 ## 输入
 
-- `content-intake` 素材报告路径
-- `content-angle` 角度报告路径（或用户直接指定的角度），优先读取 `content-validate` 立项报告中的「平台首发策略」和「素材补充清单」
-- 如果用户未指定路径，优先通过 content-runtime 读取最新 angle 报告：
-  ```bash
-  python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-    --project ~/ai-content-system \
-    read --step angle --latest
-  ```
-- 可选：目标平台
+- 已通过的立项报告
+- 选定角度
+- 可用事实、案例、来源和风险边界
+- 目标平台：`wechat`、`xhs` 或两者
 
 ## 输出
-
-保存到：
-
-```
-~/ai-content-system/pipeline/breakdown/{YYYY-MM-DD}-{slug}-breakdown.md
-```
-
-**必须通过 content-runtime 写入**：
-
-```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system \
-  write --step breakdown --slug {slug} \
-  --content @/path/to/breakdown-body.md \
-  --source "angle:{angle文件路径}"
-```
-
-输出结构：
 
 ```markdown
 # 内容拆解方案 · {标题}
 
-## 关键词矩阵
+## 0. 上游约束
+- 主题：
+- 目标读者：
+- 核心判断：
+- 证据边界：
+- 不可公开信息：
 
-| 平台 | 核心关键词 | 长尾关键词 | 标签 |
-|---|---|---|---|
-| 公众号 | ... | ... | ... |
-| 小红书 | ... | ... | ... |
-| 抖音 | ... | ... | ... |
-
-## 爆款档案参考
-
-- 参考 1：`materials/hit-library/...md` — 可借鉴点：...
-- 参考 2：...
-
-## 标题方案
-
+## 1. 标题方案
 ### 公众号
-- 主标题：...
-- 副标题：...
+- 主标题：
+- 备选：
 
 ### 小红书
-- 主标题：...
-- 封面三行文案：
-  - 第一行：...
-  - 第二行：...
-  - 第三行：...
+- 发布标题：
+- 封面三行：
 
-### 抖音
-- 口播标题：...
-- 前 3 秒钩子：...
+## 2. 结构与素材
+- 公众号正文结构：
+- 小红书 P1-P5 结构：
+- 必须引用的事实：
+- 需要补充的素材：
 
-## 开场钩子库
+## 3. 评论与转化
+- 公众号评论区问题：
+- 小红书评论区问题：
+- 合规边界：
 
-- 反常识型：...
-- 痛点型：...
-- 身份型：...
-- 数据型：...
-
-## 平台适配建议
-
-- 公众号：...
-- 小红书：...
-- 抖音：...
-
-## 素材补充清单
-
-基于选定角度和平台策略，进入写作前还缺什么：
-
-- [ ] {数据/事实}
-- [ ] {具体案例/人物}
-- [ ] {用户痛点原话}
-- [ ] {产品/服务信息}
-- [ ] {对标参考}
-- [ ] {视觉素材}
-
-> 如果 content-validate 已经输出过补充清单，这里应与之对齐并细化。
-
-## 下一步执行指令
-
-- 写公众号：`/content-write`，`wechat-writer` 通过 `read --step breakdown --latest` 读取最新拆解方案
-- 写抖音口播：`/content-douyin`，`douyin-script` 通过 `read --step breakdown --latest` 读取最新拆解方案
-- 做小红书图文：`/content-xhs`，`xhs-card` 通过 `read --step breakdown --latest` 读取最新拆解方案
+## 4. 下一步
+- 公众号：`/content-write`
+- 小红书：`/content-xhs`
 ```
 
-## 标题生成原则
+## 规则
 
-- 公众号：35-58 字，陈述句，无问号和感叹号，有具体场景/数字/年龄
-- 小红书：18-30 字，封面三行文案要有钩子、利益点、情绪词
-- 抖音：口语化，前 3 秒必须出现冲突/反常识/痛点
-
-## 复用资产
-
-- `content-formula-extract` 的标题/开头/结构/结尾公式库
-- `wechat-title-maker` 的 5 大标题手法
-- `ah-xhs-cover-title` 的 85 条封面公式库、8 钩子 × 6 赛道分类
-
-## 与其他 Skill 的关系
-
-- 上游：`content-intake`、`content-angle`
-- 下游：`wechat-writer`、`douyin-script`、`xhs-card`
-
-## 输出后的下一步
-
-拆解方案通过 content-runtime 写入 `pipeline/breakdown/` 后，下游写作 skill 可直接通过 `read --step breakdown --latest` 获取最新方案，无需用户手动指定路径。
-
-## 输入/输出示例
-
-### 示例 1：选定角度 → 拆解方案
-
-**输入**
-content-angle 推荐角度：「实习生类比」。
-
-**预期输出**
-```markdown
-# 内容拆解方案 · Codex 像一个超人实习生
-
-## 关键词矩阵
-- 核心词：Codex、AI 编程、实习生
-- 情绪词：震撼、漏洞、接管、判断力
-- 场景词：凌晨改 bug、代码审查、老工程师
-
-## 标题方案
-1. 《Codex 像一个超人实习生：写得快，但得有人把关》
-2. 《我用 Codex 省下的 72 小时，花在了哪里》
-
-## 开场钩子库
-- "它一晚上写完的代码，我花了一早上改 bug。"
-- "这不是替代，是空降了一个不会疲倦的实习生。"
-```
+- 标题和首段必须回应具体读者场景，不只写抽象概念。
+- 证据不足时明确标注补充项，不把推断写成事实。
+- 所有下游产物必须保持同一 `slug` 与风险边界。

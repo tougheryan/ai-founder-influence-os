@@ -15,13 +15,13 @@ Use this skill for:
 
 - Social card / carousel image sets: cover plus content pages, especially Xiaohongshu/Rednote 3:4.
 - WeChat Official Account cover pairs: one `21:9` main cover plus one `1:1` square cover, composed together in the same HTML for visual checking.
+- Legacy short-video covers remain readable only. New platform-native runs use this skill for WeChat share assets and Xiaohongshu P1–P8; WeChat Channels creates no static-visual task.
 - Screenshot-heavy product posts, article covers, tutorial carousels, outdoor/lifestyle notes, AI/product update explainers.
 - Social images that need Guizang-style Swiss or editorial magazine layouts.
 
 Do not use this skill for:
 
 - Full slide decks or horizontal PPT websites. Use the PPT skill for that.
-- Long-form video generation. Use a video skill for that.
 - Pure image editing with no layout or article extraction requirement.
 
 ### Rednote Category Capability (capability circle)
@@ -56,6 +56,19 @@ For each page, decide:
 - What evidence, screenshot, or image supports it?
 - Which words must be large, and which can become captions or metadata?
 - What can be removed because it belongs in the post body, not the image?
+
+## AIFI-OS Recipe Input
+
+When AIFI-OS calls this skill, `pipeline/visual/{slug}/recipes/rNNN.visual-recipe.json` is the rendering authority. Read the declared `layout_recipe`, `renderer`, page copy, evidence source and visual-system choice for each asset; do not replace them with a fixed Swiss template or a generic matrix page.
+
+- `S*` recipes use the Swiss template; `M*` recipes use the Editorial template.
+- For a package's three share posts, honor `share_format` and `card_structure`: `contrast` needs an old/new visual argument, `framework` needs an ordered path, and `story` needs scene/conflict/turning-point progression. Do not turn all 15 pages into the same title-plus-matrix card.
+- For WeChat, honor `cover_strategy` and render both declared `cover_options`; evidence-led covers must visibly use the declared source, while the alternate typography/quote cover must remain a distinct publishing choice.
+- `video-*-cover` assets are 9:16 cover frames. Keep a single hook visible at thumbnail scale and do not include dense subtitles or a fake product UI.
+- Screenshot/data/artifact evidence must be framed from the declared project-local source. Do not fabricate product UI or turn a required evidence page into a decorative illustration.
+- Keep Chinese titles and numbers in HTML/CSS/Canvas text layers, not inside AI raster output.
+- Record the actual template, layout recipe and evidence source in the rendered index so the release gate can verify the result.
+- The standalone validator treats WARNs as diagnostics. In an AIFI-OS recipe release, any 3:4 `R5 density` result below the recipe threshold (default 62%) is a release blocker.
 
 ## Required References
 

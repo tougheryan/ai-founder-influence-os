@@ -1,6 +1,6 @@
 ---
 name: content-audit
-description: AI FOUNDER INFLUENCE OS第六步：可信审核。对公众号/口播/小红书成稿进行来源追溯、事实校验、隐私提醒、平台风险识别和修改建议，并内置 humanizer-zh 润色。
+description: AI FOUNDER INFLUENCE OS第六步：可信审核。对公众号/小红书成稿进行来源追溯、事实校验、隐私提醒、平台风险识别和修改建议，并内置 humanizer-zh 润色。
 ---
 
 # content-audit · 可信审核
@@ -17,21 +17,17 @@ description: AI FOUNDER INFLUENCE OS第六步：可信审核。对公众号/口�
 
 ## 输入
 
-成稿内容：公众号长文、抖音口播稿、小红书图文文案，或文件路径。
+成稿内容：公众号长文、小红书图文文案，或文件路径。
 
 如果用户未指定文件路径，优先通过 content-runtime 读取最新成稿：
 
 ```bash
 # 公众号长文
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step write --latest
 
-# 抖音口播稿
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system read --step douyin --latest
-
 # 小红书图文
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step xhs --latest
 ```
 
@@ -46,7 +42,7 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 **必须通过 content-runtime 写入**：
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step audit --slug {slug} \
   --content @/path/to/audit-body.md \
@@ -121,7 +117,7 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 
 ## 与其他 Skill 的关系
 
-- 上游：`wechat-writer`、`douyin-script`、`xhs-card`
+- 上游：`wechat-writer`、`xhs-card`
 - 复用：`humanizer-zh` 的 24 条 AI 味检测规则
 - 下游：`content-review`（发布后的数据复盘）
 

@@ -45,7 +45,7 @@ Pick six values before writing the markup. Treat this like the M16 cover decisio
 | Class      | Use                                                       |
 | ---------- | --------------------------------------------------------- |
 | `r-16x10`  | Default for app / web shots, looks like a real window     |
-| `r-16x9`   | Landscape video / dashboard / wide chart                  |
+| `r-16x9`   | Landscape dashboard / wide chart                          |
 | `r-4x3`    | Classic desktop window, legacy app                        |
 | `r-3x2`    | DSLR-style — only if the source is photographic UI mockup |
 | `r-1x1`    | App icon / square widget                                  |

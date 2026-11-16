@@ -7,5 +7,53 @@
       "$ref": "common.json"
     }
   ],
-  "description": "write 步骤输出文件。body 必须包含以下章节标题：无固定要求"
+  "description": "write 步骤输出文件。公众号正文保持灵活，但必须包含 H1 标题和 AIFIOS-WRITE-CHECK 隐藏交付自检块，确保上游 brief、证据、传播心理、风险和商业收口可追溯。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "公众号长文 markdown 正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^#\\s+\\S+"
+        },
+        {
+          "pattern": "<!--\\s*AIFIOS-WRITE-CHECK"
+        },
+        {
+          "pattern": "上游\\s*brief\\s*-"
+        },
+        {
+          "pattern": "推荐风格\\s*-"
+        },
+        {
+          "pattern": "写作任务卡\\s*-"
+        },
+        {
+          "pattern": "证据台账\\s*-"
+        },
+        {
+          "pattern": "文章骨架\\s*-"
+        },
+        {
+          "pattern": "必用证据\\s*-"
+        },
+        {
+          "pattern": "传播心理兑现\\s*-"
+        },
+        {
+          "pattern": "风险边界\\s*-"
+        },
+        {
+          "pattern": "商业收口\\s*-"
+        },
+        {
+          "pattern": "质检结论\\s*-\\s*(pass|review)"
+        },
+        {
+          "pattern": "-->"
+        }
+      ]
+    }
+  }
 }

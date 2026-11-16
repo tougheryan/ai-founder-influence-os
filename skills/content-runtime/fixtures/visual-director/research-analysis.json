@@ -1,0 +1,76 @@
+{
+  "package": {
+    "title": "行业研究：客户留存为什么下降",
+    "wechat": {
+      "title": "行业研究：客户留存为什么下降",
+      "cover_text": "留存下降，不只是产品问题",
+      "summary": "把新客户、回访客户和企业客户拆开看，真正的差距来自价值确认时点不同。",
+      "body": "本研究使用分群留存数据和访谈记录，比较三个客户群的留存表现，再把数值结论与业务动作分开表达。"
+    },
+    "xhs_posts": [
+      {
+        "index": 1,
+        "title": "客户留存为什么下降",
+        "cover_text": "留存下降，不只是产品问题",
+        "body": "先看真实分群数据，再判断应该改产品、服务还是价值确认。",
+        "pages": [
+          {
+            "page_id": "P1",
+            "title": "别先看平均留存",
+            "body": "平均数遮住了客户分群差异；新客户和企业客户面对的不是同一个问题。",
+            "image_prompt": "分群研究结论封面",
+            "visual_hierarchy": "研究问题 + 核心判断 + 数据来源",
+            "layout_note": "标题由 HTML 排版，不在位图中生成"
+          },
+          {
+            "page_id": "P2",
+            "title": "三个分群差距明显",
+            "body": "新客户留存 42%；回访客户留存 71%；企业客户留存 83%。",
+            "image_prompt": "读取真实 CSV 生成分群数据图",
+            "visual_hierarchy": "分群名称 + 真实数值 + 来源口径",
+            "layout_note": "数据主体至少占视觉区域 40%，不得改写数值"
+          },
+          {
+            "page_id": "P3",
+            "title": "差距来自确认时点",
+            "body": "新客户还没确认价值；回访客户已经形成使用习惯；企业客户有固定协作流程。",
+            "image_prompt": "三层证据链",
+            "visual_hierarchy": "分群现象 + 行为解释 + 证据边界",
+            "layout_note": "把事实和解释分层，避免伪因果"
+          },
+          {
+            "page_id": "P4",
+            "title": "先修新客户首周",
+            "body": "缩短第一次价值确认；补上关键任务提示；在流失前收集失败原因。",
+            "image_prompt": "首周行动时间线",
+            "visual_hierarchy": "研究判断 + 三个行动节点",
+            "layout_note": "行动建议明确标注为推论，不冒充数据"
+          },
+          {
+            "page_id": "P5",
+            "title": "下一轮验证三件事",
+            "body": "价值确认是否提前；任务完成率是否改善；流失原因是否可归类。",
+            "image_prompt": "三项验证矩阵",
+            "visual_hierarchy": "验证问题 + 指标来源 + 下一步",
+            "layout_note": "结尾保留研究边界和数据口径"
+          }
+        ]
+      }
+    ]
+  },
+  "materials": {
+    "assets": [
+      {
+        "path": "materials/research/retention.csv",
+        "kind": "dataset",
+        "role": "research_source",
+        "fixture_content": "segment,retention,source\nnew,42,2026-Q2 cohort\nreturning,71,2026-Q2 cohort\nenterprise,83,2026-Q2 cohort\n"
+      }
+    ]
+  },
+  "expected": {
+    "content_archetype": "research",
+    "xhs_system": "hybrid",
+    "xhs_recipes": ["M01", "S10", "S06", "M10", "S12"]
+  }
+}

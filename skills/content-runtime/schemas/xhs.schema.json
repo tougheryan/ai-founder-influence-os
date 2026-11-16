@@ -7,5 +7,32 @@
       "$ref": "common.json"
     }
   ],
-  "description": "xhs 步骤输出文件。body 必须包含以下章节标题：无固定要求"
+  "description": "xhs 步骤输出文件。body 必须包含封面三行、图文卡片结构、正文笔记、评论区承接和风险边界，确保不是空泛卡片草稿。",
+  "properties": {
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "小红书图文/卡片正文",
+      "allOf": [
+        {
+          "pattern": "(?m)^#\\s+\\S+"
+        },
+        {
+          "pattern": "(?m)^##\\s*(?:\\d+\\.\\s*)?封面三行文案"
+        },
+        {
+          "pattern": "(?m)^##\\s*(?:\\d+\\.\\s*)?图文卡片结构"
+        },
+        {
+          "pattern": "(?m)^##\\s*(?:\\d+\\.\\s*)?正文笔记"
+        },
+        {
+          "pattern": "(?m)^##\\s*(?:\\d+\\.\\s*)?评论区承接"
+        },
+        {
+          "pattern": "(?m)^##\\s*(?:\\d+\\.\\s*)?风险边界"
+        }
+      ]
+    }
+  }
 }

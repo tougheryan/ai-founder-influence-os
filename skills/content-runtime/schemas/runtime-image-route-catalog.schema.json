@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "echo-founder.runtime-image-route-catalog.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "benchmark_id", "status", "updated_at", "description", "routes"],
+  "properties": {
+    "schema_version": {"const": "echo-founder.runtime-image-route-catalog.v1"},
+    "benchmark_id": {"type": "string", "pattern": "^runtime-catalog-[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "status": {"const": "ready"},
+    "updated_at": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 1},
+    "routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["route_id", "credential_id", "provider", "model_id", "estimated_cost_cny", "priority", "runtime_eligible", "source"],
+        "properties": {
+          "route_id": {"type": "string", "pattern": "^runtime-[a-z0-9-]+$"},
+          "credential_id": {"enum": ["image_openrouter", "image_replicate", "image_ark", "image_dashscope", "image_zai", "image_minimax"]},
+          "provider": {"enum": ["openrouter", "replicate", "ark", "dashscope", "zai", "minimax"]},
+          "model_id": {"type": "string", "minLength": 1, "maxLength": 200},
+          "estimated_cost_cny": {"type": "number", "exclusiveMinimum": 0, "maximum": 40},
+          "priority": {"type": "integer", "minimum": 0},
+          "runtime_eligible": {"const": true},
+          "source": {"const": "bundled-official-model"}
+        }
+      }
+    }
+  }
+}

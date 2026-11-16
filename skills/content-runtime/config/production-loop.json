@@ -1,0 +1,334 @@
+{
+  "schema": "aifios.production-loop.v1",
+  "scope": {
+    "supported_platforms": ["wechat", "xhs", "shipinhao"],
+    "delivery_boundary": "Echo Founder only prepares content for platforms selected in the current run. WeChat and Xiaohongshu may receive visual assets; Channels receives an execution script only. Human authorization and action remain required for public publishing."
+  },
+  "writing_modes": {
+    "platform": {
+      "label": "帮我找方向",
+      "runtime_steps": [
+        "intake",
+        "validate",
+        "blueprint",
+        "package",
+        "visual",
+        "prelaunch",
+        "compliance",
+        "audit"
+      ],
+      "required_quality_gates": [
+        "market-signal",
+        "platform-native-package"
+      ]
+    },
+    "author_material": {
+      "label": "按我的题目写",
+      "runtime_steps": [
+        "intake",
+        "blueprint",
+        "package",
+        "visual",
+        "prelaunch",
+        "compliance",
+        "audit"
+      ],
+      "required_quality_gates": [
+        "author-source",
+        "platform-native-package"
+      ],
+      "activation": "Explicit author-source-select with verified current run, material, intake, topic and selected platforms; never a fallback for failed research.",
+      "source_policy": "author_material_only_no_market_claims"
+    }
+  },
+  "pre_validate_quality_gate": {
+    "id": "market-signal",
+    "between": ["intake", "validate"],
+    "applies_to": ["platform"],
+    "required": true,
+    "report_path": "materials/research/{slug}-market-signal.md",
+    "source_policy": "public_samples_only",
+    "pass_condition": "At least one selected platform lane has live, attributable samples and the current run has a verifiable research snapshot. Failed platform lanes remain explicit and never erase successful lanes.",
+    "sample_insufficient_behavior": "Block only when every selected platform lane lacks usable evidence. Preserve unknown metrics as unknown, and label every sample as verified_hit, potential, or related.",
+    "allowed_learning": ["title entry", "opening hook", "narrative structure", "interaction mechanism", "publicly verifiable context"],
+    "forbidden_learning": ["third-party title/body/card/shot/comment copying", "third-party metrics presented as own results", "private or access-controlled material"]
+  },
+  "standard_path": [
+    "intake",
+    "validate",
+    "blueprint",
+    "package",
+    "visual",
+    "prelaunch",
+    "compliance",
+    "audit"
+  ],
+  "default_schedule": ["editorial_core", "draft_preparation"],
+  "schedules": {
+    "editorial_core": {
+      "label": "编辑生产核心",
+      "runtime_steps": ["intake", "validate", "blueprint", "package"],
+      "required_quality_gates": ["market-signal", "platform-native-package"],
+      "description": "从授权素材、平台选择和独立公开样本研究，到各已选平台的原生成稿。平台研究模式中 market-signal 是 validate 前的必经输入；作者模式按 writing_modes.author_material 调度，先核验独立作者素材依据。"
+    },
+    "draft_preparation": {
+      "label": "发布草稿准备",
+      "runtime_steps": ["visual", "prelaunch", "compliance", "audit"],
+      "terminal_approval": "draft_information",
+      "description": "公众号和小红书按需生成视觉，视频号单选跳过视觉；随后只准备已选平台的草稿信息。"
+    },
+    "publication_result": {
+      "label": "发布结果记录",
+      "runtime_steps": ["publish"],
+      "trigger": "human_publication_event",
+      "description": "仅在操作者已在平台完成发送后记录链接、时间和人工确认；不属于默认生产调度。"
+    },
+    "weekly_learning": {
+      "label": "每周学习复盘",
+      "runtime_steps": ["performance", "review", "archive", "twin"],
+      "trigger": "weekly_optional",
+      "description": "按周收集已发布内容的表现数据，由操作者补齐关键指标后再复盘和沉淀；不阻断新的内容生产。"
+    }
+  },
+  "optional_branches": [
+    {
+      "id": "market-signal",
+      "applies_to": ["platform"],
+      "runtime_steps": [],
+      "when": "平台研究模式中 intake 完成后、进入 validate 前执行公开样本研究；作者模式不执行此分支。",
+      "returns_to": "validate",
+      "required": true,
+      "source_policy": "public_samples_only",
+      "on_sample_insufficient": "当所有已选平台都无可用证据时阻断；单个平台失败只阻断该平台分线并保留其他成功结果。"
+    },
+    {
+      "id": "angle-breakdown",
+      "runtime_steps": ["angle", "breakdown"],
+      "when": "需要比较叙事角度、标题或平台钩子，而不是直接采用当前平台内容蓝图时",
+      "returns_to": "blueprint"
+    },
+    {
+      "id": "business-diagnosis",
+      "runtime_steps": ["dbs-fusion"],
+      "when": "内容的商业目标、产品表达或转化承接仍不清楚时",
+      "returns_to": "blueprint"
+    }
+  ],
+  "human_control_points": [
+    {
+      "id": "H1",
+      "after": "intake",
+      "decision": "确认素材公开范围、事实边界和不可公开信息",
+      "required": true
+    },
+    {
+      "id": "H2",
+      "after": "blueprint",
+      "decision": "确认本期平台选择，以及各平台的目标读者、写作依据（作者素材或平台研究）、独立选题与本期写作目的",
+      "required": true
+    },
+    {
+      "id": "H3",
+      "after": "package",
+      "decision": "逐项确认已选平台的原生成稿、事实边界和作者表达，确认不存在母稿拆解关系",
+      "required": true
+    },
+    {
+      "id": "H4",
+      "after": "visual",
+      "decision": "公众号采用完整微信 HTML 排版；小红书采用 P1-P8 观点卡片；视频号单选跳过",
+      "required": "conditional"
+    },
+    {
+      "id": "H5",
+      "after": "audit",
+      "decision": "确认平台草稿字段、图片、顺序和草稿目标，写入 draft_information 审批后才可进入发布队列",
+      "required": true
+    },
+    {
+      "id": "H6",
+      "after": "publish",
+      "decision": "在平台后台完成真人发布后逐项确认，并填写真实链接和发布时间",
+      "required": true
+    },
+    {
+      "id": "H7",
+      "after": "review",
+      "decision": "补齐每周复盘缺失指标并确认可进入长期学习的结论",
+      "required": true
+    }
+  ],
+  "stages": [
+    {
+      "step": "intake",
+      "lane": "core",
+      "automation": "semi_automatic",
+      "system_action": "提取场景、人物、观点、案例、情绪、商业意图、事实边界和素材缺口，并为下一步公开样本检索提供同场景、同人群、同目标的关键词。",
+      "human_action": "提供授权素材，并确认不可公开信息和推断不能被当作事实。",
+      "exit_criteria": "intake runtime 校验通过，且素材质量审计不是 blocked；随后按已选择的写作模式核验作者素材依据，或生成 market-signal 公开对标报告。",
+      "on_blocked": "补充原始事实、案例、目标读者或公开范围后重跑 intake。"
+    },
+    {
+      "step": "validate",
+      "lane": "core",
+      "automation": "semi_automatic",
+      "system_action": "读取已选平台的 market-signal 报告，按平台分别评估样本等级、主题价值、证据充分性和风险边界。",
+      "human_action": "确认样本分级与本期快照，允许部分平台继续、重试或取消；拒绝把相关样本包装成爆款。",
+      "exit_criteria": "至少一个已选平台研究分线可用，当前 run 快照通过校验，且立项决策为通过或有条件通过。",
+      "on_blocked": "返回 intake 补素材、补公开样本或调整选题，不进入写作。"
+    },
+    {
+      "step": "blueprint",
+      "lane": "core",
+      "automation": "semi_automatic",
+      "system_action": "读取本期已核验的作者素材依据或平台研究，生成共享事实底稿及各已选平台的选题、结构、结尾和风险边界；作者模式明确未进行平台研究。",
+      "human_action": "确认平台选择与各平台独立蓝图，这是进入内容生产前的决策。",
+      "exit_criteria": "蓝图质量门通过，人工确认清单已完成。",
+      "on_blocked": "作者模式返回素材核对题目、材料与平台；研究模式返回 validate 或补充研究证据。"
+    },
+    {
+      "step": "angle",
+      "lane": "optional",
+      "automation": "semi_automatic",
+      "system_action": "从已立项素材提出可比较的表达角度。",
+      "human_action": "在需要时选择更贴近本人表达和商业目标的角度。",
+      "exit_criteria": "推荐角度与风险边界完整。",
+      "on_blocked": "返回 validate 或 intake。"
+    },
+    {
+      "step": "breakdown",
+      "lane": "optional",
+      "automation": "semi_automatic",
+      "system_action": "把选定角度拆成标题、钩子、关键词、结构和平台适配方案。",
+      "human_action": "确认标题承诺、开场钩子和目标平台表达。",
+      "exit_criteria": "生产单通过 breakdown 质量审计。",
+      "on_blocked": "返回 angle 或 blueprint 调整核心判断。"
+    },
+    {
+      "step": "dbs-fusion",
+      "lane": "optional",
+      "automation": "semi_automatic",
+      "system_action": "诊断商业表达、产品承接或关键决策，并提出可追溯写回计划。",
+      "human_action": "确认业务判断和允许写入蓝图/成稿的结论。",
+      "exit_criteria": "人工复核项完成，写回目标可追溯。",
+      "on_blocked": "返回 blueprint 或补充业务事实。"
+    },
+    {
+      "step": "write",
+      "lane": "legacy_compat",
+      "automation": "semi_automatic",
+      "system_action": "只读取旧运行中的公众号母稿步骤；新运行不再经过母稿。",
+      "human_action": "校正作者语气、第一手经验、案例细节和无法验证的断言。",
+      "exit_criteria": "write runtime 校验和写作质量门通过。",
+      "on_blocked": "返回 blueprint、breakdown 或补充证据。"
+    },
+    {
+      "step": "package",
+      "lane": "core",
+      "automation": "semi_automatic",
+      "system_action": "只为本期已选平台独立生成公众号原生长文、小红书原生图文和/或视频号原生口播执行稿。",
+      "human_action": "逐平台确认标题、结构、表达、标签、评论承接、镜头和页卡没有越过事实边界。",
+      "exit_criteria": "package 质量门通过，章节与平台选择完全一致，每个平台可独立进入发布准备。",
+      "on_blocked": "返回对应平台蓝图或 package 重做该平台内容，不影响其他已通过平台。"
+    },
+    {
+      "step": "xhs",
+      "lane": "legacy_compat",
+      "automation": "semi_automatic",
+      "system_action": "生成小红书封面文案、卡片结构、正文、标签和评论承接。",
+      "human_action": "确认小红书的页序、承诺和标签符合账号语境。",
+      "exit_criteria": "xhs 质量门通过且与选题证据一致。",
+      "on_blocked": "返回 breakdown 或 write。"
+    },
+    {
+      "step": "platform-adapt",
+      "lane": "legacy_compat",
+      "automation": "semi_automatic",
+      "system_action": "仅为旧运行保留跨平台适配读取能力；新运行禁止从一个平台成稿改写另一个平台。",
+      "human_action": "确认没有机械搬运、平台错配或新增事实。",
+      "exit_criteria": "适配报告通过平台差异和来源检查。",
+      "on_blocked": "返回主稿或对应平台 production step。"
+    },
+    {
+      "step": "visual",
+      "lane": "core",
+      "automation": "semi_automatic",
+      "system_action": "按平台条件生成完整发布件：公众号自动生成一张封面与 1–3 张正文图解，优先调用本机 md2wechat 输出已嵌图 HTML，失败时回退到内置排版；小红书本地渲染 P1-P8；视频号不生成静态视觉资产。",
+      "human_action": "审核公众号完整排版与小红书逐页文案、页序和可读性，并采用质量通过的版本。",
+      "exit_criteria": "公众号 HTML 和/或小红书 P1-P8 质量门通过，且已显式采用可追溯版本。",
+      "on_blocked": "只重做对应平台排版，不触发付费生图或影响其他平台结果。"
+    },
+    {
+      "step": "prelaunch",
+      "lane": "core",
+      "automation": "semi_automatic",
+      "system_action": "检查事实、风格、平台规则、商业闭环和传播共鸣。",
+      "human_action": "判断需要补证、降级表达或返回写作的风险项。",
+      "exit_criteria": "发布前检查没有 blocked 项。",
+      "on_blocked": "返回 write/package/visual 修复对应问题。"
+    },
+    {
+      "step": "compliance",
+      "lane": "core",
+      "automation": "semi_automatic",
+      "system_action": "扫描违禁词、广告法敏感词、平台规则和版权风险。",
+      "human_action": "确认授权、引流和版权边界，处理无法自动判断的语境。",
+      "exit_criteria": "合规质量门通过或所有 review 项获人工确认。",
+      "on_blocked": "返回 package/write 替换风险表述或补授权证据。"
+    },
+    {
+      "step": "audit",
+      "lane": "core",
+      "automation": "semi_automatic",
+      "system_action": "追溯来源、核验事实、识别隐私和平台风险，给出修改建议。",
+      "human_action": "发布负责人逐项确认数字、引用、客户信息、平台草稿字段与最终版本，作出 draft_information 放行决定。",
+      "exit_criteria": "audit 质量门通过，随后等待 H5 平台草稿信息人工确认。",
+      "on_blocked": "返回 write/package/visual 修复，不生成发布记录。"
+    },
+    {
+      "step": "publish",
+      "lane": "event_driven",
+      "automation": "manual_required",
+      "system_action": "只整理本期已选平台的发布包，并按平台分别校验最终稿、URL、时间和 run 归属。",
+      "human_action": "真人在本期已选平台后台发布，并分别提供可验证链接/截图引用和发布时间。",
+      "exit_criteria": "同一 run 的 publish 记录包含已校验最终稿、真实链接和发布时间。",
+      "on_blocked": "缺真实发布证据时保持 blocked；不得伪造链接或发布时间。"
+    },
+    {
+      "step": "performance",
+      "lane": "weekly",
+      "automation": "semi_automatic",
+      "system_action": "从授权 API、浏览器登录态或人工导入文件归一化数据，并生成 review 输入包；未接入的平台只接受人工授权回填。",
+      "human_action": "完成登录/授权，补充无法自动获得的转化数据、评论和业务反馈。",
+      "exit_criteria": "数据与同 slug publish 记录绑定，来源和采集时间可追溯。",
+      "on_blocked": "等待真实发布与授权数据；不得把第三方样本或模拟数据当作自身表现。"
+    },
+    {
+      "step": "review",
+      "lane": "weekly",
+      "automation": "semi_automatic",
+      "system_action": "汇总表现、评论洞察和下一条建议。",
+      "human_action": "解释业务背景、区分偶然数据与稳定信号，并确认下一轮实验。",
+      "exit_criteria": "review 质量门通过，结论引用真实 performance 输入。",
+      "on_blocked": "返回 performance 补数据，或明确标记为试产观察。"
+    },
+    {
+      "step": "archive",
+      "lane": "weekly",
+      "automation": "semi_automatic",
+      "system_action": "将已验证的题材、成稿、数据、反馈、风格和禁区写入 brain 资产层。",
+      "human_action": "确认哪些案例、表达和禁区真的值得长期复用。",
+      "exit_criteria": "archive 质量门通过，四类 brain 资产和来源索引完整。",
+      "on_blocked": "返回 review 补证；未发布内容只能作为待验证观察归档。"
+    },
+    {
+      "step": "twin",
+      "lane": "weekly",
+      "automation": "semi_automatic",
+      "system_action": "从最终发布成品提炼内容 DNA、结构、声纹和读者画像候选。",
+      "human_action": "选择最终发布版本，确认只把有证据的稳定模式写入长期记忆。",
+      "exit_criteria": "twin 质量门通过，记忆写入计划包含证据和合并策略。",
+      "on_blocked": "返回 archive/review；草稿只能只读观察，不能污染长期记忆。"
+    }
+  ]
+}

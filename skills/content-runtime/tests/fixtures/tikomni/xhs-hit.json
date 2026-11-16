@@ -1,0 +1,39 @@
+{
+  "object_type": "work_collection",
+  "platform": "xiaohongshu",
+  "input": {"keyword": "AI 创业"},
+  "normalized": {
+    "items": [
+      {
+        "platform": "xiaohongshu",
+        "platform_work_id": "xhs-note-001",
+        "platform_author_id": "xhs-author-001",
+        "author_handle": "ai_founder_notes",
+        "author": "AI 创业笔记",
+        "title": "普通人做 AI 咨询，第一步不是做产品",
+        "caption_raw": "我踩过最大的坑，是一上来就做产品。先找到客户愿意付费的问题。",
+        "work_modality": "note",
+        "published_date": "2026-07-08",
+        "cover_image": "https://example.com/xhs-cover.jpg",
+        "source_url": "https://www.xiaohongshu.com/explore/xhs-note-001",
+        "share_url": "https://www.xiaohongshu.com/explore/xhs-note-001",
+        "primary_text": "我踩过最大的坑，是一上来就做产品。先找到客户愿意付费的问题。",
+        "primary_text_source": "caption_raw",
+        "digg_count": 1200,
+        "comment_count": 88,
+        "collect_count": 650,
+        "share_count": 40,
+        "request_id": "fixture-xhs-hit",
+        "completeness": "complete",
+        "missing_fields": [],
+        "error_reason": "",
+        "extract_trace": []
+      }
+    ]
+  },
+  "completeness": "complete",
+  "missing_fields": [],
+  "error_reason": "",
+  "extract_trace": [],
+  "request_id": "fixture-xhs-hit"
+}

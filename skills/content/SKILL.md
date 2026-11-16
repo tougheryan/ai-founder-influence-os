@@ -1,165 +1,113 @@
 ---
 name: content
-description: AI FOUNDER INFLUENCE OS 总控入口。对话式判断用户意图，展示当前 OS 状态，路由到具体子 skill。
+description: Echo Founder 内容生产总控入口。判断用户意图，管理当前任务，并按用户选择的平台路由原生内容生产。
 ---
 
-# content · AI FOUNDER INFLUENCE OS 总控入口
+# content · Echo Founder 内容生产总控
 
-## 工程底座：content-runtime
+## 产品原则
 
-`content` 总控入口以及所有子 skill 在执行前，优先调用 `content-runtime` 管理项目状态和文件：
+Echo Founder 从一条真实素材出发，但不从一篇“公众号母稿”派生所有平台内容。新任务只支持三个可选发布平台：
+
+- `wechat`：微信公众号
+- `xhs`：小红书
+- `shipinhao`：视频号
+
+用户可以选择任意一个、任意组合或全部平台。平台选择必须在公开样本研究之前确认；系统只研究、生成、审核和交付已选择的平台。
+
+共享的是事实、人物、案例、证据、商业目标与不可公开边界；不共享标题、开头、正文结构、平台话术和视觉模板。每个平台必须根据本平台的公开样本、阅读场景和发布形态独立生产原生内容。
+
+## 标准七阶段
+
+1. **素材**：理解真实来源，提取事实、观点、场景、证据和隐私边界。
+2. **选题**：确认平台选择；对每个已选平台分别收集公开样本、判断可借鉴机制并完成立项。
+3. **内容**：建立共享事实底座，再为每个已选平台分别生成原生内容。
+4. **视觉**：只处理微信公众号和小红书；仅选视频号时自动跳过。
+5. **审核**：按平台分别检查事实、表达、合规、商业闭环和发布完整性。
+6. **发布**：只为已选平台建立草稿与发布任务，真实发布结果逐平台回填。
+7. **复盘**：逐平台分析表现与评论，再将有效规律写回共享知识资产。
+
+这七阶段是用户可见流程。`intake`、`validate`、`blueprint`、`package`、`prelaunch`、`compliance`、`audit` 等是内部质量门，不应变成让用户理解系统实现的额外负担。
+
+## 平台交付契约
+
+### 微信公众号
+
+- 一篇可直接发布的完整长文
+- 标题、摘要、正文、引用与评论引导
+- 完整微信排版视觉
+- 头图与正文插图
+
+### 小红书
+
+- 一篇独立的小红书图文内容，而非公众号摘要
+- P1-P8 共 8 张图文卡片的逐页文案
+- 可直接用于封面的三句话
+- 发布正文与结尾标签
+
+### 视频号
+
+- 一条独立的口播执行稿
+- 开场钩子、逐段口播、镜头/B-roll、字幕重点与发布文案
+- 不进入静态视觉生产，不生成封面或图卡
+
+禁止把未选择的平台塞入交付；禁止固定产出“一篇文章 + 两条视频 + 三组图文”；禁止让公众号正文成为小红书或视频号的强制上游。
+
+## TikOmni 公开样本门
+
+每个已选平台单独研究、单独判定：
+
+- 样本必须带可核验公开链接。
+- 阅读、点赞、收藏、评论等缺失指标显示为“未知”，不能写成 `0`。
+- 样本分为“已验证爆款”“高潜样本”“相关参考”，不能把相关结果统一叫爆款。
+- 排序规则必须平台化，不能用一套互动量公式覆盖三个平台。
+- 某个平台失败时，只阻断或移除该平台生产线；已经取得合格样本的平台可以继续。不得用另一平台样本代替。
+
+系统不承诺“必爆”。它只允许借鉴标题入口、开头钩子、叙事机制、需求信号与评论结构，不复制第三方标题、正文、封面、镜头或评论表达。
+
+## 运行时底座
+
+所有子 skill 在执行前使用 `content-runtime` 管理任务状态和文件：
 
 ```bash
-# 1. 初始化/确认项目目录
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system init
+RUNTIME="python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py --project ~/ai-content-system"
 
-# 2. 读取当前 session 状态
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system state
-
-# 3. 列出最近 7 天的 pipeline 文件
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system list --days 7
+$RUNTIME init
+$RUNTIME run-create --topic "{主题}" --platforms "公众号,小红书"
+$RUNTIME state
+$RUNTIME read --step intake --latest --slug {slug}
+$RUNTIME write --step package --slug {slug} --content @/path/to/package.md --source "blueprint:{path}"
 ```
 
-子 skill 读取上游输出时，应使用 `read --step {上游} --latest`，而不是自己扫描文件系统。生成内容后，使用 `write --step {当前} --slug {slug} --content ...` 写入并自动更新 state。
+读取上游时优先使用 `read --step {上游} --latest --slug {slug}`，不要自行扫描目录。写入必须绑定当前 run 与 slug。完整命令见 `skills/content-runtime/SKILL.md`。
 
-完整命令文档见 `$HOME/plugins/ai-founder-influence-os/skills/content-runtime/SKILL.md`。
+## 意图路由
 
-
-## 作用
-
-`content` 是 AI FOUNDER INFLUENCE OS 的统一入口。用户不需要记住所有子 skill 的触发词，只需要说「帮我做内容」「我要写公众号」「这个选题值不值得做」，由 `/content` 判断意图并路由。
-
-## 触发方式
-
-- `/content`
-- `内容系统`、`帮我做内容`、`我要发内容`、`内容流水线`
-
-## 工作模式
-
-### 模式 1：意图判断
-
-用户给出模糊指令时，展示当前 OS 状态并询问下一步：
-
-```
-## AI FOUNDER INFLUENCE OS · 当前状态
-
-### 你刚才说
-"{用户原话}"
-
-### 我猜你想做
-- A. 素材理解 / 选题立项
-- B. 生成角度 / 拆解内容
-- C. 写公众号 / 抖音 / 小红书
-- D. 审核 / 合规检查
-- E. 数据复盘 / 归档沉淀
-- F. 数字孪生观察
-
-### 建议下一步
-{根据上下文给出最可能的建议}
-
-请回复选项字母，或直接说你想做什么。
-```
-
-### 模式 2：直接路由
-
-用户给出明确指令时，直接路由到对应子 skill：
-
-| 用户意图 | 路由到 |
+| 用户意图 | 路由 |
 |---|---|
-| 理解素材 / 分析这个 PDF | `content-intake` |
-| 立项 / 这个值不值得写 | `content-validate` |
-| 生成角度 / 有哪些角度 | `content-angle` |
-| 拆解内容 / 怎么写标题 | `content-breakdown` |
-| 写公众号 / 写文章 | `wechat-writer` |
-| 写抖音口播 / 获客稿 | `douyin-script` |
-| 做小红书图文 | `xhs-card` |
-| 一鱼多吃 / 改成其他平台 | `content-repurpose` |
-| 生成配图 / 封面 | `content-visual` |
-| 发布前检查 | `content-prelaunch` |
-| 合规检查 / 查违禁词 | `content-compliance` |
-| 审核内容 | `content-audit` |
-| 复盘数据 | `content-review` |
-| 归档沉淀 | `self-archive` |
-| 孪生观察 | `content-twin` |
-| 商业诊断 / 选题诊断 / 标题公式 | `content-dbs-fusion` |
-| 继续上次 | `dbs-restore` |
+| 输入素材并生成内容 | `content-intake` → 平台选择 → 公开样本研究 → `content-validate` → `content-blueprint` → `content-package` |
+| 爆款收集 / 对标分析 | `content-hit-collector`；必须保留样本等级与指标未知状态 |
+| 理解素材 | `content-intake` |
+| 选题是否值得做 | `content-validate` |
+| 内容蓝图 | `content-blueprint` |
+| 生成平台原生成稿 | `content-package` |
+| 公众号完整视觉 | `content-visual` 的微信分支 |
+| 小红书图文卡片 | `content-visual` 的小红书分支 |
+| 发布前检查 | `content-prelaunch` → `content-compliance` → `content-audit` |
+| 发布数据回流 | `content-performance-collector` |
+| 收获总结 / 复盘 | `content-review` |
+| 归档沉淀 | `self-archive` / `content-twin` |
 
-### 模式 3：状态展示
+`wechat-writer` 与 `content-repurpose` 可以处理用户明确提出的单次旧稿改编，但不属于新任务的默认生产主链。
 
-用户说「我现在在哪一步」「接下来干嘛」时，扫描 `pipeline/` 最近 7 天的文件，展示当前进度：
+## 对话方式
 
-```
-## 当前内容流水线进度
+- 用户指令模糊时，只展示当前任务、当前阶段、已选平台和下一项最小动作。
+- 目标平台未确定时，先让用户勾选平台；不要擅自全选。
+- 出现样本不足、事实风险、隐私风险或平台失败时，说明具体影响的平台和可继续的路径。
+- 用户询问状态时，展示七阶段进度，不逐项倾倒内部文件名。
+- 中文回复遵循自然、简洁、可执行的表达。
 
-最近操作：
-- 2026-06-21：content-intake → pipeline/intake/2026-06-21-xxx-intake.md
-- 2026-06-21：content-angle → pipeline/angles/2026-06-21-xxx-angles.md
-- 待完成：content-breakdown
+## 旧任务兼容
 
-建议下一步：
-/content-breakdown ~/ai-content-system/pipeline/angles/2026-06-21-xxx-angles.md
-```
-
-## 上下文感知
-
-`/content` 每次触发时优先读取：
-
-1. `~/ai-content-system/MASTER_PLAYBOOK.md`
-2. `~/ai-content-system/brain/commands.md`
-3. `~/ai-content-system/sessions/` 下的最新状态文件
-4. `~/ai-content-system/pipeline/` 最近 7 天的文件列表
-
-基于以上信息判断用户最可能想做什么。
-
-## 输出
-
-- 如果是意图判断：给出选项和建议，等用户回复
-- 如果是直接路由：调用对应 skill 并说明路由原因
-- 如果是状态展示：给出当前进度和下一步建议
-
-## 说话风格
-
-1. 简洁，不要罗列所有 skill
-2. 根据上下文给出最可能的 1-2 个建议
-3. 让用户做最小选择，而不是开放提问
-
-## 与其他 Skill 的关系
-
-- **被所有子 skill 依赖**：`content` 是入口，但不替代子 skill 的具体工作
-- **读取**：`MASTER_PLAYBOOK.md`、`commands.md`、pipeline 状态、sessions 状态
-
-## 示例
-
-```
-用户：帮我写个公众号
-→ 调用 wechat-writer
-
-用户：这个选题值不值得做
-→ 调用 content-validate
-
-用户：我现在做到哪了
-→ 扫描 pipeline，展示进度
-
-用户：继续上次
-→ 调用 dbs-restore
-```
-
-## 语言
-
-- 用户用中文就用中文回复，用英文就用英文回复
-- 中文回复遵循《中文文案排版指北》
-
-## 输入/输出示例
-
-### 示例 1：用户素材 → 总控路由
-
-**输入**
-"我昨晚用 Codex 改项目，感觉又兴奋又慌，想写点东西。"
-
-**预期输出**
-1. 调用 `content-intake` 生成素材理解报告
-2. 调用 `content-validate` 判断选题是否成立
-3. 通过 `content-flow` 推进后续步骤
+旧版任务中出现 `douyin`、`moments`、`write`、“母稿”或固定一稿五发资产时，只读展示并允许完成旧任务，不重写历史文件。任何新建任务必须使用 v2 平台选择与独立生产契约。

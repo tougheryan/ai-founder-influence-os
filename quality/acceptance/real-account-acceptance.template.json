@@ -1,0 +1,80 @@
+{
+  "schema": "echo-founder.real-account-acceptance.v3",
+  "status": "pending",
+  "product_version": "0.2.0-beta.2",
+  "target": "macOS 13+ / Apple Silicon",
+  "accepted_at": null,
+  "reviewer": {
+    "name": "",
+    "organization": "",
+    "review_id": "",
+    "independent_from_implementation": false,
+    "confirmed_no_secrets": false,
+    "confirmed_no_public_send": false
+  },
+  "machine": {
+    "model": "",
+    "acceptance_machine_id": "",
+    "architecture": "arm64",
+    "macos_version": "",
+    "macos_major": 13,
+    "clean_machine": true,
+    "node_preinstalled": false,
+    "python_preinstalled": false,
+    "homebrew_preinstalled": false
+  },
+  "build": {
+    "source_git_sha": "",
+    "package_manifest_sha256": "",
+    "dmg_manifest_sha256": "",
+    "dmg_sha256": "",
+    "qa_key_registry_sha256": ""
+  },
+  "run": {
+    "run_id": "",
+    "slug": "",
+    "project_backup_sha256": "",
+    "archetype_run_ids": {"methodology": "", "founder_story": "", "research_analysis": ""}
+  },
+  "evidence": [
+    {"kind": "clean-install", "result": "pending", "path": "evidence/clean-install.json", "sha256": "", "note": "冻结 DMG 最小环境安装与首次启动"},
+    {"kind": "credential-keychain-restart", "result": "pending", "path": "evidence/credential-keychain-restart.json", "sha256": "", "note": "模型、TikOmni 与六组生图账户只存钥匙串，重启恢复"},
+    {"kind": "material-import", "result": "pending", "path": "evidence/material-import.json", "sha256": "", "note": "三类真实授权素材、隐私禁区与商业目标"},
+    {"kind": "three-platform-tikomni-research", "result": "pending", "path": "evidence/three-platform-tikomni-research.json", "sha256": "", "note": "公众号、小红书、视频号真实 TikOmni 研究"},
+    {"kind": "three-archetype-platform-native-production", "result": "pending", "path": "evidence/three-archetype-platform-native-production.json", "sha256": "", "note": "方法论、人物故事、研究分析分别完成三个独立平台 lane"},
+    {"kind": "paid-image-provider-benchmark", "result": "pending", "path": "evidence/paid-image-provider-benchmark.json", "sha256": "", "note": "十路由付费 10 进 3、百元预算、主备冻结与故障切换"},
+    {"kind": "tikomni-hit-ranking-calibration", "result": "pending", "path": "evidence/tikomni-hit-ranking-calibration.json", "sha256": "", "note": "不少于 45 条人工标注样本，v5 精度和零误报门禁"},
+    {"kind": "visual-ai-default", "result": "pending", "path": "evidence/visual-ai-default.json", "sha256": "", "note": "AI 增强默认只在主备、人工视觉和稳定回退通过后启用"},
+    {"kind": "platform-draft-fill", "result": "pending", "path": "evidence/platform-draft-fill.json", "sha256": "", "note": "三类内容各形成公众号、小红书、视频号草稿，共 9 条且不公开发布"},
+    {"kind": "frozen-dmg-runtime", "result": "pending", "path": "evidence/frozen-dmg-runtime.json", "sha256": "", "note": "单实例、恢复、备份和 soak 全部绑定未重打的冻结 DMG"},
+    {
+      "kind": "fault-recovery",
+      "result": "pending",
+      "path": "evidence/fault-recovery.json",
+      "sha256": "",
+      "scenarios": [
+        {"name": "network-offline", "result": "pending", "path": "evidence/faults/network-offline.json", "sha256": ""},
+        {"name": "invalid-token", "result": "pending", "path": "evidence/faults/invalid-token.json", "sha256": ""},
+        {"name": "browser-not-authenticated", "result": "pending", "path": "evidence/faults/browser-not-authenticated.json", "sha256": ""},
+        {"name": "captcha-or-device-confirmation", "result": "pending", "path": "evidence/faults/captcha-or-device-confirmation.json", "sha256": ""},
+        {"name": "service-exit", "result": "pending", "path": "evidence/faults/service-exit.json", "sha256": ""},
+        {"name": "application-restart", "result": "pending", "path": "evidence/faults/application-restart.json", "sha256": ""},
+        {"name": "cross-run-write", "result": "pending", "path": "evidence/faults/cross-run-write.json", "sha256": ""}
+      ]
+    },
+    {"kind": "backup-restore", "result": "pending", "path": "evidence/backup-restore.json", "sha256": "", "note": "新目录恢复完整，凭据与会话必须重新配置"}
+  ],
+  "known_limitations": [
+    "内部候选使用 ad-hoc 签名，不包含 Apple Developer ID 与公证",
+    "不自动公开发布，不承诺平台审核、流量或经营结果",
+    "正式商业门禁仍要求独立 QA 与预注册公钥签名",
+    "仅支持 macOS 13+ Apple Silicon"
+  ],
+  "attestation": {
+    "algorithm": "openssl-dgst-sha256",
+    "key_id": "",
+    "trusted_public_key_sha256": "",
+    "registry_sha256": "",
+    "signature_base64": ""
+  }
+}

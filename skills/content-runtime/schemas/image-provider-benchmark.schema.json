@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "echo-founder.image-provider-benchmark.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "benchmark_id", "status", "created_at", "budget_cny", "credential_readiness", "routes", "selection"],
+  "properties": {
+    "schema_version": {"const": "echo-founder.image-provider-benchmark.v1"},
+    "benchmark_id": {"type": "string", "pattern": "^imgbench_[A-Za-z0-9_-]+$"},
+    "status": {"enum": ["blocked", "ready", "running", "scored", "accepted", "failed", "budget_exhausted"]},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": "string"},
+    "non_commercial": {"const": true},
+    "registry_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "exchange_rate": {"type": ["object", "null"]},
+    "budget_cny": {"type": "object"},
+    "credential_readiness": {
+      "type": "object",
+      "required": ["configured", "required", "ready"],
+      "properties": {
+        "configured": {"type": "integer", "minimum": 0, "maximum": 6},
+        "required": {"const": 6},
+        "ready": {"type": "boolean"},
+        "groups": {"type": "array"}
+      }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["route_id", "provider", "family", "model_id", "model_frozen_at", "discovery_evidence", "adapter", "estimated_cost_cny"],
+        "properties": {
+          "route_id": {"type": "string"},
+          "provider": {"type": "string"},
+          "family": {"type": "string"},
+          "model_id": {"type": "string", "minLength": 1},
+          "model_frozen_at": {"type": "string"},
+          "discovery_evidence": {"type": "object"},
+          "adapter": {"type": "string"},
+          "pricing": {"type": ["array", "object", "null"]},
+          "estimated_cost_cny": {"type": "number", "exclusiveMinimum": 0, "maximum": 40},
+          "score": {"type": ["number", "null"]},
+          "hard_failures": {"type": "array", "items": {"type": "string"}},
+          "rank": {"type": ["integer", "null"]}
+        }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "required": ["top_three", "primary", "backup", "ai_enhanced_default_eligible"],
+      "properties": {
+        "top_three": {"type": "array", "maxItems": 3, "items": {"type": "string"}},
+        "primary": {"type": ["string", "null"]},
+        "backup": {"type": ["string", "null"]},
+        "ai_enhanced_default_eligible": {"type": "boolean"}
+      }
+    },
+    "blockers": {"type": "array", "items": {"type": "string"}}
+  }
+}

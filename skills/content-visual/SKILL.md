@@ -1,148 +1,113 @@
 ---
 name: content-visual
-description: AI FOUNDER INFLUENCE OS第五步：文章配图统一入口。根据平台/类型路由视觉需求：内容配图（小黑手绘）、公众号/小红书封面、社交媒体卡片。协调 ian-xiaohei-illustrations、xhs-card、wechat-publish-template 的视觉能力。
+description: Echo Founder 平台排版入口。生成微信公众号完整排版与小红书 P1-P8 图文卡片；视频号自动跳过。
 ---
 
-# content-visual · 文章配图
+# content-visual · 平台完整发布件
 
-## 作用
+## 视觉边界
 
-把"配图"需求统一接入，自动判断要画什么、用什么风格、走哪个工具。
+新任务只保留两类成品交付：
 
-## 触发方式
+1. **微信公众号完整发布件**：保留用户原文与已授权图片，生成可粘贴发布的正文 HTML 与手机预览。
+2. **小红书图文卡片**：一篇内容对应 P1-P8 共 8 张 3:4 卡片，并保留封面三句话、发布正文和结尾标签。
 
-- `/content-visual`
-- `生成配图`、`文章配图`、`封面图`、`小黑配图`
-- `小红书封面`、`公众号封面`
+视频号不进入静态视觉生产，不生成封面、图卡或 MP4。系统不再生产朋友圈共享图卡、抖音封面、三套观点图文，也不把一套视觉资产同时绑定多个平台。
 
-## 输入
+## 条件执行矩阵
 
-如果用户未指定内容路径，优先通过 content-runtime 读取最新成稿：
-
-```bash
-# 公众号长文
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system read --step write --latest
-
-# 抖音口播稿
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system read --step douyin --latest
-
-# 小红书图文
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system read --step xhs --latest
-```
-
- - 文章段落 / 核心概念 / 完整文章，或用户粘贴的文案
- - 配图类型（可选）：内容配图、公众号封面、小红书封面、小红书图文、公众号头图+分享卡
- - 风格偏好（可选）：小黑手绘、杂志风、瑞士风
-
-## 输出
-
-根据类型分别输出：
-
-1. **内容配图** → 调用小黑手绘风格，生成 16:9 配图 prompt / 图片
-2. **公众号封面** → 调用 wechat-publish-template 封面能力，输出 21:9 头图 + 1:1 分享卡
-3. **小红书封面/图文** → 调用 xhs-card，输出 3:4 图文集
-
-产物统一归档到：
-
-```
-~/ai-content-system/pipeline/visual/{YYYY-MM-DD}-{slug}/
-
-# visual 计划文件
-~/ai-content-system/pipeline/visual/{YYYY-MM-DD}-{slug}-visual.md
-```
-
-**必须通过 content-runtime 写入**（计划文件）：
-
-```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
-  --project ~/ai-content-system \
-  write --step visual --slug {slug} \
-  --content @/path/to/visual-plan-body.md \
-  --source "write:{原文文件路径}"
-```
-
-配图计划通过 content-runtime 写入 `pipeline/visual/` 后，后续生成/调用工具可读取该计划：`read --step visual --latest`。
-
-## 路由规则
-
-| 用户说法 | 路由 |
+| 已选平台 | 视觉动作 |
 |---|---|
-| `给这篇文章配几张图` | 内容配图（小黑） |
-| `公众号封面`、`头图` | wechat-publish-template 封面 |
-| `小红书图文`、`做一套小红书` | xhs-card |
-| `小红书封面`、`封面三行文案` | xhs-card（封面页） |
-| `社交媒体卡片`、`轮播图` | xhs-card |
+| 仅 `wechat` | 使用 md2wechat 生成微信公众号 HTML 排版 |
+| 仅 `xhs` | 生成小红书 P1-P8 图文卡片 |
+| `wechat` + `xhs` | 两条视觉生产线分别生成、分别验收 |
+| 仅 `shipinhao` | 自动跳过 `visual`，不产生阻断 |
+| 包含视频号与微信/小红书 | 只为微信/小红书生成视觉 |
 
+排版是所选图文平台的必要交付步骤。微信公众号不依赖位图后端；小红书只在本地卡片渲染器缺失时阻断对应 lane，不能用建议书冒充成品。
 
-## 子 Skill 调用接口
+## 输入与执行
 
-content-visual 本身不生成图片，而是生成配图计划并路由到对应工具。调用约定如下：
-
-### 小黑手绘（ian-xiaohei-illustrations）
-
-```bash
-# 调用示例
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py   --project ~/ai-content-system read --step visual --latest
-# 读取计划中的「内容配图」prompt，再交给 ian-xiaohei-illustrations 生成 16:9 图片
-```
-
-### 公众号封面（wechat-publish-template）
+默认读取同一 run 的原生 `package`，并根据 `selected_platforms` 生成：
 
 ```bash
-# 输入参数
-TITLE="Codex 像一个超人实习生"
-SUBTITLE="写得快，但得有人把关"
-# 产物：21:9 头图 + 1:1 分享卡 HTML
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/visual_publish.py \
+  --project ~/ai-content-system generate --slug {slug} --renderer local
 ```
 
-### 小红书封面/图文（xhs-card）
+所有产物归档到：
 
-```bash
-# 输入参数
-TITLE="用 Codex 省下的 72 小时"
-SUBTITLE="为什么我反而更忙了"
-KEY_POINTS="["超人实习生","判断力更重要","程序员转型"]"
-# 产物：3:4 图文集
+```text
+~/ai-content-system/pipeline/visual/{slug}/
 ```
 
-所有产物统一归档到 `~/ai-content-system/pipeline/visual/{YYYY-MM-DD}-{slug}/`。
+运行时记录必须指向真实生成文件、revision index 与发布清单，不能用 planned path 或测试 fake renderer 充当用户交付。
 
-## 视觉风格协调原则
+新任务固定使用 `stable` 排版模式，不提供生图选项，也不调用图片生成服务。公众号优先调用本机 `md2wechat` CLI 生成微信兼容 HTML；插件不可用、未配置或调用失败时，自动回退到内置 `dbs-wechat-html`，不得阻断交付。小红书由本地 HTML/SVG 渲染器根据 P1-P8 的语义角色选择版式、文字层级、色板、留白与图形元素。
 
-- 同一篇文章的视觉系统要统一：要么走 Editorial 杂志风，要么走 Swiss 网格风
-- 小黑手绘适合内容配图，不适合封面主视觉
-- 小红书/公众号封面优先用 xhs-card 的 Swiss/Editorial 系统
-- 配色、字体、间距遵循各子 Skill 的规范，不跨风格混用
+## 微信公众号交付
 
-## 与其他 Skill 的关系
+微信公众号必须形成一个完整、可检查的排版发布件：
 
-- 被调用：`wechat-writer`、`douyin-script`、`xhs-card`
-- 调用：`ian-xiaohei-illustrations`（能力保留在 references/）、`xhs-card`、`wechat-publish-template`
+- `wechat-article.html`：包含完整正文，不改写原生微信稿观点。
+- `layout-options.json`：记录自动选择的主题、选择理由与兼容回退信息。
+- 手机端预览、复制富文本和下载 HTML 必须使用同一 revision。
+- 用户主动提供的真实图片保留原文位置；系统不得强制生成头图或正文插图。
 
-## 输入/输出示例
+可以提供有限的排版主题候选，但自动选择一套即可完成主流程；不得要求用户先比较视觉方向，也不得要求用户编辑 CSS 或 JSON。
 
-### 示例 1：成稿 → 配图计划
+## 小红书交付
 
-**输入**
-公众号长文《Codex 像一个超人实习生》。
+一篇小红书内容对应一套 P1-P8 卡片：
 
-**预期输出**
-```markdown
-# 配图计划 · Codex 像一个超人实习生
+- P1：封面，使用成稿中的三句话。
+- P2-P7：逐页展开观点、场景、证据、方法或案例，不得以一个范围字段代替六页真实内容。
+- P8：收束、互动引导与结尾标签边界。
+- 每页必须有独立文案、版式意图和证据/非证据说明。
+- 卡片、发布正文、封面三句话与标签绑定同一 revision。
 
-## 内容配图（小黑手绘）
-- 场景：深夜办公室，人和 AI 实习生并排看屏幕
-- 风格：小黑手绘，16:9
+小红书不是公众号摘要，也不与朋友圈共享同一套文件。
 
-## 公众号封面
-- 工具：wechat-publish-template
-- 标题：Codex 像一个超人实习生
-- 副标题：写得快，但得有人把关
+## Visual Director 与修订
 
-## 小红书封面
-- 工具：xhs-card
-- 三行文案 + 高对比背景
+每次正式生产先生成可复现配方与修订索引：
+
+```text
+pipeline/visual/{slug}/recipes/r001.visual-recipe.json
+pipeline/visual/{slug}/revisions/r001.index.json
+pipeline/visual/{slug}/selected-revision.json
 ```
+
+- 产品演示优先真实截图；研究与方法内容优先可追溯数据；故事内容优先真实场景和物件证据。
+- 配方记录平台、页面结构、证据来源、渲染器、密度和插入锚点。
+- 新任务继续写入 `aifios.visual-recipe.v2` 以兼容现有数据；只对用户展示系统自动选择的一套方向，不提供 A/B/C 方向比较。
+- 微信与小红书使用不同平台配方，不共享模板。
+- 只有 `quality_summary.status=pass` 的 revision 可以采用并进入发布验收。
+- 原生纯文字卡按可读性检查：全部已确认字段完整可见、手机阅读字号下限、对比度、安全边距、文字不重叠、短句有明确字号层级。检查绑定实际渲染文字摘要和逐字段测量；仅此类有完整检查记录的卡片不使用通用占高密度门槛。旧版、缺少测量的卡片和证据图仍沿用密度规则，不能仅声明通过；自动检查不替代用户选择与确认。
+- 用户按完整发布件提出修改，系统生成新 revision；已采用版本不可静默覆盖。
+- 旧产物缺少配方时标记 `legacy` 并只读展示，不能作为新任务默认回退。
+- 默认智能排版必须根据内容语义选择模块，而不是把所有文章和卡片套进同一个固定版式。
+- 真实照片、截图、数据图与授权素材可以随正文使用；图标、色块、线条、表格与本地矢量图形用于小红书卡片，不触发付费 AI 位图。
+
+## 工具边界
+
+- `visual_publish.py`：生产编排、修订、质量门与真实落盘。
+- `md2wechat`：微信公众号正文 HTML 首选排版器，不改写文章内容，也不调用生图命令。
+- `dbs-wechat-html`：md2wechat 不可用时的本地确定性回退。
+- `xhs-card` / `baoyu-xhs-images`：小红书 P1-P8 卡片。
+
+没有接入可靠解析器的证据文件应阻断对应资产，不得渲染成看似真实的数据图。测试 fake renderer 只用于自动测试。
+
+## 输出质量门
+
+- `publish/index.json` 记录 source package、selected platforms、provider、renderer、输出路径、状态、recipe/revision、证据与质量汇总。
+- 微信发布件包含完整正文 HTML、排版主题、可打开的手机预览与原文中已有的授权图片。
+- 公众号正文须逐段核对文字、标点、段落顺序及已有 HTTP/HTTPS 引用文字与地址。首选排版器和内置回退共用保真检查；采用前重新读取原稿与 HTML。缺失或失效的核对记录不能支持采用，历史版本保留只读查看。保真通过不代替视觉验收与公众号编辑器粘贴验证。
+- 小红书发布件恰好包含 P1-P8 八张卡片，并绑定封面三句话、正文和结尾标签。
+- 视频号明确 `visuals_required=false`，不创建视觉文件。
+- 失败写入 `status=failed` 和具体 lane，不得伪装为 generated。
+- 输出必须是真实 HTML/PNG/JPG/WebP 文件，不能只交付视觉策略、提示词或资产说明。
+
+## 旧任务兼容
+
+旧任务中的 A/B/C 固定方案、P1-P5 共享图卡、朋友圈/抖音绑定与视频封面只读展示；不重写历史清单。任何新任务必须遵循本文件的两类视觉交付。

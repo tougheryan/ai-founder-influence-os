@@ -1,0 +1,76 @@
+{
+  "package": {
+    "title": "第一次客户拒绝后的复盘",
+    "wechat": {
+      "title": "第一次客户拒绝后的复盘",
+      "cover_text": "拒绝之后，我改了什么",
+      "summary": "一次客户会议的现场笔记，让我看见问题不在方案，而在我太急着证明自己。",
+      "body": "我在客户会议结束后没有立刻改报价，而是先把客户原话、当时的沉默和自己的判断写进复盘。"
+    },
+    "xhs_posts": [
+      {
+        "index": 1,
+        "title": "第一次客户拒绝后的复盘",
+        "cover_text": "拒绝之后，我改了什么",
+        "body": "保留现场细节，比包装一个成功故事更重要。",
+        "pages": [
+          {
+            "page_id": "P1",
+            "title": "客户说先不做",
+            "body": "会议结束前，他合上电脑，只说了一句：我们再想想。",
+            "image_prompt": "会议桌、合上的电脑和手写日期",
+            "visual_hierarchy": "现场原话 + 时间地点 + 克制留白",
+            "layout_note": "封面保留叙事停顿，不做数据图"
+          },
+          {
+            "page_id": "P2",
+            "title": "我先记下沉默",
+            "body": "现场笔记写着：客户不是没听懂，他是不确定这件事和自己有什么关系。",
+            "image_prompt": "真实会议笔记摘录",
+            "visual_hierarchy": "笔记证据 + 原话 + 复盘批注",
+            "layout_note": "突出来源，不美化成伪聊天截图"
+          },
+          {
+            "page_id": "P3",
+            "title": "问题不在报价",
+            "body": "我讲了太多能力；说了太少客户处境；没有给出低压力下一步。",
+            "image_prompt": "三条复盘账本",
+            "visual_hierarchy": "错误动作 + 现场后果 + 新判断",
+            "layout_note": "逐条展开，不使用万能方法论口吻"
+          },
+          {
+            "page_id": "P4",
+            "title": "下一次先问处境",
+            "body": "先问业务卡在哪里；再确认他最担心什么；最后才讨论方案。",
+            "image_prompt": "复盘后的提问顺序",
+            "visual_hierarchy": "引语 + 三个新动作",
+            "layout_note": "用杂志式批注保留个人语气"
+          },
+          {
+            "page_id": "P5",
+            "title": "拒绝也能留下资产",
+            "body": "留下原话；留下判断；留下下一次会议要验证的问题。",
+            "image_prompt": "复盘资产清单",
+            "visual_hierarchy": "一句结论 + 三个可复用资产",
+            "layout_note": "结尾不承诺成交，只给复盘动作"
+          }
+        ]
+      }
+    ]
+  },
+  "materials": {
+    "assets": [
+      {
+        "path": "materials/founder-story/customer-meeting.md",
+        "kind": "document",
+        "role": "source_note",
+        "fixture_content": "2026-07-08 客户会议记录\n客户原话：我们再想想。\n现场观察：客户合上电脑后沉默了十秒。\n复盘：方案讲得太早，客户处境讲得太少。"
+      }
+    ]
+  },
+  "expected": {
+    "content_archetype": "founder_story",
+    "xhs_system": "editorial",
+    "xhs_recipes": ["M01", "M05", "M08", "M11", "M15"]
+  }
+}

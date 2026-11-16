@@ -105,4 +105,4 @@ The output should still feel like an editorial background, not a plain fill.
 - Do not use decorative blobs or circles with no relationship to the layout.
 - Do not place strong background marks behind body text.
 - Do not let WebGL obscure screenshots or small captions.
-- Do not animate the final image sequence unless the task is video.
+- Keep the final image sequence static.

@@ -27,14 +27,13 @@ description: AI FOUNDER INFLUENCE OS第九步：数字孪生观察。读取已�
 任意已发布或已完成的最终内容：
 
 - 公众号长文 Markdown（`pipeline/final/` 或 `pipeline/write/` 下的成品）
-- 抖音口播稿（`pipeline/douyin/` 下的成品）
 - 小红书图文内容（`pipeline/xhs/` 或 `pipeline/visual/` 的文案）
 - 用户直接粘贴的文本
 
 如果用户未指定文件路径，优先通过 content-runtime 读取最新成稿：
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system read --step write --latest
 ```
 
@@ -62,8 +61,8 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 ## 1. 内容元信息
 - 观察日期：{YYYY-MM-DD}
 - 原文标题：{标题}
-- 平台：{wechat / douyin / xhs}
-- 内容类型：{长文 / 口播 / 图文}
+- 平台：{wechat / xhs}
+- 内容类型：{长文 / 图文}
 - 来源路径：{原文文件路径}
 
 ## 2. 内容 DNA 提取
@@ -112,6 +111,17 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - 这篇内容的核心辨识度是什么：
 - 如果让我模仿这篇写下一篇，我会保留什么、调整什么：
 - 对 twin 记忆文件的更新建议：
+
+## 9.1 Twin 记忆写入计划
+| 记忆文件 | 更新内容 | 原文/观察证据 | 合并策略 | 下游调用 |
+|---|---|---|---|---|
+| brain/twin/content-dna.md | {新增/更新的内容基因} | {原文片段/观察证据} | {新增/更新/去重/frequency+1/last_seen} | {wechat-writer / content-angle} |
+| brain/twin/pattern-library.md | {结构/表达/节奏模式} | {原文片段/观察证据} | {新增/更新/去重/frequency+1/last_seen} | {wechat-writer / content-breakdown} |
+| brain/twin/voice-signature.md | {句式/语气/标点声纹} | {原文片段/观察证据} | {新增/更新/去重/frequency+1/last_seen} | {wechat-writer / content-breakdown} |
+| brain/twin/evolution-log.md | {本次风格演化记录} | {观察证据} | {追加/合并/last_seen} | {content-review / content-twin} |
+| brain/twin/reader-profile.md | {读者语言/焦虑/渴望} | {评论/原文/互动证据} | {新增/更新/去重} | {content-angle / content-breakdown} |
+| brain/no-fly-zone.md | {同步禁区} | {风险/套话证据} | {新增/合并触发场景} | {wechat-writer / content-breakdown} |
+| brain/style-evolution.md | {同步风格演化} | {结构/表达观察证据} | {追加/更新 last_seen} | {wechat-writer / content-twin} |
 ```
 
 ### Twin 记忆文件
@@ -132,7 +142,7 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 孪生观察报告必须通过 content-runtime 写入：
 
 ```bash
-python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/content_runtime.py \
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
   --project ~/ai-content-system \
   write --step twin --slug {slug} \
   --content @/path/to/twin-body.md \
@@ -140,6 +150,16 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 ```
 
 `brain/twin/` 下各记忆文件的更新由本 skill 直接维护。
+
+写入后必须调用 runtime 自检：
+
+```bash
+python3 $AIFIOS_HOME/skills/content-runtime/scripts/content_runtime.py \
+  --project ~/ai-content-system \
+  validate --step twin --file pipeline/twin/{YYYY-MM-DD}-{slug}-twin.md
+```
+
+只有 `valid=true` 才算完成。若返回 `quality_errors`，先修复观察报告，不要把空泛结论写入 `brain/twin/`。
 
 同时更新：
 
@@ -159,8 +179,9 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 6. **风格一致性评分**：与 `brain/twin/content-dna.md` 和 `voice-signature.md` 对比，计算匹配度，标注新增特征和偏离点。
 7. **禁区/禁忌更新建议**：识别本次内容中暴露的 AI 味表达、套话、平台风险词，建议写入 `brain/no-fly-zone.md`。
 8. **归档可复用模式**：去重后写入 `pattern-library.md`（已存在则增加 frequency 并更新 last_seen）。
-9. **更新 twin 记忆文件**：合并 DNA、更新声纹、更新读者画像、在 `evolution-log.md` 追加本次观察记录。
-10. **输出观察报告**：写入 `pipeline/twin/`，并给出下一步建议。
+9. **生成 Twin 记忆写入计划**：逐行写明每个目标文件的更新内容、原文/观察证据、合并策略和下游调用 skill。
+10. **更新 twin 记忆文件**：按写入计划合并 DNA、更新声纹、更新读者画像、在 `evolution-log.md` 追加本次观察记录。
+11. **输出观察报告**：写入 `pipeline/twin/`，并给出下一步建议。
 
 ## 独立调用模式
 
@@ -191,16 +212,24 @@ python $HOME/plugins/ai-founder-influence-os/skills/content-runtime/scripts/cont
 - 匹配度评分要有明确依据，不拍脑袋给百分比
 - 偏离点要区分「一次性尝试」和「持续演化」
 - 不确定的内容必须显式标注，不混入确定结论
+- 真实数字孪生记忆只能来自已发布或已完成且有真实内容/反馈证据的成品；读者画像必须来自真实评论、私信、后台反馈或人工记录。
+- demo/未发布内容只能作为流程演示或待验证观察：`reader-profile.md`、`evolution-log.md`、`style-evolution.md` 的写入计划必须标注 demo/待验证/不写入真实记忆。
+- demo/未发布不能计算真实历史 DNA 匹配度百分比，不能写成“稳定进化”“读者画像已更新”“frequency+1 / last_seen”等真实记忆合并动作。
+- 观察报告必须完整覆盖 1-9 节：元信息、DNA、结构、表达、读者画像、风格一致性、可复用模式、禁区建议、观察结论。
+- `## 7. 可复用模式归档` 至少写结构、表达、节奏三类模式，并附原文片段/例句/证据。
+- `## 9. 观察结论` 必须写明应更新的 `brain/twin/content-dna.md`、`pattern-library.md`、`voice-signature.md`、`evolution-log.md`、`reader-profile.md`，并说明是否同步更新 `brain/no-fly-zone.md` 和 `brain/style-evolution.md`。
+- `## 9.1 Twin 记忆写入计划` 必须逐行覆盖 5 个 `brain/twin/` 文件和 `brain/no-fly-zone.md`、`brain/style-evolution.md`；每行必须包含更新内容、原文/观察证据、合并策略和下游调用 skill。
+- 禁止把 `9.1` 写成“待补、暂无、风格很好、后续更新”等占位判断；没有证据的记忆不得写入。
 
 ## 与其他 Skill 的关系
 
-- **上游**：`wechat-writer`、`douyin-script`、`xhs-card`（生成最终成品）；`content-review`、`self-archive`（提供可选上下文）
-- **下游**：`wechat-writer`、`douyin-script`、`content-breakdown`（未来创作必须读取 twin 的 pattern-library、voice-signature、reader-profile 作为约束）
+- **上游**：`wechat-writer`、`xhs-card`（生成最终成品）；`content-review`、`self-archive`（提供可选上下文）
+- **下游**：`wechat-writer`、`content-breakdown`（未来创作必须读取 twin 的 pattern-library、voice-signature、reader-profile 作为约束）
 - **与 `self-archive` 的分工**：
   - `self-archive` 是创作者视角：我写了什么、我学到了什么、我要复用什么
   - `content-twin` 是观察者视角：我读了这篇成品，看到了什么模式、这个模式如何演化
 - **与 writer 的闭环**：
-  - `content-twin` 输出的 `brain/twin/` 文件是 `wechat-writer` 和 `douyin-script` 的必读输入
+  - `content-twin` 输出的 `brain/twin/` 文件是 `wechat-writer` 和 `content-breakdown` 的必读输入
   - 每次 twin 发现新的风格禁区，自动建议追加到 `brain/no-fly-zone.md`
   - writer 在 L2/L3/L4 自检中必须检查与 twin 的一致性
 
