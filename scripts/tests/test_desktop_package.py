@@ -1814,6 +1814,11 @@ def test_shipped_dependency_inventory_copies_notices_and_fails_closed_on_tamperi
     assert tikomni["version"] == module.TIKOMNI_APPROVED_SNAPSHOT_ID
     assert tikomni["approved_snapshot_sha256"] == module.TIKOMNI_APPROVED_SNAPSHOT_SHA256
     assert tikomni["service_shipped"] is False
+    connector_notice = (app / "Contents" / "Resources" / "aifios" / module.TIKOMNI_CONNECTOR_NOTICE).read_text(encoding="utf-8")
+    assert "MIT License" in connector_notice
+    assert "Copyright (c) 2026 TikOmni" in connector_notice
+    assert "scripts/core/tikomni_common.py" in connector_notice
+    assert "pending provenance review" in connector_notice
     assert "tikomni-connector-license-and-service-terms" in result["review_boundaries"]
     assert "aifios/skills/xhs-card/README.en.md" in inventory["key_notices"]
 
