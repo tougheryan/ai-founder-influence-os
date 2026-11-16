@@ -168,7 +168,8 @@ APPROVED_PLAYWRIGHT_RELEASES: dict[tuple[str, str, str], dict[str, dict[str, str
 # Updating either production dependency closure requires an explicit review of
 # this approved lock digest.  Formal packaging must not silently accept a
 # locally replaced lockfile merely because ``npm ci`` can install it.
-APPROVED_UI_PACKAGE_LOCK_SHA256 = "755795f87247234e6b9b7672fbf58c6016c5b4b3c2e2995dc65bb85962041bcb"
+# Reviewed public-source closure: Next 16.4.6, fast-uri 3.1.9, Zod 4.6.7.
+APPROVED_UI_PACKAGE_LOCK_SHA256 = "5095fae1a7f10549cf4443593f6e8583a3a8b3ef86117931a2c413aa130da8eb"
 APPROVED_XHS_CARD_PACKAGE_LOCK_SHA256 = "ccb37c106235754dab30f825511bc411c3cfe658734ba107166cb2975a14e1b7"
 
 # These are customer-facing routes. A successful `/api/status` response alone
@@ -208,6 +209,7 @@ UI_SOURCE_IGNORED_FILES = {
 }
 
 RUNTIME_SCRIPT_FILES = ("aifios.py", "release_gate.py")
+RUNTIME_ROOT_FILES = ("VERSION", "LICENSE", "OPEN_SOURCE.md")
 CUSTOMER_DOCUMENTS = (
     "echo-founder-installation.md",
     "echo-founder-api-platform-setup.md",
@@ -2329,7 +2331,8 @@ def copy_aifios_runtime(target_root: Path) -> None:
     if target_root.exists():
         shutil.rmtree(target_root)
     target_root.mkdir(parents=True)
-    shutil.copy2(REPO_ROOT / "VERSION", target_root / "VERSION")
+    for name in RUNTIME_ROOT_FILES:
+        shutil.copy2(REPO_ROOT / name, target_root / name)
     copy_customer_skills(target_root)
     scripts_target = target_root / "scripts"
     scripts_target.mkdir(parents=True, exist_ok=True)
@@ -2344,6 +2347,7 @@ def copy_aifios_runtime(target_root: Path) -> None:
 def verify_customer_bundle_hygiene(target_root: Path) -> dict[str, Any]:
     """Reject build-only files, project data, and build-host paths in the customer runtime."""
     required = [
+        *(target_root / name for name in RUNTIME_ROOT_FILES),
         target_root / "skills" / "manifest.json",
         *(target_root / "scripts" / name for name in RUNTIME_SCRIPT_FILES),
         *(target_root / "docs" / name for name in CUSTOMER_DOCUMENTS),
