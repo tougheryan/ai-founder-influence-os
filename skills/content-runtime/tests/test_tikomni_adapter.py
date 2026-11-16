@@ -55,7 +55,7 @@ def test_market_research_platforms_are_separate_from_legacy_asset_storage_aliase
         normalize_market_platform("moments")
 
 
-def test_market_research_pins_three_platforms_to_catalog_keyword_search_endpoints(tmp_path: Path) -> None:
+def test_market_research_pins_three_platforms_to_catalog_keyword_search_endpoints(fake_tikomni_skill: Path, tmp_path: Path) -> None:
     client = TikomniMarketResearchClient(tmp_path)
     calls: list[tuple[str, dict, str]] = []
 
@@ -98,7 +98,7 @@ def test_market_research_pins_three_platforms_to_catalog_keyword_search_endpoint
     ]
 
 
-def test_market_research_explains_tikomni_permission_denial(tmp_path: Path) -> None:
+def test_market_research_explains_tikomni_permission_denial(fake_tikomni_skill: Path, tmp_path: Path) -> None:
     client = TikomniMarketResearchClient(tmp_path)
 
     class FakeBridge:
@@ -129,6 +129,7 @@ def test_market_research_explains_tikomni_permission_denial(tmp_path: Path) -> N
     ],
 )
 def test_market_research_retries_transient_platform_failures(
+    fake_tikomni_skill: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     transient_error: str,
@@ -159,7 +160,7 @@ def test_market_research_retries_transient_platform_failures(
     assert calls == 2
 
 
-def test_market_research_does_not_retry_permission_denial(tmp_path: Path) -> None:
+def test_market_research_does_not_retry_permission_denial(fake_tikomni_skill: Path, tmp_path: Path) -> None:
     client = TikomniMarketResearchClient(tmp_path)
     calls = 0
 
@@ -181,6 +182,7 @@ def test_market_research_does_not_retry_permission_denial(tmp_path: Path) -> Non
 
 
 def test_tikomni_bridge_enforces_the_platform_request_deadline(
+    fake_tikomni_skill: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

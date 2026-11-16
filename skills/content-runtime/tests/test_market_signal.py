@@ -360,7 +360,7 @@ def test_required_platforms_cannot_be_narrowed_via_env(monkeypatch: pytest.Monke
         assert _required_market_platforms() == expected
 
 
-def test_missing_token_blocks_topic_research(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+def test_missing_token_blocks_topic_research(fake_tikomni_skill: Path, monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     monkeypatch.delenv("TIKOMNI_API_KEY", raising=False)
     monkeypatch.delenv("TIKOMNI_API_TOKEN", raising=False)
     monkeypatch.setenv("AIFIOS_MARKET_SIGNAL_PROVIDER", "tikomni")
